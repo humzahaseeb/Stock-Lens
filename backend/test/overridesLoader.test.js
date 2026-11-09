@@ -15,13 +15,14 @@ describe('overridesLoader', () => {
     expect(overrides.competitiveMoat.summary).toBeTruthy();
   });
 
-  it('flags analyst consensus as needing research but has real, human-curated bull/bear case data', async () => {
+  it('has real, human-curated bull/bear case data with a cited source', async () => {
     const overrides = await loadOverrides('NVDA');
     expect(overrides.analystConsensus.needsResearch).toBe(true);
     expect(overrides.bullCase.needsResearch).toBe(false);
     expect(overrides.bearCase.needsResearch).toBe(false);
-    expect(overrides.bullCase.sourcePending).toBe(true);
-    expect(overrides.bearCase.sourcePending).toBe(true);
+    expect(overrides.bullCase.source).toBe('Yahoo Finance');
+    expect(overrides.bearCase.source).toBe('Yahoo Finance');
+    expect(overrides.bullCase.sourcePending).toBeUndefined();
     expect(Array.isArray(overrides.bullCase.points)).toBe(true);
     expect(overrides.bullCase.points.length).toBeGreaterThan(0);
   });

@@ -44,7 +44,7 @@ describe('GET /api/company/:ticker', () => {
     expect(res.body.businessModel.summary).toMatch(/GPU/i);
     // Bull/bear now has real, human-curated content (not the needsResearch placeholder).
     expect(res.body.bullCase.needsResearch).toBe(false);
-    expect(res.body.bullCase.sourcePending).toBe(true);
+    expect(res.body.bullCase.source).toBe('Yahoo Finance');
     expect(res.body.analystConsensus.needsResearch).toBe(true);
     expect(res.body.disclaimer).toMatch(/not financial advice/i);
   });
