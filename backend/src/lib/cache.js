@@ -1,8 +1,7 @@
 import NodeCache from 'node-cache';
 
-// Shared in-memory cache for FMP responses. TTL keeps us within the free-tier
-// rate limit (250 req/day) while still calling "live" data, and lets us report
-// an accurate `asOf` per metric instead of re-fetching on every page view.
+// Shared in-memory cache for third-party market data. Per-request TTLs help
+// respect source limits while keeping quote timestamps reasonably fresh.
 const DEFAULT_TTL_SECONDS = 60 * 60 * 6; // 6 hours
 
 const cache = new NodeCache({ stdTTL: DEFAULT_TTL_SECONDS, checkperiod: 600 });

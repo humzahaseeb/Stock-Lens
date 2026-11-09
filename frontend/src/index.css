@@ -297,6 +297,14 @@ input:focus-visible {
   font-variant-numeric: tabular-nums;
 }
 
+.narrative-details {
+  margin: 0.25rem 0 0.75rem;
+}
+
+.narrative-details .company-facts {
+  margin-top: 0;
+}
+
 .fact-source {
   display: block;
   color: var(--muted);
@@ -314,6 +322,234 @@ input:focus-visible {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+}
+
+.stock-chart-card {
+  margin-bottom: 1.25rem;
+  padding: 1.35rem 1.4rem 1rem;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+}
+
+.stock-chart-header h2 {
+  margin: 0 0 0.45rem;
+  font-size: 1.1rem;
+}
+
+.stock-price-summary {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.stock-current-price {
+  font-size: clamp(1.8rem, 5vw, 2.8rem);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.035em;
+}
+
+.stock-change {
+  padding: 0.25rem 0.65rem;
+  border-radius: 8px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.stock-change.positive {
+  color: var(--positive);
+  background: var(--positive-bg);
+}
+
+.stock-change.negative {
+  color: var(--negative);
+  background: var(--negative-bg);
+}
+
+.stock-change-amount {
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+}
+
+.stock-change-amount.positive {
+  color: var(--positive);
+}
+
+.stock-change-amount.negative {
+  color: var(--negative);
+}
+
+.stock-price-summary-placeholder,
+.stock-chart-as-of {
+  margin: 0;
+  color: var(--muted);
+}
+
+.stock-chart-as-of {
+  margin-top: 0.25rem;
+  font-size: 0.82rem;
+}
+
+.stock-range-switch {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.25rem;
+  margin-top: 1.25rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.stock-range-switch button {
+  position: relative;
+  flex: 1 1 auto;
+  padding: 0.65rem 0.35rem 0.75rem;
+  color: var(--muted);
+  background: transparent;
+  border: 0;
+  font: inherit;
+  font-size: 0.86rem;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.stock-range-switch button[aria-pressed='true'] {
+  color: var(--accent);
+}
+
+.stock-range-switch button[aria-pressed='true']::after {
+  position: absolute;
+  right: 25%;
+  bottom: -1px;
+  left: 25%;
+  height: 3px;
+  content: '';
+  background: var(--accent);
+  border-radius: 3px 3px 0 0;
+}
+
+.stock-range-switch button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+.stock-chart-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-top: 0.65rem;
+  overflow: visible;
+}
+
+.stock-chart-grid {
+  stroke: var(--border);
+  stroke-width: 1;
+}
+
+.stock-previous-close line {
+  stroke: var(--muted);
+  stroke-width: 1;
+  stroke-dasharray: 2 7;
+}
+
+.stock-previous-close text {
+  fill: var(--muted);
+  font-family: inherit;
+  font-size: 12px;
+}
+
+.stock-chart-axis-label,
+.stock-chart-time-label {
+  fill: var(--muted);
+  font-family: inherit;
+  font-size: 13px;
+}
+
+.stock-chart-area {
+  fill: url(#stock-chart-fill);
+}
+
+.stock-chart-line {
+  fill: none;
+  stroke-width: 2.5;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.stock-chart-line-positive {
+  stroke: var(--positive);
+}
+
+.stock-chart-line-negative {
+  stroke: var(--negative);
+}
+
+.stock-chart-fill-positive {
+  stop-color: var(--positive);
+  stop-opacity: 0.24;
+}
+
+.stock-chart-fill-negative {
+  stop-color: var(--negative);
+  stop-opacity: 0.24;
+}
+
+.stock-chart-fill-transparent {
+  stop-color: var(--bg-elevated);
+  stop-opacity: 0;
+}
+
+.stock-chart-current-dot-positive {
+  fill: var(--positive);
+}
+
+.stock-chart-current-dot-negative {
+  fill: var(--negative);
+}
+
+.stock-chart-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.85rem 1.5rem;
+  margin-top: 0.9rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.stock-chart-stat {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
+.stock-chart-stat strong {
+  color: var(--text);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.stock-chart-disclaimer {
+  margin: 0.9rem 0 0;
+  color: var(--muted-2);
+  font-size: 0.76rem;
+}
+
+.stock-chart-message {
+  display: flex;
+  min-height: 14rem;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  color: var(--muted);
+  text-align: center;
+}
+
+.stock-chart-error {
+  color: var(--negative);
 }
 
 .income-statement-card {
@@ -779,9 +1015,26 @@ input:focus-visible {
   .analyst-cards-grid {
     grid-template-columns: 1fr;
   }
+
+  .stock-chart-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 520px) {
+  .stock-chart-card {
+    padding: 1rem 0.8rem 0.85rem;
+  }
+
+  .stock-range-switch {
+    justify-content: flex-start;
+    overflow-x: auto;
+  }
+
+  .stock-range-switch button {
+    flex: 0 0 3rem;
+  }
+
   .income-statement-header {
     align-items: flex-start;
     flex-direction: column;

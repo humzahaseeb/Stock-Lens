@@ -3,6 +3,7 @@ import NarrativeCard from './NarrativeCard.jsx';
 import MetricList from './MetricList.jsx';
 import AnalystForecastCards from './AnalystForecastCards.jsx';
 import IncomeStatementChart from './IncomeStatementChart.jsx';
+import StockPriceChart from './StockPriceChart.jsx';
 
 export default function CompanySummary({ data }) {
   return (
@@ -13,20 +14,6 @@ export default function CompanySummary({ data }) {
         <h1>
           {data.name} <span className="ticker-badge">{data.ticker}</span>
         </h1>
-        <dl className="company-facts">
-          <div>
-            <dt>CEO</dt>
-            <dd>
-              {data.ceo || 'Unavailable'}
-              {data.ceoSource && (
-                <span className="fact-source">
-                  {data.ceoSource}
-                  {data.ceoAsOf ? ` · ${data.ceoAsOf}` : ''}
-                </span>
-              )}
-            </dd>
-          </div>
-        </dl>
         {data.financialsSource === 'seed-cache' && (
           <p className="data-badge" role="status">
             📌 Showing a pinned data snapshot (live data temporarily unavailable).
@@ -34,8 +21,30 @@ export default function CompanySummary({ data }) {
         )}
       </header>
 
+      <StockPriceChart ticker={data.ticker} />
+
       <div className="section-grid">
-        <NarrativeCard title="Business model" icon="🏢" section={data.businessModel} />
+        <NarrativeCard
+          title="Business model"
+          icon="🏢"
+          section={data.businessModel}
+          details={
+            <dl className="company-facts">
+              <div>
+                <dt>CEO</dt>
+                <dd>
+                  {data.ceo || 'Unavailable'}
+                  {data.ceoSource && (
+                    <span className="fact-source">
+                      {data.ceoSource}
+                      {data.ceoAsOf ? ` · ${data.ceoAsOf}` : ''}
+                    </span>
+                  )}
+                </dd>
+              </div>
+            </dl>
+          }
+        />
         <MetricList
           title="Financial health"
           icon="💰"

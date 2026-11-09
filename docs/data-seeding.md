@@ -1,8 +1,9 @@
 # Pinning live data for the two worked examples
 
-Stock Lens fetches most of its data live from two APIs:
+Stock Lens fetches most of its data live from three APIs:
 - **Financial Modeling Prep (FMP)** — financial health (including trailing free cash flow), valuation, and annual/quarterly income statements
 - **Finnhub** — analyst recommendation trends (consensus rating) + insider sentiment
+- **Yahoo Finance** — intraday and historical stock-chart prices (may be delayed)
 
 So the NVDA / Rolls-Royce (RR.L) demo still works reliably in front of judges
 even if either API is rate-limited or down on the day, `backend/scripts/seed.js`

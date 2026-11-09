@@ -5,7 +5,9 @@ import SourceTag from './SourceTag.jsx';
  * data when a field hasn't been manually researched yet, and a distinct
  * "auto-generated" notice for data-derived bull/bear bullet points so it's
  * never mistaken for human analyst commentary. */
-export default function NarrativeCard({ title, icon, section }) {
+export default function NarrativeCard({ title, icon, section, details }) {
+  const renderedDetails = details ? <div className="narrative-details">{details}</div> : null;
+
   if (!section) {
     return (
       <section className="summary-section" aria-labelledby={`${title}-heading`}>
@@ -13,6 +15,7 @@ export default function NarrativeCard({ title, icon, section }) {
           {icon && <span aria-hidden="true">{icon}</span>} {title}
         </h2>
         <p className="empty-state">Not available for this company.</p>
+        {renderedDetails}
       </section>
     );
   }
@@ -26,6 +29,7 @@ export default function NarrativeCard({ title, icon, section }) {
         <p className="research-flag" role="status">
           ⚠ Research needed: {section.researchNote}
         </p>
+        {renderedDetails}
       </section>
     );
   }
@@ -48,6 +52,7 @@ export default function NarrativeCard({ title, icon, section }) {
         </p>
       )}
 
+      {renderedDetails}
       {section.summary && <p>{section.summary}</p>}
 
       {Array.isArray(section.points) && (

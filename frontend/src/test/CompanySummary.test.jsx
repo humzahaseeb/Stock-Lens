@@ -1,6 +1,23 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { render, screen, within } from '@testing-library/react';
 import CompanySummary from '../components/CompanySummary.jsx';
+
+vi.mock('../lib/api.js', () => ({
+  fetchStockChart: async () => ({
+    ticker: 'NVDA',
+    range: '1d',
+    currency: 'USD',
+    exchangeTimezone: 'America/New_York',
+    asOf: 1700000060,
+    currentPrice: 178.3,
+    previousClose: 170,
+    change: 8.3,
+    changePercent: 4.88,
+    points: [{ time: 1700000060, close: 178.3 }],
+    source: 'Yahoo Finance',
+    delayNote: 'Market data may be delayed.',
+  }),
+}));
 
 const sampleData = {
   ticker: 'NVDA',
@@ -43,11 +60,20 @@ describe('CompanySummary', () => {
     expect(screen.getByText('This is not financial advice.')).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: /NVIDIA Corporation/ })).toBeInTheDocument();
     expect(screen.getByText('NVDA')).toBeInTheDocument();
-    expect(screen.getByText('Jensen Huang')).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'NVDA stock price' })).toBeInTheDocument();
     expect(screen.queryByText(/Summary generated/)).not.toBeInTheDocument();
     const companyHeader = screen.getByRole('heading', { name: /NVIDIA Corporation/ }).closest('header');
+    expect(within(companyHeader).queryByText('Jensen Huang')).not.toBeInTheDocument();
     expect(within(companyHeader).queryByText('3T USD')).not.toBeInTheDocument();
     expect(within(companyHeader).queryByText('22.54')).not.toBeInTheDocument();
+    const businessModelSection = screen.getByRole('region', { name: 'Business model' });
+    expect(within(businessModelSection).getByText('Jensen Huang')).toBeInTheDocument();
+    expect(
+      within(businessModelSection).getByText(/Financial Modeling Prep \(company profile\)/),
+    ).toBeInTheDocument();
+    expect(businessModelSection.textContent.indexOf('Jensen Huang')).toBeLessThan(
+      businessModelSection.textContent.indexOf('Sells GPUs.'),
+    );
     const valuationSection = screen.getByRole('region', { name: 'Valuation' });
     expect(within(valuationSection).getByText('3T USD')).toBeInTheDocument();
     expect(within(valuationSection).getByText('$7.91')).toBeInTheDocument();

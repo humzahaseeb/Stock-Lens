@@ -5,10 +5,12 @@ import { loadSeedFinancials } from '../lib/seedFinancials.js';
 import { fetchAnalystConsensus, fetchInsiderSentiment } from '../lib/finnhubClient.js';
 import { resolveFinnhubSymbol } from '../lib/tickerAliases.js';
 import { deriveBullBear } from '../lib/deriveBullBear.js';
+import { fetchYahooStockChart } from '../lib/yahooFinanceClient.js';
 
 const router = Router();
 
 const TICKER_PATTERN = /^[A-Z0-9.]{1,10}$/;
+const STOCK_CHART_RANGES = new Set(['1d', '5d', '1mo', '6mo', 'ytd', '1y', '5y', 'max']);
 
 const DISCLAIMER =
   'This is for informational purposes only and is not financial advice. ' +
@@ -96,6 +98,26 @@ function getIncomeStatementPromise(ticker, period, override) {
   if (override?.demoData) return Promise.resolve(override);
   return fetchFmpIncomeStatements(ticker, period);
 }
+
+router.get('/company/:ticker/stock-chart', async (req, res) => {
+  const ticker = String(req.params.ticker || '').toUpperCase();
+  if (!TICKER_PATTERN.test(ticker)) {
+    return res.status(400).json({ error: 'Invalid ticker for stock chart.' });
+  }
+
+  const range = typeof req.query.range === 'string' ? req.query.range : '1d';
+  if (!STOCK_CHART_RANGES.has(range)) {
+    return res.status(400).json({ error: 'Unsupported range. Choose 1d, 5d, 1mo, 6mo, ytd, 1y, 5y, or max.' });
+  }
+
+  try {
+    const chart = await fetchYahooStockChart(ticker, range);
+    return res.json(chart);
+  } catch (error) {
+    const detail = error instanceof Error ? error.message : String(error);
+    return res.status(502).json({ error: `Stock chart unavailable: ${detail}` });
+  }
+});
 
 router.get('/company/:ticker', async (req, res) => {
   const ticker = String(req.params.ticker || '').toUpperCase();

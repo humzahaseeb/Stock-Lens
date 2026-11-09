@@ -30,6 +30,45 @@ describe('GET /api/company/:ticker', () => {
     expect(res.body.error).toMatch(/Invalid ticker/);
   });
 
+  it('serves a Yahoo Finance stock chart for a selected time range', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async () => ({
+        ok: true,
+        json: async () => ({
+          chart: {
+            result: [
+              {
+                meta: {
+                  symbol: 'NVDA',
+                  currency: 'USD',
+                  exchangeTimezoneName: 'America/New_York',
+                  regularMarketTime: 1700000060,
+                  regularMarketPrice: 104.5,
+                  chartPreviousClose: 100,
+                },
+                timestamp: [1700000000, 1700000060],
+                indicators: { quote: [{ close: [101, 104.5] }] },
+              },
+            ],
+          },
+        }),
+      })),
+    );
+
+    const res = await request(app).get('/api/company/NVDA/stock-chart?range=1d');
+
+    expect(res.status).toBe(200);
+    expect(res.body.source).toBe('Yahoo Finance');
+    expect(res.body.points).toHaveLength(2);
+    expect(res.body.currentPrice).toBe(104.5);
+  });
+
+  it('rejects unsupported stock chart ranges', async () => {
+    const res = await request(app).get('/api/company/NVDA/stock-chart?range=2d');
+    expect(res.status).toBe(400);
+  });
+
   it('returns 404 for a ticker with no live data, seed cache, or overrides', async () => {
     const res = await request(app).get('/api/company/ZZZZ');
     expect(res.status).toBe(404);

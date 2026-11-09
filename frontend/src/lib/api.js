@@ -17,3 +17,20 @@ export async function fetchCompany(ticker) {
   }
   return body;
 }
+
+export async function fetchStockChart(ticker, range, signal) {
+  const res = await fetch(
+    `${API_BASE_URL}/api/company/${encodeURIComponent(ticker)}/stock-chart?range=${encodeURIComponent(range)}`,
+    { signal },
+  );
+  let body;
+  try {
+    body = await res.json();
+  } catch {
+    throw new Error('The server returned an unexpected stock-chart response. Please try again.');
+  }
+  if (!res.ok) {
+    throw new Error(body?.error || `Stock chart request failed with status ${res.status}`);
+  }
+  return body;
+}

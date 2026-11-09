@@ -14,6 +14,7 @@ test.describe('Stock Lens — full workflow', () => {
       await page.getByRole('button', { name: company.button }).click();
 
       await expect(page.getByRole('heading', { name: new RegExp(company.name) })).toBeVisible();
+      await expect(page.getByRole('heading', { name: `${company.ticker} stock price` })).toBeVisible();
 
       // Every required section renders, per deliverable 1's "what the tool covers".
       for (const heading of [
