@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 const EXAMPLES = [
   { ticker: 'NVDA', label: 'NVIDIA (NVDA)' },
-  { ticker: 'RR.L', label: 'Rolls-Royce (RR.L)' },
+  { ticker: 'RR', label: 'Rolls-Royce (RR)' },
 ];
 
 export default function SearchBar({ onSearch, loading }) {

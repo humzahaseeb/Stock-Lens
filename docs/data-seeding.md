@@ -1,4 +1,4 @@
-# Pinning live data for the two worked examples
+# Pinning live data for the two worked examples (NVDA and RR)
 
 Stock Lens fetches most of its data live from three APIs:
 - **Financial Modeling Prep (FMP)** — financial health (including trailing free cash flow), valuation, and annual/quarterly income statements
@@ -20,9 +20,9 @@ FMP_API_KEY=your-fmp-key FINNHUB_API_KEY=your-finnhub-key npm run seed
 ```
 
 - FMP: sign up free at financialmodelingprep.com
-- Finnhub: sign up free at finnhub.io/register (`FINNHUB_API_KEY` is optional —
-  omit it and the script still pins FMP data, without live consensus. NVDA and
-  RR.L curated analyst overrides continue to take precedence in the worked
+- Finnhub: sign up free at finnhub.io/register. `FINNHUB_API_KEY` is optional;
+  without it, the script still pins FMP data but not live consensus. The NVDA
+  and RR.L curated analyst overrides continue to take precedence in the worked
   examples.
 
 This writes `NVDA.json` and `RR.L.json` with fetched values and their dates.
@@ -33,13 +33,14 @@ income-statement chart fixtures. RR.L analyst ratings/targets are also
 synthetic. These have a “Synthetic demo data” source/date footer and are not
 actual reported results or analyst forecasts.
 
-## A real limitation worth knowing about: RR.L and Finnhub
+## A real limitation worth knowing about: RR and Finnhub
 Finnhub's free tier is US-market-focused. Rolls-Royce trades primarily on the
-LSE (`RR.L`), so the Finnhub client maps it to the US ADR (`RYCEY`). The RR.L
-worked example currently uses its synthetic analyst override instead of live
-Finnhub consensus. NVDA's displayed analyst ratings and targets were entered
-from the user-provided Google Finance screenshot; they are not refreshed from
-Finnhub while the curated override is active.
+LSE (`RR.L` at the data-source level), so the Finnhub client maps the app's
+public `RR` ticker to the US ADR (`RYCEY`). The Rolls-Royce worked example
+currently uses its synthetic analyst override instead of live Finnhub
+consensus. NVDA's displayed analyst ratings and targets were entered from the
+user-provided Google Finance screenshot; they are not refreshed from Finnhub
+while the curated override is active.
 
 ## Before presenting
 - Verify each manually entered rating, forecast and narrative claim against a

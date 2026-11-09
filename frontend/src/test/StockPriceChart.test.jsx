@@ -51,7 +51,7 @@ describe('StockPriceChart', () => {
 
   it('shows a clear error if real quote data cannot be loaded', async () => {
     vi.mocked(fetchStockChart).mockRejectedValue(new Error('Stock chart unavailable'));
-    render(<StockPriceChart ticker="RR.L" />);
+    render(<StockPriceChart ticker="RR" />);
 
     expect(await screen.findByRole('alert')).toHaveTextContent('Stock chart unavailable');
   });

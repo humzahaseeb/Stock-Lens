@@ -3,7 +3,7 @@ import { fetchFmpFreeCashFlowTTM, fetchFmpIncomeStatements, fetchFmpMetrics } fr
 import { loadOverrides } from '../lib/overridesLoader.js';
 import { loadSeedFinancials } from '../lib/seedFinancials.js';
 import { fetchAnalystConsensus, fetchInsiderSentiment } from '../lib/finnhubClient.js';
-import { resolveFinnhubSymbol } from '../lib/tickerAliases.js';
+import { resolveCompanyTicker, resolveFinnhubSymbol } from '../lib/tickerAliases.js';
 import { deriveBullBear } from '../lib/deriveBullBear.js';
 import { fetchYahooStockChart } from '../lib/yahooFinanceClient.js';
 
@@ -111,8 +111,9 @@ router.get('/company/:ticker/stock-chart', async (req, res) => {
   }
 
   try {
-    const chart = await fetchYahooStockChart(ticker, range);
-    return res.json(chart);
+    const sourceTicker = resolveCompanyTicker(ticker);
+    const chart = await fetchYahooStockChart(sourceTicker, range);
+    return res.json({ ...chart, ticker });
   } catch (error) {
     const detail = error instanceof Error ? error.message : String(error);
     return res.status(502).json({ error: `Stock chart unavailable: ${detail}` });
@@ -121,15 +122,16 @@ router.get('/company/:ticker/stock-chart', async (req, res) => {
 
 router.get('/company/:ticker', async (req, res) => {
   const ticker = String(req.params.ticker || '').toUpperCase();
+  const sourceTicker = resolveCompanyTicker(ticker);
 
   if (!TICKER_PATTERN.test(ticker)) {
     return res.status(400).json({
-      error: 'Invalid ticker. Use 1-10 characters: letters, digits or a dot (e.g. NVDA, RR.L).',
+      error: 'Invalid ticker. Use 1-10 characters: letters, digits or a dot (e.g. NVDA, RR).',
     });
   }
 
-  const overrides = await loadOverrides(ticker);
-  const seed = loadSeedFinancials(ticker);
+  const overrides = await loadOverrides(sourceTicker);
+  const seed = loadSeedFinancials(sourceTicker);
   const hasDemoFinancialHealth = overrides?.financialHealth?.demoData === true;
   const hasDemoValuation = overrides?.valuation?.demoData === true;
 
@@ -148,7 +150,7 @@ router.get('/company/:ticker', async (req, res) => {
   let valuationSource = 'live';
 
   try {
-    const live = await fetchFmpMetrics(ticker);
+    const live = await fetchFmpMetrics(sourceTicker);
     financialHealth = hasDemoFinancialHealth ? overrides.financialHealth : live.financialHealth;
     financialHealthSource = hasDemoFinancialHealth ? 'demo-data' : 'live';
     valuation = hasDemoValuation ? overrides.valuation : live.valuation;
@@ -211,7 +213,7 @@ router.get('/company/:ticker', async (req, res) => {
 
   const hasCuratedAnalystConsensus = overrides?.analystConsensus?.needsResearch === false;
   const { consensus, consensusSource, insiderSentiment } = await getConsensusAndInsiderSentiment(
-    ticker,
+    sourceTicker,
     seed,
     hasCuratedAnalystConsensus,
   );
@@ -229,10 +231,10 @@ router.get('/company/:ticker', async (req, res) => {
     consensus: consensusForDerivation,
     insiderSentiment,
   });
-  const freeCashFlowRequest = hasDemoFinancialHealth ? Promise.resolve(null) : fetchFmpFreeCashFlowTTM(ticker);
+  const freeCashFlowRequest = hasDemoFinancialHealth ? Promise.resolve(null) : fetchFmpFreeCashFlowTTM(sourceTicker);
   const [annualStatementsResult, quarterlyStatementsResult, freeCashFlowResult] = await Promise.allSettled([
-    getIncomeStatementPromise(ticker, 'annual', overrides?.incomeStatements?.annual),
-    getIncomeStatementPromise(ticker, 'quarterly', overrides?.incomeStatements?.quarterly),
+    getIncomeStatementPromise(sourceTicker, 'annual', overrides?.incomeStatements?.annual),
+    getIncomeStatementPromise(sourceTicker, 'quarterly', overrides?.incomeStatements?.quarterly),
     freeCashFlowRequest,
   ]);
   financialHealth = addFreeCashFlowMetric(financialHealth, freeCashFlowResult);

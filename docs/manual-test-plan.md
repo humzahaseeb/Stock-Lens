@@ -28,7 +28,7 @@ the tool while observed, plus an accessibility checklist. Unit tests
 |---|---|---|---|---|---|
 | N1 | Search a known example via the quick-select button | Click "NVIDIA (NVDA)" | Company, price chart, Business model, Financial health, income statement, Competitive moat, Valuation, bull/bear, analyst ratings/forecast and disclaimer render | | |
 | N2 | Search a known example by typing the ticker | Type `NVDA`, click Analyse | Same summary as N1 | | |
-| N3 | Switch between the two worked examples | View NVDA, then click "Rolls-Royce (RR.L)" | Rolls-Royce summary replaces NVDA's, no stale data left on screen | | |
+| N3 | Switch between the two worked examples | View NVDA, then click "Rolls-Royce (RR)" | Rolls-Royce summary shows ticker `RR`, replaces NVDA's, and leaves no stale data | | |
 | N4 | Read the disclaimer | View any summary | Tester can correctly restate that it's not financial advice, unprompted | | |
 | N5 | Understand data provenance | View live and synthetic sections | Tester can distinguish live/source-dated values from the “Synthetic demo data” footer and explain synthetic figures are not actuals | | |
 | N6 | Change stock-chart range | Select 1D, 5D, 1M, 6M, YTD, 1Y, 5Y and Max | Chart reloads and the price change caption describes the selected range | | |
@@ -44,7 +44,7 @@ the tool while observed, plus an accessibility checklist. Unit tests
 | E4 | Invalid characters | Type `NV DA!` | Friendly validation error, not a raw server error | | |
 | E5 | Backend unreachable | Stop the backend, then search | Frontend shows an error message, not an infinite spinner | | |
 | E6 | Live chart unavailable | Block the Yahoo Finance request or disconnect network, then load a chart | Clear chart error appears; no fabricated stock prices are shown | | |
-| E7 | Demo data provenance | View NVDA/RR.L financial health and valuation | “Synthetic demo data” source/date is visible once at each section bottom and tester understands values are illustrative | | |
+| E7 | Demo data provenance | View NVDA/RR financial health and valuation | “Synthetic demo data” source/date is visible once at each section bottom and tester understands values are illustrative | | |
 
 ## Accessibility checklist (manual, alongside the axe-core automated scan)
 - [ ] Full flow completable using keyboard only (Tab/Shift+Tab/Enter), with a visible focus ring at every step

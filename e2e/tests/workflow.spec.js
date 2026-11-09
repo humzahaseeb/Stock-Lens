@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 const COMPANIES = [
   { button: 'NVIDIA (NVDA)', name: 'NVIDIA Corporation', ticker: 'NVDA' },
-  { button: 'Rolls-Royce (RR.L)', name: 'Rolls-Royce Holdings plc', ticker: 'RR.L' },
+  { button: 'Rolls-Royce (RR)', name: 'Rolls-Royce Holdings plc', ticker: 'RR' },
 ];
 
 test.describe('Stock Lens — full workflow', () => {

@@ -40,7 +40,7 @@ describe('AnalystForecastCards', () => {
   });
 
   it('explains when rating counts and price targets are unavailable', () => {
-    render(<AnalystForecastCards ticker="RR.L" consensus={null} valuationMetrics={[]} />);
+    render(<AnalystForecastCards ticker="RR" consensus={null} valuationMetrics={[]} />);
 
     expect(screen.getByText(/Analyst rating breakdown is unavailable/)).toBeInTheDocument();
     expect(screen.getByText(/12-month analyst price targets are not available/)).toBeInTheDocument();
@@ -50,7 +50,7 @@ describe('AnalystForecastCards', () => {
   it('clearly labels fabricated values as demo data', () => {
     render(
       <AnalystForecastCards
-        ticker="RR.L"
+        ticker="RR"
         consensus={{
           demoData: true,
           demoNote: 'Illustrative only, not real forecasts.',

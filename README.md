@@ -32,8 +32,8 @@ annual/quarterly income-statement charts.
 - (Optional) a free [Finnhub API key](https://finnhub.io/register) for live
   analyst consensus + insider sentiment
 - Yahoo Finance chart requests require internet access; no API key is used.
-- NVDA/RR.L financial-health, valuation, income-chart, and RR.L analyst
-  snapshot values are synthetic demo fixtures, not actual reported/analyst data.
+- NVDA and Rolls-Royce financial-health, valuation, income-chart, and Rolls-Royce
+  analyst snapshot values are synthetic demo fixtures, not actual reported data.
 
 ## Setup
 ```bash
@@ -56,7 +56,8 @@ cd backend && npm run dev     # http://localhost:4000
 cd frontend && npm run dev    # http://localhost:5173
 ```
 Open http://localhost:5173, then click one of the two worked examples
-("NVIDIA (NVDA)" / "Rolls-Royce (RR.L)") or type any ticker.
+("NVIDIA (NVDA)" / "Rolls-Royce (RR)") or type any ticker. `RR` is the public
+app ticker; the LSE data-source symbol remains `RR.L`.
 
 ### Running without API keys
 The two worked examples have override data and can render without FMP/Finnhub

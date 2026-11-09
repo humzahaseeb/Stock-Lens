@@ -10,6 +10,10 @@ export const FINNHUB_TICKER_ALIASES = {
   'RR.L': { symbol: 'RYCEY', note: 'Shown for the Rolls-Royce US ADR (RYCEY) — Finnhub\'s free tier has limited LSE coverage.' },
 };
 
+export function resolveCompanyTicker(ticker) {
+  return ticker === 'RR' ? 'RR.L' : ticker;
+}
+
 export function resolveFinnhubSymbol(ticker) {
   return FINNHUB_TICKER_ALIASES[ticker] ?? { symbol: ticker, note: null };
 }

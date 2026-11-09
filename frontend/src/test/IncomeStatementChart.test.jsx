@@ -42,7 +42,7 @@ describe('IncomeStatementChart', () => {
   it('shows an explicit message when statement data is unavailable', () => {
     render(
       <IncomeStatementChart
-        ticker="RR.L"
+        ticker="RR"
         incomeStatements={{ annual: { data: [], error: 'FMP_API_KEY is not set' } }}
       />,
     );
@@ -52,7 +52,7 @@ describe('IncomeStatementChart', () => {
   it('shows the synthetic source and date without a repeated banner', () => {
     render(
       <IncomeStatementChart
-        ticker="RR.L"
+        ticker="RR"
         incomeStatements={{
           annual: {
             data: [

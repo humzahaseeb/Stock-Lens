@@ -142,7 +142,7 @@ illustrative, not actual company financials.
 | `incomeStatements.annual`, `incomeStatements.quarterly` | **FMP live/seed or labeled synthetic overrides** | Requests up to five annual and four quarterly statements; each period can fall back to a seeded snapshot. NVDA and RR.L use explicitly flagged synthetic override data for the demo. API failures are surfaced in that period's `error` field. |
 | `incomeStatements.*.demoData`, `demoNote` | **Synthetic NVDA/RR.L chart data** | Marks the figures as synthetic in the response; the chart shows the source and date in its footer. |
 | `analystConsensus` | **Manual override or Finnhub** (live, free tier — `/stock/recommendation`) | NVDA uses the analyst counts supplied in the Google Finance screenshot; RR.L uses explicitly labeled synthetic demo data. Curated overrides take precedence over live data. Otherwise, ratings are derived from Finnhub's buy/hold/sell/strongBuy/strongSell counts. **Free-tier coverage is US-market-focused** — for `RR.L`, Finnhub is queried using the US ADR `RYCEY` when no curated override applies. `consensusSource` reports `manual-override` or `demo-data` accordingly. |
-| `analystConsensus.demoData`, `demoNote` | **Synthetic RR.L demo fixture** | `demoData: true` marks the synthetic consensus in the API; the UI displays its “Synthetic demo data” source/date footer. Synthetic consensus is excluded from bull/bear derivation. |
+| `analystConsensus.demoData`, `demoNote` | **Synthetic Rolls-Royce demo fixture** | `demoData: true` marks the synthetic consensus in the API; the UI displays its “Synthetic demo data” source/date footer. Synthetic consensus is excluded from bull/bear derivation. |
 | `analystConsensus.priceTarget12m` | **Manual override for NVDA; synthetic demo value for RR.L; no free automated API verified** | NVDA's 12-month targets were entered from the user-provided Google Finance screenshot. RR.L's targets are fabricated for UI demonstration. The UI shows source/date; presenters must disclose values are synthetic where applicable. Other symbols remain unavailable unless verified target data is added. Finnhub's `/stock/price-target` endpoint requires a paid plan. |
 | `analystConsensus.priceTargetHigh`, `priceTargetLow`, `priceTargetAnalystCount`, `priceTargetSource`, `priceTargetAsOf` | **Optional manual/seed/demo data** | The forecast card displays a high/average/low range, target analyst count, and source/date when supplied. |
 | `insiderSentiment` | **Finnhub** (live, free tier — `/stock/insider-sentiment`) | Finnhub's own docs state this covers **US companies only**; returns `null` for symbols with no data (e.g. most non-US tickers) rather than erroring. Optional supporting signal, not a required section in the UI. |
@@ -170,6 +170,8 @@ illustrative, not actual company financials.
 }
 ```
 
+The app's public Rolls-Royce ticker is `RR`; it maps internally to the LSE
+Yahoo/FMP symbol `RR.L` (the legacy `RR.L` app route remains accepted).
 Supported `range` values are `1d`, `5d`, `1mo`, `6mo`, `ytd`, `1y`, `5y`, and
 `max`. Intraday requests are cached for about one minute; longer ranges are
 cached longer to reduce upstream traffic. The public Yahoo Finance feed can be
@@ -182,3 +184,5 @@ See `docs/data-seeding.md` for how live data is pinned (cached) for demo reliabi
 `GET /api/company/:ticker` returns `404` with `{ "error": "..." }` if the ticker is
 unknown to both FMP and the manual overrides, and `400` if the ticker fails input
 validation (must be 1–10 uppercase letters/dots, e.g. `NVDA`, `RR.L`).
+For Rolls-Royce, use the public app ticker `RR`; `RR.L` remains a supported
+legacy alias and the underlying LSE data-source symbol.

@@ -64,6 +64,40 @@ describe('GET /api/company/:ticker', () => {
     expect(res.body.currentPrice).toBe(104.5);
   });
 
+  it('maps the public RR ticker to Yahoo Finance RR.L while keeping RR in the response', async () => {
+    const fetchMock = vi.fn(async (url) => {
+      expect(url).toContain('/RR.L?range=1d&interval=5m');
+      return {
+        ok: true,
+        json: async () => ({
+          chart: {
+            result: [
+              {
+                meta: {
+                  symbol: 'RR.L',
+                  currency: 'GBp',
+                  exchangeTimezoneName: 'Europe/London',
+                  regularMarketTime: 1700000060,
+                  regularMarketPrice: 1320.6,
+                  chartPreviousClose: 1261.2,
+                },
+                timestamp: [1700000000, 1700000060],
+                indicators: { quote: [{ close: [1261.2, 1320.6] }] },
+              },
+            ],
+          },
+        }),
+      };
+    });
+    vi.stubGlobal('fetch', fetchMock);
+
+    const res = await request(app).get('/api/company/RR/stock-chart?range=1d');
+
+    expect(res.status).toBe(200);
+    expect(res.body.ticker).toBe('RR');
+    expect(res.body.currency).toBe('GBp');
+  });
+
   it('rejects unsupported stock chart ranges', async () => {
     const res = await request(app).get('/api/company/NVDA/stock-chart?range=2d');
     expect(res.status).toBe(400);
@@ -277,5 +311,15 @@ describe('GET /api/company/:ticker', () => {
     expect(res.body.valuation.metrics.find((metric) => metric.label === 'Forward P/E').value).toBe('29.8');
     expect(res.body.valuation.metrics.find((metric) => metric.label === 'EV / EBITDA').value).toBe('16.4');
     expect(res.body.valuation.metrics.find((metric) => metric.label === 'Quarterly dividend').value).toBe('£0.05');
+  });
+
+  it('accepts RR as the public ticker for the Rolls-Royce worked example', async () => {
+    const res = await request(app).get('/api/company/RR');
+
+    expect(res.status).toBe(200);
+    expect(res.body.ticker).toBe('RR');
+    expect(res.body.name).toBe('Rolls-Royce Holdings plc');
+    expect(res.body.consensusSource).toBe('demo-data');
+    expect(res.body.valuationSource).toBe('demo-data');
   });
 });
