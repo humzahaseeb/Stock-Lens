@@ -160,6 +160,25 @@ input:focus-visible {
   font-weight: 500;
 }
 
+.auto-generated-flag {
+  background: #eef4ff;
+  border: 1px solid #b3d1ff;
+  border-radius: 6px;
+  padding: 0.6rem 0.8rem;
+  font-size: 0.88rem;
+  margin-top: 0;
+}
+
+.consensus-details p {
+  margin: 0.3rem 0;
+}
+
+.consensus-breakdown,
+.consensus-trend {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
 .source-tag {
   color: var(--muted);
   font-size: 0.85rem;

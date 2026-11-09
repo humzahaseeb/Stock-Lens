@@ -18,14 +18,14 @@
     "source": null,
     "asOf": null,
     "needsResearch": true,
-    "researchNote": "Write 2-4 bullet points on why the stock could do well (e.g. turnaround progress, widebody flying hours recovery, defence demand), with your own source(s) and date."
+    "researchNote": "Fallback only — the app auto-generates bull-case bullets from live financial/analyst data when enough is available (see backend/src/lib/deriveBullBear.js). Note Finnhub's free tier has thin coverage for the Rolls-Royce US ADR (RYCEY) used as a stand-in for the LSE listing, so this fallback is more likely to be needed for RR.L than for NVDA. If you want a richer case, add your own 2-4 points (e.g. turnaround progress, widebody flying hours recovery, defence demand), with your own source(s) and date."
   },
   "bearCase": {
     "points": "TODO_RESEARCH_REQUIRED",
     "source": null,
     "asOf": null,
     "needsResearch": true,
-    "researchNote": "Write 2-4 bullet points on the key risks (e.g. execution risk, input costs, aerospace cycle), with your own source(s) and date."
+    "researchNote": "Fallback only — same as bullCase above. If you want a richer case, add your own 2-4 points on the key risks (e.g. execution risk, input costs, aerospace cycle), with your own source(s) and date."
   },
   "analystConsensus": {
     "rating": "TODO_RESEARCH_REQUIRED",
@@ -34,6 +34,6 @@
     "source": null,
     "asOf": null,
     "needsResearch": true,
-    "researchNote": "Check a consensus source (e.g. your broker, MarketWatch, WSJ, or a tool from the TOOLS slide) for the current average analyst rating and 12-month price target. Record the exact source URL and the date you checked it."
+    "researchNote": "Fallback only — the app pulls a real analyst consensus rating live from Finnhub (via the RYCEY US ADR, since Finnhub's free tier doesn't reliably cover the LSE listing); this placeholder is only shown if that's unavailable/empty. A 12-month price target is NOT available free anywhere we found — check a broker or financial news site yourself and record the source + date if you add one."
   }
 }

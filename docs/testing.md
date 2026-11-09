@@ -4,16 +4,19 @@ Maps to proposal §13 and the "evidence · the minimum per discipline" slide
 (unit, e2e automation, manual — plus accessibility as "beyond the obvious").
 
 ## Each part on its own (unit tests)
-- **Backend** (`backend/test`, run via `cd backend && npm test`): 14 tests —
-  FMP response parsing, provenance (`source`/`asOf`) on every metric, overrides
-  loading/merging, route validation (400/404 paths), live-vs-seed-cache
-  fallback behaviour.
-- **Frontend** (`frontend/src/test`, run via `cd frontend && npm test`): 10
-  tests — `NarrativeCard` (filled-in / needs-research / missing states),
-  `MetricList` (populated / empty), `CompanySummary` (all 7 sections render),
-  `App` (search → render workflow, error handling).
+- **Backend** (`backend/test`, run via `cd backend && npm test`): 27 tests —
+  FMP response parsing, Finnhub analyst-consensus/insider-sentiment parsing
+  (incl. empty-coverage and auth-failure cases), auto-derived bull/bear rule
+  logic, provenance (`source`/`asOf`) on every metric, overrides
+  loading/merging, route validation (400/404 paths), live-vs-seed-cache-vs-
+  override fallback precedence.
+- **Frontend** (`frontend/src/test`, run via `cd frontend && npm test`): 12
+  tests — `NarrativeCard` (filled-in / auto-generated / needs-research /
+  missing / live-consensus-with-breakdown states), `MetricList` (populated /
+  empty), `CompanySummary` (all 7 sections render), `App` (search → render
+  workflow, error handling).
 
-Latest local run: **24/24 unit tests passing** (14 backend + 10 frontend).
+Latest local run: **39/39 unit tests passing** (27 backend + 12 frontend).
 
 ## The whole thing, end to end (automation)
 `e2e/tests/workflow.spec.js` (Playwright, run via `cd e2e && npm test`):
@@ -39,4 +42,9 @@ contrast, zoom) since automated scans don't catch everything.
 ## Known gaps to close before presenting
 - [ ] Run the manual usability sessions (3 testers) and record results
 - [ ] Re-run `npm audit` in all three apps close to the presentation date
-- [ ] Re-run `npm run seed` (backend) with a real FMP key so seed-cache dates are fresh
+- [ ] Re-run `npm run seed` (backend) with real FMP + Finnhub keys so
+      seed-cache dates are fresh
+- [ ] Check whether Finnhub has analyst coverage for the Rolls-Royce ADR
+      (RYCEY) on the day — if not, the app correctly falls back to the
+      manual placeholder, but a human-written bull/bear case for RR.L would
+      look better in the final presentation

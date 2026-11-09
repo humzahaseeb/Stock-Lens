@@ -43,7 +43,16 @@ depth on one ticker flow matters more than breadth of features.
 ## Decisions this shaped
 - Why a fixed 7-section layout instead of a flexible/custom one: consistency
   was the #1 stated benefit (proposal §4) — a rigid structure is the point.
-- Why manual overrides for narrative fields instead of trying to force a free
-  API to cover everything: see `docs/data-seeding.md` — protects the
-  trustworthiness success criterion rather than silently showing wrong/absent
-  analyst data.
+- Why a combination of two free APIs (FMP + Finnhub) instead of one: no single
+  free API covers financials, valuation, *and* analyst consensus — see
+  `docs/api-schema.md` for the full field-by-field provenance and what we
+  verified was/wasn't actually free before building against it.
+- Why bull/bear case is auto-generated from data rather than manually written
+  or AI-invented: no free API provides genuine analyst-written thesis prose,
+  and inventing one (by hand or by AI) would fail the "data is trustworthy"
+  criterion. Deriving it from real, cited numbers keeps every claim
+  traceable — see `backend/src/lib/deriveBullBear.js`.
+- Why the 12-month price target stays blank rather than guessed: verified
+  (via Finnhub's own API spec) that this specific data point requires a paid
+  plan everywhere we checked — showing an honest "not available" beats a
+  plausible-looking but fabricated number.
