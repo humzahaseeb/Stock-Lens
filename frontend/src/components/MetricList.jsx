@@ -1,15 +1,19 @@
-export default function MetricList({ title, metrics }) {
+export default function MetricList({ title, icon, metrics }) {
   return (
     <section className="summary-section" aria-labelledby={`${title}-heading`}>
-      <h2 id={`${title}-heading`}>{title}</h2>
+      <h2 id={`${title}-heading`}>
+        {icon && <span aria-hidden="true">{icon}</span>} {title}
+      </h2>
       {metrics && metrics.length > 0 ? (
         <dl className="metric-list">
           {metrics.map((m) => (
             <div className="metric-row" key={m.label}>
               <dt>{m.label}</dt>
               <dd>
-                {m.value}
-                <span className="metric-source"> ({m.source}, {m.asOf})</span>
+                <span className="metric-value">{m.value}</span>
+                <span className="metric-source">
+                  {m.source}, {m.asOf}
+                </span>
               </dd>
             </div>
           ))}

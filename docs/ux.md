@@ -41,8 +41,20 @@ a scanned napkin sketch of the section order counts.)_
 - Minimal, single-column layout — "highlight the most important info first,
   keep things minimal" (your own stated design principle). No navigation
   chrome, no decorative imagery competing with the data.
+- **Dark theme** by deliberate choice: card-based sections on a near-black
+  background (`frontend/src/index.css`) reduce visual noise across a 7-section
+  page and make source/date metadata recede appropriately while content pops.
+  Colour tokens (positive/negative/neutral/info) are reused consistently for
+  the analyst-rating pill, auto-generated-data banner, and research-needed
+  banner, so colour carries meaning predictably across the whole page.
+- Every text/background pairing was checked against WCAG 2.1 AA (4.5:1 for
+  normal text) and is enforced by the automated axe-core scan — translucent
+  (rgba) backgrounds were deliberately avoided in favour of solid colours,
+  since translucency over a gradient page background made contrast
+  unreliable to compute (and to guarantee) in the first version of this theme.
 - Colour is never the only signal: the "research needed" notice uses an
-  icon (⚠) + text + a `role="status"`, not just an amber background.
+  icon (⚠) + text + a `role="status"`, the auto-generated notice uses 🤖 + a
+  `role="status"`, not just a background colour.
 - Errors (`role="alert"`) and loading state (`aria-live="polite"`) are
   programmatically announced, not just visually shown.
 - Universal UX principle applied: progressive disclosure isn't used here —

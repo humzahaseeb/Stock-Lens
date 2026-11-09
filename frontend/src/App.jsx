@@ -25,19 +25,27 @@ function App() {
 
   return (
     <main>
-      <h1 className="app-title">Stock Lens</h1>
-      <p className="app-subtitle">
-        A one-page, structured research summary for any company — every figure sourced and
-        dated.
-      </p>
+      <header className="app-header">
+        <h1 className="app-title">
+          <span aria-hidden="true">📈</span> Stock Lens
+        </h1>
+        <p className="app-subtitle">
+          A one-page, structured research summary for any company — every figure sourced and
+          dated.
+        </p>
+      </header>
 
       <SearchBar onSearch={handleSearch} loading={loading} />
 
       <div aria-live="polite" className="status-region">
-        {loading && <p>Loading summary…</p>}
+        {loading && (
+          <p className="loading-message">
+            <span className="spinner" aria-hidden="true" /> Loading summary…
+          </p>
+        )}
         {error && (
           <p role="alert" className="error-message">
-            {error}
+            ⚠ {error}
           </p>
         )}
       </div>

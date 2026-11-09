@@ -59,7 +59,8 @@ describe('NarrativeCard', () => {
         }}
       />,
     );
-    expect(screen.getByText(/\(30 analysts\)/)).toBeInTheDocument();
+    expect(screen.getByText('Strong Buy', { selector: '.rating-pill' })).toBeInTheDocument();
+    expect(screen.getByText('30 analysts')).toBeInTheDocument();
     expect(
       screen.getByText((_, element) => element?.tagName === 'P' && /has improving month-on-month/.test(element.textContent)),
     ).toBeInTheDocument();
