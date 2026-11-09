@@ -336,6 +336,16 @@ input:focus-visible {
   margin: 0 0 0.75rem;
 }
 
+.source-pending-flag {
+  background: var(--neutral-bg);
+  border: 1px solid var(--neutral-border);
+  border-radius: 8px;
+  padding: 0.6rem 0.8rem;
+  font-size: 0.88rem;
+  color: var(--neutral);
+  margin: 0 0 0.75rem;
+}
+
 /* ---------- Analyst consensus ---------- */
 
 .consensus-details p {

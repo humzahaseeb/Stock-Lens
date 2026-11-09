@@ -42,6 +42,12 @@ export default function NarrativeCard({ title, icon, section }) {
         </p>
       )}
 
+      {section.sourcePending && (
+        <p className="source-pending-flag" role="status">
+          ⏳ Source citation pending: {section.aiDeclarationNote}
+        </p>
+      )}
+
       {section.summary && <p>{section.summary}</p>}
 
       {Array.isArray(section.points) && (

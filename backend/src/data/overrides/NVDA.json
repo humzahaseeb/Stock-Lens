@@ -14,18 +14,28 @@
     "aiAssisted": true
   },
   "bullCase": {
-    "points": "TODO_RESEARCH_REQUIRED",
-    "source": null,
-    "asOf": null,
-    "needsResearch": true,
-    "researchNote": "Fallback only — the app now auto-generates bull-case bullets from live financial/analyst data when enough of it is available (see backend/src/lib/deriveBullBear.js). This placeholder is only shown if that live data is too sparse. If you want a richer human-written case, add your own 2-4 bullet points here, based on your own reading of recent earnings calls / analyst notes, with sources and dates."
+    "points": [
+      "Dominant AI architecture: NVIDIA maintains over 80% market share in the AI GPU space, with its Blackwell architecture seeing continued massive demand — tech giants like Meta and OpenAI have made multi-billion dollar commitments.",
+      "Full-stack ecosystem stickiness: beyond raw hardware, NVIDIA's proprietary CUDA software ecosystem locks in developers, making customer switching costs incredibly high.",
+      "Strong fundamental valuation: despite recent stock corrections, NVIDIA continues to generate significant free cash flow ($126.7 billion trailing twelve months). Wall Street remains overwhelmingly bullish, with 59 out of 62 analysts maintaining Buy ratings, and the stock trading notably below consensus price targets."
+    ],
+    "source": "Source pending — add the specific article/broker note/analyst report you used before submitting",
+    "asOf": "2026-11-09",
+    "needsResearch": false,
+    "sourcePending": true,
+    "aiDeclarationNote": "This text was supplied to the assistant as finished bullet points without a cited source or confirmation of how it was produced. Before submitting: (1) add the real source(s) for the specific claims above (80% AI GPU market share, $126.7bn TTM FCF, 59/62 analyst Buy ratings), and (2) if any AI tool helped research or draft this wording, add it to the AI declaration table in your proposal."
   },
   "bearCase": {
-    "points": "TODO_RESEARCH_REQUIRED",
-    "source": null,
-    "asOf": null,
-    "needsResearch": true,
-    "researchNote": "Fallback only — same as bullCase above, auto-generated from live data when possible. If you want a richer human-written case, add your own 2-4 bullet points on the key risks (e.g. competition, customer concentration, valuation, export restrictions), with your own source(s) and date."
+    "points": [
+      "Corporate governance & key-person risk: the board recently announced an independent investigation regarding a personal relationship involving CEO Jensen Huang, introducing unprecedented key-person risk for an organization with no public succession plan.",
+      "Regulatory and macro stalls: following the U.S. midterm elections, fears have risen that stricter environmental and data center construction reviews will delay cloud providers' AI rollouts; geopolitical export controls continue to restrict shipments to China.",
+      "Hyperscaler concentration & softening margins: NVIDIA faces high customer concentration risk, with hyperscalers accounting for roughly 50% of its data center revenue, while gross margin guidance has shown slight signs of easing down to the 71%–72% range and competitors like AMD and custom silicon from major cloud providers pose long-term market share threats."
+    ],
+    "source": "Source pending — add the specific article/broker note/analyst report you used before submitting",
+    "asOf": "2026-11-09",
+    "needsResearch": false,
+    "sourcePending": true,
+    "aiDeclarationNote": "Same as bullCase above — add the real source(s) for the specific claims (the Jensen Huang investigation, ~50% hyperscaler revenue concentration, 71-72% margin guidance) and confirm AI involvement for the declaration table before submitting."
   },
   "analystConsensus": {
     "rating": "TODO_RESEARCH_REQUIRED",

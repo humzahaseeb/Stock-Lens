@@ -37,15 +37,22 @@ data richness for that one company. NVDA (a heavily-covered US mega-cap) does
 not have this problem.
 
 ## Still to do before presenting (genuinely not automatable)
-The manual override files (`backend/src/data/overrides/NVDA.json` and
-`RR.L.json`) still carry fallback `TODO_RESEARCH_REQUIRED` placeholders, but
-most of the time they should no longer be needed:
-- **Analyst consensus rating** — now pulled live from Finnhub for real,
-  whenever it has coverage. ✅ mostly automated
-- **Bull case / bear case** — now auto-generated from live financial +
-  analyst data using explainable rules (`backend/src/lib/deriveBullBear.js`).
-  ✅ mostly automated, though you're welcome to replace it with your own
-  human-written thesis for extra depth
+- **Analyst consensus rating** — pulled live from Finnhub for real, whenever
+  it has coverage. ✅ mostly automated
+- **Bull case / bear case for NVDA** — now filled in with real, human-written
+  analysis (see `backend/src/data/overrides/NVDA.json`). ⚠️ **still needs a
+  real citation**: it's marked `sourcePending: true` because the specific
+  claims (80% AI GPU market share, $126.7bn TTM free cash flow, 59/62
+  analysts rating Buy, the Jensen Huang investigation, ~50% hyperscaler
+  revenue concentration, 71–72% margin guidance) need a verifiable source
+  before submitting — add the exact article/broker note/filing you used, and
+  confirm in your proposal's AI declaration table whether any AI tool helped
+  research or draft the wording (`aiDeclarationNote` flags this).
+- **Bull case / bear case for RR.L** — still auto-generated from live
+  financial + analyst data using explainable rules
+  (`backend/src/lib/deriveBullBear.js`), or the placeholder if even that data
+  is too sparse. Replace with your own human-written thesis the same way you
+  did for NVDA, if you want the extra depth there too.
 - **12-month price target** — genuinely **not available free anywhere we
   could verify** (Finnhub's price-target endpoint is paid; FMP's equivalent
   is unreliable on the free tier). If you want one, check a broker or

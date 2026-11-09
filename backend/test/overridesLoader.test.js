@@ -15,12 +15,15 @@ describe('overridesLoader', () => {
     expect(overrides.competitiveMoat.summary).toBeTruthy();
   });
 
-  it('flags analyst consensus and bull/bear case as needing research', async () => {
+  it('flags analyst consensus as needing research but has real, human-curated bull/bear case data', async () => {
     const overrides = await loadOverrides('NVDA');
     expect(overrides.analystConsensus.needsResearch).toBe(true);
-    expect(overrides.bullCase.needsResearch).toBe(true);
-    expect(overrides.bearCase.needsResearch).toBe(true);
+    expect(overrides.bullCase.needsResearch).toBe(false);
+    expect(overrides.bearCase.needsResearch).toBe(false);
+    expect(overrides.bullCase.sourcePending).toBe(true);
+    expect(overrides.bearCase.sourcePending).toBe(true);
     expect(Array.isArray(overrides.bullCase.points)).toBe(true);
+    expect(overrides.bullCase.points.length).toBeGreaterThan(0);
   });
 
   it('returns null for a ticker with no override file', async () => {

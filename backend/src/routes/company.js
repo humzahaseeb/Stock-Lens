@@ -46,6 +46,16 @@ async function getConsensusAndInsiderSentiment(ticker, seed) {
   return { consensus, consensusSource, insiderSentiment };
 }
 
+function pickNarrative(override, derived) {
+  // Real, human-curated content (needsResearch === false) always wins — it's
+  // richer than the auto-derived heuristic bullets. Auto-derived data is the
+  // next best thing when there's no human content yet. The placeholder
+  // (needsResearch: true) is the last resort so the UI never shows nothing.
+  if (override && override.needsResearch === false) return override;
+  if (derived) return derived;
+  return override ?? null;
+}
+
 router.get('/company/:ticker', async (req, res) => {
   const ticker = String(req.params.ticker || '').toUpperCase();
 
@@ -103,8 +113,8 @@ router.get('/company/:ticker', async (req, res) => {
     financialHealth,
     competitiveMoat: overrides?.competitiveMoat ?? null,
     valuation,
-    bullCase: derived.bullCase ?? overrides?.bullCase ?? null,
-    bearCase: derived.bearCase ?? overrides?.bearCase ?? null,
+    bullCase: pickNarrative(overrides?.bullCase, derived.bullCase),
+    bearCase: pickNarrative(overrides?.bearCase, derived.bearCase),
     analystConsensus: consensus ?? overrides?.analystConsensus ?? null,
     insiderSentiment,
     disclaimer: DISCLAIMER,

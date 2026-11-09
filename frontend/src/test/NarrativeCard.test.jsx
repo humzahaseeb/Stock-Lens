@@ -67,6 +67,22 @@ describe('NarrativeCard', () => {
     expect(screen.getByText('Not available')).toBeInTheDocument();
   });
 
+  it('shows a source-pending notice for real content that still needs a citation', () => {
+    render(
+      <NarrativeCard
+        title="Bull case"
+        section={{
+          points: ['Dominant AI architecture.'],
+          needsResearch: false,
+          sourcePending: true,
+          aiDeclarationNote: 'Add the real source before submitting.',
+        }}
+      />,
+    );
+    expect(screen.getByText(/Add the real source before submitting\./)).toBeInTheDocument();
+    expect(screen.getByText('Dominant AI architecture.')).toBeInTheDocument();
+  });
+
   it('renders a fallback message when the section is missing entirely', () => {
     render(<NarrativeCard title="Bear case" section={null} />);
     expect(screen.getByText('Not available for this company.')).toBeInTheDocument();
