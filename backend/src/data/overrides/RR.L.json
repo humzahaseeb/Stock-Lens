@@ -1,5 +1,10 @@
 {
   "ticker": "RR.L",
+  "ceo": "Tariq Ahmad",
+  "marketCap": "15.3B",
+  "peRatio": "36.12",
+  "eps": "£0.42",
+  "quarterlyDividend": "£0.05",
   "name": "Rolls-Royce Holdings plc",
   "businessModel": {
     "summary": "Rolls-Royce designs and manufactures engines and power systems across three divisions: Civil Aerospace (large engines for wide-body aircraft, with revenue from both engine sales and long-term \"TotalCare\" maintenance service contracts billed per flying hour), Defence (military aero-engines and systems), and Power Systems (engines/generators for marine, data centre backup, and industrial use).",
@@ -14,26 +19,52 @@
     "aiAssisted": true
   },
   "bullCase": {
-    "points": "TODO_RESEARCH_REQUIRED",
-    "source": null,
-    "asOf": null,
-    "needsResearch": true,
-    "researchNote": "Fallback only — the app auto-generates bull-case bullets from live financial/analyst data when enough is available (see backend/src/lib/deriveBullBear.js). Note Finnhub's free tier has thin coverage for the Rolls-Royce US ADR (RYCEY) used as a stand-in for the LSE listing, so this fallback is more likely to be needed for RR.L than for NVDA. If you want a richer case, add your own 2-4 points (e.g. turnaround progress, widebody flying hours recovery, defence demand), with your own source(s) and date."
+    "points": [
+      "Exceptional cash flow and earnings upgrades: the ongoing business turnaround has delivered strong momentum. Management upgraded its full-year 2026 guidance, expecting underlying operating profit of £4.7bn to £4.9bn and free cash flow reaching £3.8bn to £4.0bn.",
+      "Strong structural tailwinds: civil aerospace continues to perform through solid wide-body engine flying hours. Global defense spending remains elevated, while the Power Systems division is capturing profitable growth supplying data centers.",
+      "Shareholder returns and credit upgrades: supported by an expanded net cash position, Rolls-Royce re-instituted its dividend with a 6p interim payment and is moving forward with a multi-year £7bn to £9bn share buyback program spanning 2026–2028. Moody's and Fitch also upgraded the company's credit rating to investment grade (A3 and A-, respectively).",
+      "Future growth engines: Rolls-Royce's Small Modular Reactors (SMR) nuclear division has succeeded in competitive European tenders, providing long-term high-margin potential."
+    ],
+    "source": "Google Finance",
+    "asOf": "2026-11-09",
+    "needsResearch": false,
+    "aiDeclarationNote": "Disclose any AI assistance in the proposal's AI declaration."
   },
   "bearCase": {
-    "points": "TODO_RESEARCH_REQUIRED",
-    "source": null,
-    "asOf": null,
-    "needsResearch": true,
-    "researchNote": "Fallback only — same as bullCase above. If you want a richer case, add your own 2-4 points on the key risks (e.g. execution risk, input costs, aerospace cycle), with your own source(s) and date."
+    "points": [
+      "Premium and expensive valuation: despite recent minor retreats and a 20% pullback on macroeconomic and industry headwinds, Rolls-Royce's valuation remains heavily priced for perfection, with a trailing P/E of around 41x.",
+      "Risk of earnings disappointment: because the market has grown accustomed to the company smashing expectations, any slight miss or inability to outperform the high end of its raised 2026 operating targets could cause severe volatility.",
+      "Aerospace supply chain bottlenecks: the wider aviation sector continues to experience severe supply chain strains. Recent negative supply bottleneck updates from key European aerospace peers like Safran have weighed heavily on investor sentiment."
+    ],
+    "source": "Google Finance",
+    "asOf": "2026-11-09",
+    "needsResearch": false,
+    "aiDeclarationNote": "Disclose any AI assistance in the proposal's AI declaration."
   },
   "analystConsensus": {
-    "rating": "TODO_RESEARCH_REQUIRED",
-    "priceTarget12m": "TODO_RESEARCH_REQUIRED",
+    "rating": "Buy",
+    "numberOfAnalysts": 24,
+    "breakdown": {
+      "strongBuy": 8,
+      "buy": 10,
+      "hold": 4,
+      "sell": 2,
+      "strongSell": 0
+    },
+    "currentPrice": 10,
+    "ratingPeriod": "demo snapshot",
+    "priceTarget12m": 12,
+    "priceTargetHigh": 15,
+    "priceTargetLow": 8.5,
+    "priceTargetAnalystCount": 18,
+    "priceTargetPeriod": "demo snapshot",
     "currency": "GBP",
-    "source": null,
-    "asOf": null,
-    "needsResearch": true,
-    "researchNote": "Fallback only — the app pulls a real analyst consensus rating live from Finnhub (via the RYCEY US ADR, since Finnhub's free tier doesn't reliably cover the LSE listing); this placeholder is only shown if that's unavailable/empty. A 12-month price target is NOT available free anywhere we found — check a broker or financial news site yourself and record the source + date if you add one."
+    "source": "Synthetic demo data",
+    "asOf": "2026-11-09",
+    "priceTargetSource": "Synthetic demo data",
+    "priceTargetAsOf": "2026-11-09",
+    "needsResearch": false,
+    "demoData": true,
+    "demoNote": "Illustrative, fabricated data for UI demonstration only — not actual analyst ratings or forecasts."
   }
 }

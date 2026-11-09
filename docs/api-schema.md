@@ -9,9 +9,19 @@ user can judge how fresh it is — this is the core trust mechanism of the produ
 {
   "ticker": "NVDA",
   "name": "NVIDIA Corporation",
+  "ceo": "Jensen Huang",
+  "ceoSource": "Financial Modeling Prep (company profile)",
+  "ceoAsOf": "2026-11-09",
+  "marketCap": "3T",
+  "marketCapCurrency": "USD",
+  "marketCapSource": "Financial Modeling Prep (quote)",
+  "marketCapAsOf": "2026-11-09",
+  "peRatio": "22.54",
+  "eps": "$7.91",
+  "quarterlyDividend": "$0.25",
   "generatedAt": "2026-11-09T12:00:00.000Z",
   "financialsSource": "live",   // 'live' | 'seed-cache' | 'unavailable'
-  "consensusSource": "live",    // 'live' | 'seed-cache' | 'unavailable'
+  "consensusSource": "manual-override", // 'live' | 'seed-cache' | 'unavailable' | 'manual-override' | 'demo-data'
 
   "businessModel": {
     "summary": "Plain-English description of how the company makes money.",
@@ -55,15 +65,22 @@ user can judge how fresh it is — this is the core trust mechanism of the produ
   "bearCase": { "...": "same precedence/shape as bullCase" },
 
   "analystConsensus": {
-    "rating": "Strong Buy | Buy | Hold | Sell | Strong Sell",
-    "numberOfAnalysts": 32,
-    "breakdown": { "strongBuy": 20, "buy": 10, "hold": 2, "sell": 0, "strongSell": 0 },
-    "trendDirection": "improving",   // 'improving' | 'worsening' | null, vs the prior month
-    "priceTarget12m": null,
-    "priceTargetNote": "12-month price target consensus is not available on any free-tier API we found — Finnhub's price-target endpoint requires a paid plan. Add it yourself from a broker or financial news site if you want to include one.",
-    "aliasNote": "Shown for the Rolls-Royce US ADR (RYCEY) — Finnhub's free tier has limited LSE coverage.",
-    "source": "Finnhub (analyst recommendation trends)",
-    "asOf": "2026-11-01"
+    "rating": "Strong Buy",
+    "numberOfAnalysts": 34,
+    "breakdown": { "strongBuy": 33, "buy": 0, "hold": 1, "sell": 0, "strongSell": 0 },
+    "currentPrice": 178.30,
+    "ratingPeriod": "past 3 months",
+    "trendDirection": null,
+    "priceTarget12m": 323.45,
+    "priceTargetHigh": 465,
+    "priceTargetLow": 275,
+    "priceTargetAnalystCount": 34,
+    "priceTargetPeriod": "last 3 months",
+    "currency": "USD",
+    "priceTargetSource": "Google Finance — https://www.google.com/finance/quote/NVDA:NASDAQ",
+    "priceTargetAsOf": "2026-11-09",
+    "source": "Google Finance — https://www.google.com/finance/quote/NVDA:NASDAQ",
+    "asOf": "2026-11-09"
   },
 
   "insiderSentiment": {
@@ -81,9 +98,14 @@ user can judge how fresh it is — this is the core trust mechanism of the produ
 
 | Section | Source | Notes |
 |---|---|---|
+| `ceo` | **Financial Modeling Prep** (company profile) | Sent as a top-level field for the company header; `ceoSource` and `ceoAsOf` identify its provenance. Requires a successful live FMP response or a seeded snapshot. |
+| `marketCap` | **Financial Modeling Prep** (quote) | Sent as a top-level, formatted value for the company header and also remains in `valuation.metrics`; currency, source, and as-of date accompany it. Requires live FMP data or a seeded snapshot. |
+| `peRatio`, `eps`, `quarterlyDividend` | **Manual company override or seeded snapshot** | Optional company facts shown in the header when present; currently set for NVIDIA in `backend/src/data/overrides/NVDA.json`. |
 | `financialHealth`, `valuation` | **Financial Modeling Prep** (live, free tier) | Cached server-side ~6h (see `backend/src/lib/cache.js`) to respect rate limits and keep `asOf` accurate. |
-| `analystConsensus` | **Finnhub** (live, free tier — `/stock/recommendation`) | Verified free via Finnhub's public [swagger spec](https://finnhub.io/static/swagger.json): this endpoint carries no `premium` flag. Rating is derived from real buy/hold/sell/strongBuy/strongSell analyst counts using the standard weighted-mean method. **Free-tier coverage is US-market-focused** — for `RR.L` (London-listed), we look up the US ADR `RYCEY` instead (see `backend/src/lib/tickerAliases.js`) and label the result with `aliasNote`. If Finnhub has no coverage at all for a symbol, this falls back to the manual override placeholder. |
-| `analystConsensus.priceTarget12m` | **Not available free, anywhere** | Checked both Finnhub (`/stock/price-target` is explicitly `"premium": "Premium required."`) and FMP's equivalent — neither has a reliable free 12-month price target consensus. Rather than fabricate one, this field stays `null` with an explanatory `priceTargetNote`. Add a real figure yourself (with source + date) in the override file if you want one for the demo. |
+| `analystConsensus` | **Manual override or Finnhub** (live, free tier — `/stock/recommendation`) | NVDA uses the analyst counts supplied in the Google Finance screenshot; RR.L uses explicitly labeled synthetic demo data. Curated overrides take precedence over live data. Otherwise, ratings are derived from Finnhub's buy/hold/sell/strongBuy/strongSell counts. **Free-tier coverage is US-market-focused** — for `RR.L`, Finnhub is queried using the US ADR `RYCEY` when no curated override applies. `consensusSource` reports `manual-override` or `demo-data` accordingly. |
+| `analystConsensus.demoData`, `demoNote` | **Synthetic RR.L demo fixture** | `demoData: true` triggers a prominent UI warning; synthetic consensus is not used to derive bull/bear analysis. |
+| `analystConsensus.priceTarget12m` | **Manual override for NVDA; synthetic demo value for RR.L; no free automated API verified** | NVDA's 12-month targets are entered from the user-provided Google Finance screenshot. RR.L's targets are fabricated only for UI demonstration and carry a prominent warning; they are excluded from generated bull/bear analysis. Other symbols remain unavailable unless verified target data is added. Finnhub's `/stock/price-target` endpoint requires a paid plan. |
+| `analystConsensus.priceTargetHigh`, `priceTargetLow`, `priceTargetAnalystCount`, `priceTargetSource`, `priceTargetAsOf` | **Optional manual/seed/demo data** | The forecast card displays a high/average/low range, target analyst count, and citation/source when supplied. Synthetic values are explicitly labeled. |
 | `insiderSentiment` | **Finnhub** (live, free tier — `/stock/insider-sentiment`) | Finnhub's own docs state this covers **US companies only**; returns `null` for symbols with no data (e.g. most non-US tickers) rather than erroring. Optional supporting signal, not a required section in the UI. |
 | `bullCase`, `bearCase` | **Precedence chain**: human-curated override → auto-derived from live data (`backend/src/lib/deriveBullBear.js`) → placeholder | Real, human-researched content (`needsResearch: false` in the override file) always wins — it's richer than the heuristic rules below. If there's no human content yet, fixed, explainable rules turn real numbers (margins, leverage, liquidity, valuation, analyst consensus, insider sentiment) into bullet points (`autoGenerated: true`), since no free API provides genuine analyst-written bull/bear thesis prose. If neither exists, falls back to the `needsResearch: true` placeholder. Human content that's missing a verifiable citation is marked `sourcePending: true` with an `aiDeclarationNote` rather than a fabricated source — see `backend/src/routes/company.js`'s `pickNarrative()`. |
 | `businessModel`, `competitiveMoat` | **Manually curated**, per company (`backend/src/data/overrides/*.json`) | These are genuinely qualitative/analytical judgment calls (how a business makes money, why its moat holds up) — no free (or paid, realistically) API returns this as structured data. Each entry is dated and sourced by hand, and marked `aiAssisted` for the AI declaration. |

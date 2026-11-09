@@ -1,5 +1,10 @@
 {
   "ticker": "NVDA",
+  "ceo": "Jensen Huang",
+  "marketCap": "4.30T",
+  "peRatio": "22.54",
+  "eps": "$7.91",
+  "quarterlyDividend": "$0.25",
   "name": "NVIDIA Corporation",
   "businessModel": {
     "summary": "NVIDIA designs GPUs (graphics processing units) and sells them along with its CUDA software platform. Its biggest growth driver is the Data Center segment, selling AI accelerator chips and systems to cloud providers and enterprises; it also sells gaming GPUs, professional visualization hardware, and automotive compute platforms.",
@@ -36,12 +41,27 @@
     "aiDeclarationNote": "If any AI tool helped research or draft this wording, add it to the AI declaration table in your proposal (the underlying facts were sourced from Yahoo Finance)."
   },
   "analystConsensus": {
-    "rating": "TODO_RESEARCH_REQUIRED",
-    "priceTarget12m": "TODO_RESEARCH_REQUIRED",
+    "rating": "Strong Buy",
+    "numberOfAnalysts": 34,
+    "breakdown": {
+      "strongBuy": 33,
+      "buy": 0,
+      "hold": 1,
+      "sell": 0,
+      "strongSell": 0
+    },
+    "currentPrice": 178.3,
+    "ratingPeriod": "past 3 months",
+    "priceTarget12m": 323.45,
+    "priceTargetHigh": 465,
+    "priceTargetLow": 275,
+    "priceTargetAnalystCount": 34,
+    "priceTargetPeriod": "last 3 months",
     "currency": "USD",
-    "source": null,
-    "asOf": null,
-    "needsResearch": true,
-    "researchNote": "Fallback only — the app now pulls a real analyst consensus rating live from Finnhub's free-tier recommendation trends (see backend/src/lib/finnhubClient.js); this placeholder is only shown if that's unavailable. A 12-month price target is NOT available free anywhere we found (Finnhub's price-target endpoint requires a paid plan) — check a broker or financial news site for one yourself, and record the exact source URL and date checked if you add it."
+    "source": "Google Finance — https://www.google.com/finance/quote/NVDA:NASDAQ",
+    "asOf": "2026-11-09",
+    "priceTargetSource": "Google Finance — https://www.google.com/finance/quote/NVDA:NASDAQ",
+    "priceTargetAsOf": "2026-11-09",
+    "needsResearch": false
   }
 }

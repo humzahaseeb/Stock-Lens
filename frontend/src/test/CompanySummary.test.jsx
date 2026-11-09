@@ -5,6 +5,16 @@ import CompanySummary from '../components/CompanySummary.jsx';
 const sampleData = {
   ticker: 'NVDA',
   name: 'NVIDIA Corporation',
+  ceo: 'Jensen Huang',
+  ceoSource: 'Financial Modeling Prep (company profile)',
+  ceoAsOf: '2026-11-09',
+  marketCap: '3T',
+  marketCapCurrency: 'USD',
+  marketCapSource: 'Financial Modeling Prep (quote)',
+  marketCapAsOf: '2026-11-09',
+  peRatio: '22.54',
+  eps: '$7.91',
+  quarterlyDividend: '$0.25',
   generatedAt: '2026-11-09T12:00:00.000Z',
   financialsSource: 'live',
   disclaimer: 'This is not financial advice.',
@@ -18,11 +28,16 @@ const sampleData = {
 };
 
 describe('CompanySummary', () => {
-  it('renders the disclaimer, header, and all seven sections', () => {
+  it('renders the disclaimer, header, and all summary sections', () => {
     render(<CompanySummary data={sampleData} />);
     expect(screen.getByText('This is not financial advice.')).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: /NVIDIA Corporation/ })).toBeInTheDocument();
     expect(screen.getByText('NVDA')).toBeInTheDocument();
+    expect(screen.getByText('Jensen Huang')).toBeInTheDocument();
+    expect(screen.getByText('3T USD')).toBeInTheDocument();
+    expect(screen.getByText('22.54')).toBeInTheDocument();
+    expect(screen.getByText('$7.91')).toBeInTheDocument();
+    expect(screen.getByText('$0.25')).toBeInTheDocument();
 
     for (const heading of [
       'Business model',
@@ -31,7 +46,8 @@ describe('CompanySummary', () => {
       'Valuation',
       'Bull case',
       'Bear case',
-      'Analyst consensus',
+      'Analyst ratings',
+      '12-month forecast',
     ]) {
       expect(screen.getByRole('heading', { name: heading })).toBeInTheDocument();
     }

@@ -23,7 +23,8 @@ test.describe('Stock Lens — full workflow', () => {
         'Valuation',
         'Bull case',
         'Bear case',
-        'Analyst consensus',
+        'Analyst ratings',
+        '12-month forecast',
       ]) {
         await expect(page.getByRole('heading', { name: heading })).toBeVisible();
       }

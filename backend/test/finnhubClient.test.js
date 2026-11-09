@@ -36,6 +36,9 @@ describe('fetchAnalystConsensus', () => {
     expect(result.source).toBe('Finnhub (analyst recommendation trends)');
     expect(result.asOf).toBe('2026-11-01');
     expect(result.priceTarget12m).toBeNull();
+    expect(result.priceTargetHigh).toBeNull();
+    expect(result.priceTargetLow).toBeNull();
+    expect(result.priceTargetAnalystCount).toBeNull();
     expect(result.priceTargetNote).toMatch(/not available/i);
   });
 

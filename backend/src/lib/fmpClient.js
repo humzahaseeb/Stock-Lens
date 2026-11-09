@@ -73,6 +73,13 @@ export async function fetchFmpMetrics(ticker, apiKey = process.env.FMP_API_KEY) 
 
   return {
     name: p.companyName,
+    ceo: p.ceo || null,
+    ceoSource: 'Financial Modeling Prep (company profile)',
+    ceoAsOf: todayIso(),
+    marketCap: q.marketCap != null ? formatLarge(q.marketCap) : null,
+    marketCapCurrency: p.currency || null,
+    marketCapSource: 'Financial Modeling Prep (quote)',
+    marketCapAsOf: todayIso(),
     financialHealth: {
       metrics: [
         metric('Revenue (TTM)', q.marketCap ? formatLarge(p.revenueTTM) : null),

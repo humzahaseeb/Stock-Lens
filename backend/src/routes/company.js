@@ -14,22 +14,24 @@ const DISCLAIMER =
   'This is for informational purposes only and is not financial advice. ' +
   'Capital at risk — do your own research before investing.';
 
-async function getConsensusAndInsiderSentiment(ticker, seed) {
+async function getConsensusAndInsiderSentiment(ticker, seed, useManualConsensus = false) {
   const { symbol: finnhubSymbol, note: aliasNote } = resolveFinnhubSymbol(ticker);
 
   let consensus = null;
-  let consensusSource = 'live';
-  try {
-    consensus = await fetchAnalystConsensus(finnhubSymbol);
-    if (!consensus) {
-      consensusSource = 'unavailable'; // Finnhub has no coverage for this symbol
-    }
-  } catch {
-    if (seed?.consensus) {
-      consensus = seed.consensus;
-      consensusSource = 'seed-cache';
-    } else {
-      consensusSource = 'unavailable';
+  let consensusSource = useManualConsensus ? 'manual-override' : 'live';
+  if (!useManualConsensus) {
+    try {
+      consensus = await fetchAnalystConsensus(finnhubSymbol);
+      if (!consensus) {
+        consensusSource = 'unavailable'; // Finnhub has no coverage for this symbol
+      }
+    } catch {
+      if (seed?.consensus) {
+        consensus = seed.consensus;
+        consensusSource = 'seed-cache';
+      } else {
+        consensusSource = 'unavailable';
+      }
     }
   }
   if (consensus && aliasNote) {
@@ -71,6 +73,13 @@ router.get('/company/:ticker', async (req, res) => {
   let financialHealth;
   let valuation;
   let name = overrides?.name || ticker;
+  let ceo = overrides?.ceo ?? null;
+  let ceoSource = null;
+  let ceoAsOf = null;
+  let marketCap = overrides?.marketCap ?? null;
+  let marketCapCurrency = null;
+  let marketCapSource = null;
+  let marketCapAsOf = null;
   let financialsSource = 'live';
 
   try {
@@ -78,11 +87,28 @@ router.get('/company/:ticker', async (req, res) => {
     financialHealth = live.financialHealth;
     valuation = live.valuation;
     name = live.name || name;
+    ceo = live.ceo ?? ceo;
+    ceoSource = live.ceoSource ?? null;
+    ceoAsOf = live.ceoAsOf ?? null;
+    marketCap = live.marketCap ?? marketCap;
+    marketCapCurrency = live.marketCapCurrency ?? null;
+    marketCapSource = live.marketCapSource ?? null;
+    marketCapAsOf = live.marketCapAsOf ?? null;
   } catch (liveError) {
     if (seed) {
       financialHealth = seed.financialHealth;
       valuation = seed.valuation;
       name = seed.name || name;
+      ceo = seed.ceo ?? ceo;
+      ceoSource = seed.ceoSource ?? null;
+      ceoAsOf = seed.ceoAsOf ?? null;
+      marketCap =
+        seed.marketCap ??
+        seed.valuation?.metrics?.find((metric) => metric.label === 'Market cap')?.value ??
+        marketCap;
+      marketCapCurrency = seed.marketCapCurrency ?? null;
+      marketCapSource = seed.marketCapSource ?? null;
+      marketCapAsOf = seed.marketCapAsOf ?? null;
       financialsSource = 'seed-cache';
     } else if (!overrides) {
       return res.status(404).json({
@@ -99,23 +125,43 @@ router.get('/company/:ticker', async (req, res) => {
     return res.status(404).json({ error: `Unknown ticker: ${ticker}` });
   }
 
-  const { consensus, consensusSource, insiderSentiment } = await getConsensusAndInsiderSentiment(ticker, seed);
+  const hasCuratedAnalystConsensus = overrides?.analystConsensus?.needsResearch === false;
+  const { consensus, consensusSource, insiderSentiment } = await getConsensusAndInsiderSentiment(
+    ticker,
+    seed,
+    hasCuratedAnalystConsensus,
+  );
+  const analystConsensus = hasCuratedAnalystConsensus
+    ? overrides.analystConsensus
+    : consensus ?? overrides?.analystConsensus ?? null;
+  const analystConsensusSource = overrides?.analystConsensus?.demoData ? 'demo-data' : consensusSource;
+  const consensusForDerivation = analystConsensus?.demoData ? null : analystConsensus;
 
-  const derived = deriveBullBear({ financialHealth, valuation, consensus, insiderSentiment });
+  const derived = deriveBullBear({ financialHealth, valuation, consensus: consensusForDerivation, insiderSentiment });
 
   return res.json({
     ticker,
     name,
     generatedAt: new Date().toISOString(),
     financialsSource, // 'live' | 'seed-cache' | 'unavailable' — surfaced for transparency/debugging
-    consensusSource, // 'live' | 'seed-cache' | 'unavailable'
+    consensusSource: analystConsensusSource, // 'live' | 'seed-cache' | 'unavailable' | 'manual-override' | 'demo-data'
+    ceo,
+    ceoSource,
+    ceoAsOf,
+    marketCap,
+    marketCapCurrency,
+    marketCapSource,
+    marketCapAsOf,
+    peRatio: overrides?.peRatio ?? seed?.peRatio ?? null,
+    eps: overrides?.eps ?? seed?.eps ?? null,
+    quarterlyDividend: overrides?.quarterlyDividend ?? seed?.quarterlyDividend ?? null,
     businessModel: overrides?.businessModel ?? null,
     financialHealth,
     competitiveMoat: overrides?.competitiveMoat ?? null,
     valuation,
     bullCase: pickNarrative(overrides?.bullCase, derived.bullCase),
     bearCase: pickNarrative(overrides?.bearCase, derived.bearCase),
-    analystConsensus: consensus ?? overrides?.analystConsensus ?? null,
+    analystConsensus,
     insiderSentiment,
     disclaimer: DISCLAIMER,
   });

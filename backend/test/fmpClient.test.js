@@ -22,7 +22,14 @@ describe('fetchFmpMetrics', () => {
   it('parses profile/quote/ratios into financialHealth + valuation metrics', async () => {
     const fetchMock = vi.fn(async (url) => {
       if (url.includes('/profile/')) {
-        return jsonResponse([{ companyName: 'NVIDIA Corporation', currency: 'USD', revenueTTM: 60000000000 }]);
+        return jsonResponse([
+          {
+            companyName: 'NVIDIA Corporation',
+            ceo: 'Jensen Huang',
+            currency: 'USD',
+            revenueTTM: 60000000000,
+          },
+        ]);
       }
       if (url.includes('/quote/')) {
         return jsonResponse([{ price: 120.5, pe: 45.2, eps: 2.66, marketCap: 3000000000000 }]);
@@ -37,6 +44,9 @@ describe('fetchFmpMetrics', () => {
     const result = await fetchFmpMetrics('NVDA', 'test-key');
 
     expect(result.name).toBe('NVIDIA Corporation');
+    expect(result.ceo).toBe('Jensen Huang');
+    expect(result.marketCap).toBe('3T');
+    expect(result.marketCapCurrency).toBe('USD');
     expect(result.valuation.metrics.find((m) => m.label === 'P/E (TTM)').value).toBe('45.2');
     expect(result.valuation.metrics.find((m) => m.label === 'Market cap').value).toBe('3T');
     expect(result.financialHealth.metrics.find((m) => m.label === 'Net profit margin').value).toBe('55%');

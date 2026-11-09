@@ -29,16 +29,15 @@ Commit those two files so the fallback snapshot ships with the repo.
 ## A real limitation worth knowing about: RR.L and Finnhub
 Finnhub's free tier is US-market-focused. Rolls-Royce trades primarily on the
 LSE (`RR.L`), which has thin-to-no coverage there, so Stock Lens looks up the
-US ADR (`RYCEY`) instead for the Finnhub call and labels the result
-("Shown for the Rolls-Royce US ADR (RYCEY)..."). If even that has no analyst
-coverage when you seed, `consensus` just won't be included in `RR.L.json` and
-the app falls back cleanly to the manual placeholder — no errors, just reduced
-data richness for that one company. NVDA (a heavily-covered US mega-cap) does
-not have this problem.
+US ADR (`RYCEY`) for a live Finnhub lookup. RR.L currently uses the explicitly
+labeled synthetic demo consensus in `RR.L.json` instead; it is not presented as
+real analyst coverage. NVDA (a heavily-covered US mega-cap) uses the
+user-provided Google Finance snapshot.
 
 ## Still to do before presenting (genuinely not automatable)
-- **Analyst consensus rating** — pulled live from Finnhub for real, whenever
-  it has coverage. ✅ mostly automated
+- **Analyst ratings** — pulled live from Finnhub for symbols without a curated
+  override; NVDA uses the user-provided Google Finance screenshot and RR.L uses
+  clearly labeled synthetic demo data. ✅
 - **Bull case / bear case for NVDA** — now filled in with real, human-written
   analysis (see `backend/src/data/overrides/NVDA.json`). ⚠️ **still needs a
   real citation**: it's marked `sourcePending: true` because the specific

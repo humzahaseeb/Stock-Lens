@@ -16,6 +16,23 @@ describe('NarrativeCard', () => {
     expect(screen.getByText(/2026-11-01/)).toBeInTheDocument();
   });
 
+  it('renders URL citations as secure external links', () => {
+    render(
+      <NarrativeCard
+        title="Bear case"
+        section={{
+          points: ['Valuation risk.'],
+          source: 'Google Finance — https://www.google.com/finance/quote/RR.:LON',
+          asOf: '2026-11-09',
+        }}
+      />,
+    );
+    const citation = screen.getByRole('link', { name: 'Google Finance' });
+    expect(citation).toHaveAttribute('href', 'https://www.google.com/finance/quote/RR.:LON');
+    expect(citation).toHaveAttribute('target', '_blank');
+    expect(citation).toHaveAttribute('rel', 'noreferrer');
+  });
+
   it('shows a research-needed warning instead of fabricated data', () => {
     render(
       <NarrativeCard

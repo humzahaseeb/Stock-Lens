@@ -96,6 +96,11 @@ export async function fetchAnalystConsensus(ticker, apiKey = process.env.FINNHUB
     numberOfAnalysts: latestRating.total,
     trendDirection, // 'improving' | 'worsening' | null, vs the prior month
     priceTarget12m: null,
+    priceTargetHigh: null,
+    priceTargetLow: null,
+    priceTargetAnalystCount: null,
+    priceTargetSource: null,
+    priceTargetAsOf: null,
     priceTargetNote:
       '12-month price target consensus is not available on any free-tier API we found — ' +
       "Finnhub's price-target endpoint requires a paid plan. Add it yourself from a broker " +
