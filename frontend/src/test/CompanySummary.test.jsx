@@ -1,9 +1,10 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen, within } from '@testing-library/react';
 import CompanySummary from '../components/CompanySummary.jsx';
+import { fetchStockChart } from '../lib/api.js';
 
 vi.mock('../lib/api.js', () => ({
-  fetchStockChart: async () => ({
+  fetchStockChart: vi.fn(async () => ({
     ticker: 'NVDA',
     range: '1d',
     currency: 'USD',
@@ -16,7 +17,7 @@ vi.mock('../lib/api.js', () => ({
     points: [{ time: 1700000060, close: 178.3 }],
     source: 'Yahoo Finance',
     delayNote: 'Market data may be delayed.',
-  }),
+  })),
 }));
 
 const sampleData = {
@@ -55,6 +56,30 @@ const sampleData = {
 };
 
 describe('CompanySummary', () => {
+  it('uses the same current stock price in Valuation and the forecast', async () => {
+    vi.mocked(fetchStockChart).mockResolvedValueOnce({
+      ticker: 'NVDA',
+      range: '1d',
+      currency: 'USD',
+      exchangeTimezone: 'America/New_York',
+      asOf: 1700000060,
+      currentPrice: 190,
+      previousClose: 180,
+      change: 10,
+      changePercent: 5.56,
+      points: [{ time: 1700000060, close: 190 }],
+      source: 'Yahoo Finance',
+      delayNote: 'Market data may be delayed.',
+    });
+
+    render(<CompanySummary data={sampleData} />);
+
+    expect(await screen.findByText('Current $190.00')).toBeInTheDocument();
+    const valuationSection = screen.getByRole('region', { name: 'Valuation' });
+    expect(within(valuationSection).getByText('$190.00')).toBeInTheDocument();
+    expect(within(valuationSection).getByText(/Yahoo Finance/)).toBeInTheDocument();
+  });
+
   it('renders the disclaimer, header, and all summary sections', () => {
     render(<CompanySummary data={sampleData} />);
     expect(screen.getByText('This is not financial advice.')).toBeInTheDocument();

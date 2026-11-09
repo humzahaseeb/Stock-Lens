@@ -6,7 +6,13 @@ const ratingGroups = [
   { key: 'sell', label: 'Sell', color: 'var(--negative)' },
 ];
 
-export default function AnalystForecastCards({ ticker, consensus, valuationMetrics }) {
+export default function AnalystForecastCards({
+  ticker,
+  consensus,
+  valuationMetrics,
+  currentPriceOverride,
+  currencyOverride,
+}) {
   const breakdown = consensus?.breakdown;
   const counts = breakdown
     ? {
@@ -20,9 +26,10 @@ export default function AnalystForecastCards({ ticker, consensus, valuationMetri
   const priceMetric = Array.isArray(valuationMetrics)
     ? valuationMetrics.find((metric) => metric.label === 'Price')
     : undefined;
-  const currentPrice = toNumber(consensus?.currentPrice) ?? toNumber(priceMetric?.value);
+  const currentPrice =
+    toNumber(currentPriceOverride) ?? toNumber(consensus?.currentPrice) ?? toNumber(priceMetric?.value);
   const priceValue = typeof priceMetric?.value === 'string' ? priceMetric.value : '';
-  const currency = consensus?.currency || priceValue.match(/[A-Z]{3}/)?.[0];
+  const currency = currencyOverride || consensus?.currency || priceValue.match(/[A-Z]{3}/)?.[0];
   const ratingPeriod = consensus?.ratingPeriod;
   const targets = [
     { key: 'high', label: 'Highest', value: toNumber(consensus?.priceTargetHigh) },

@@ -1,11 +1,25 @@
+import { useState } from 'react';
 import DisclaimerBanner from './DisclaimerBanner.jsx';
 import NarrativeCard from './NarrativeCard.jsx';
 import MetricList from './MetricList.jsx';
 import AnalystForecastCards from './AnalystForecastCards.jsx';
 import IncomeStatementChart from './IncomeStatementChart.jsx';
-import StockPriceChart from './StockPriceChart.jsx';
+import StockPriceChart, { formatPrice } from './StockPriceChart.jsx';
 
 export default function CompanySummary({ data }) {
+  const [stockQuote, setStockQuote] = useState(null);
+  const activeQuote = stockQuote?.ticker === data.ticker ? normalizeQuote(stockQuote) : null;
+  const valuationMetrics = (data.valuation?.metrics || []).map((metric) =>
+    metric.label === 'Price' && activeQuote
+      ? {
+          ...metric,
+          value: formatPrice(activeQuote.price, activeQuote.currency),
+          source: stockQuote.source,
+          asOf: new Date(stockQuote.asOf * 1000).toISOString().slice(0, 10),
+        }
+      : metric,
+  );
+
   return (
     <article className="company-summary">
       <DisclaimerBanner text={data.disclaimer} />
@@ -21,7 +35,7 @@ export default function CompanySummary({ data }) {
         )}
       </header>
 
-      <StockPriceChart ticker={data.ticker} />
+      <StockPriceChart ticker={data.ticker} onQuoteChange={setStockQuote} />
 
       <div className="section-grid">
         <NarrativeCard
@@ -57,7 +71,7 @@ export default function CompanySummary({ data }) {
         <MetricList
           title="Valuation"
           icon="📊"
-          metrics={data.valuation?.metrics}
+          metrics={valuationMetrics}
           note={data.valuation?.note}
           demoData={data.valuation?.demoData}
         />
@@ -66,9 +80,18 @@ export default function CompanySummary({ data }) {
         <AnalystForecastCards
           ticker={data.ticker}
           consensus={data.analystConsensus}
-          valuationMetrics={data.valuation?.metrics}
+          valuationMetrics={valuationMetrics}
+          currentPriceOverride={activeQuote?.price}
+          currencyOverride={activeQuote?.currency}
         />
       </div>
     </article>
   );
+}
+
+function normalizeQuote(quote) {
+  if (quote.currency === 'GBp') {
+    return { price: quote.currentPrice / 100, currency: 'GBP' };
+  }
+  return { price: quote.currentPrice, currency: quote.currency };
 }

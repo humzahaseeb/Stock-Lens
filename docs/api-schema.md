@@ -137,6 +137,7 @@ illustrative, not actual company financials.
 | `financialHealth.note` | **Optional FMP error detail** | Explains why free cash flow could not be fetched when no existing/seeded FCF metric is available. |
 | `financialHealthSource` | **Financial health provenance** | Reports `live`, `seed-cache`, `unavailable`, or `demo-data` independently of valuation's `financialsSource`. |
 | `valuation` | **FMP live/seed or labeled synthetic overrides** | NVDA and RR.L use explicitly flagged synthetic demo values, including Forward P/E and EV / EBITDA. Other tickers use FMP price, P/E (TTM), EPS, market cap, Forward P/E when present in the quote, and EV / EBITDA from `enterpriseValueMultiple`. Missing ratios are omitted with an explanatory note, not estimated. |
+| Displayed current price in Valuation and analyst forecast | **Yahoo Finance chart quote after load** | The frontend reuses one chart quote for both sections so the price and forecast baseline agree. In demo-valued sections, the Yahoo quote and its date are shown inline while synthetic metrics retain the single synthetic footer. If the quote is unavailable, the sections use available summary/override values. |
 | `valuation.demoData`, `demoNote` | **Synthetic NVDA/RR.L metrics** | `demoData: true` groups the synthetic source/date into a single footer at the bottom of Valuation. |
 | `valuationSource` | **Valuation provenance** | Reports `live`, `seed-cache`, `unavailable`, or `demo-data` independently of the broader financials source. |
 | `incomeStatements.annual`, `incomeStatements.quarterly` | **FMP live/seed or labeled synthetic overrides** | Requests up to five annual and four quarterly statements; each period can fall back to a seeded snapshot. NVDA and RR.L use explicitly flagged synthetic override data for the demo. API failures are surfaced in that period's `error` field. |
@@ -172,11 +173,21 @@ illustrative, not actual company financials.
 
 The app's public Rolls-Royce ticker is `RR`; it maps internally to the LSE
 Yahoo/FMP symbol `RR.L` (the legacy `RR.L` app route remains accepted).
+The chart UI labels Yahoo's `5d` range as `5D`; its x-axis shows day/date
+labels instead of intraday times for this range.
 Supported `range` values are `1d`, `5d`, `1mo`, `6mo`, `ytd`, `1y`, `5y`, and
-`max`. Intraday requests are cached for about one minute; longer ranges are
-cached longer to reduce upstream traffic. The public Yahoo Finance feed can be
-delayed and is not guaranteed real-time. For `1d`, change is measured against
-previous close; longer ranges compare with the first returned chart point.
+`max`. The 5D and 1M ranges both use daily price sampling for a less jagged line;
+1D uses intraday samples. Intraday requests are cached for about one minute;
+longer ranges are cached longer to reduce upstream traffic. The public Yahoo
+Finance feed can be delayed and is not guaranteed real-time. For `1d`, change
+is measured against previous close; longer ranges compare with the first
+returned chart point.
+The chart displays the source and quote timestamp in a footer below the chart
+and statistics.
+After the chart quote loads, the frontend uses that same quote for the current
+Price shown in Valuation and for the current-price baseline in the 12-month
+forecast. If the chart request fails, both fall back to their available
+summary/override price.
 
 See `docs/data-seeding.md` for how live data is pinned (cached) for demo reliability, and `docs/security/risk-register.md` for why price targets and bull/bear narrative are handled this way rather than guessed.
 

@@ -31,7 +31,7 @@ the tool while observed, plus an accessibility checklist. Unit tests
 | N3 | Switch between the two worked examples | View NVDA, then click "Rolls-Royce (RR)" | Rolls-Royce summary shows ticker `RR`, replaces NVDA's, and leaves no stale data | | |
 | N4 | Read the disclaimer | View any summary | Tester can correctly restate that it's not financial advice, unprompted | | |
 | N5 | Understand data provenance | View live and synthetic sections | Tester can distinguish live/source-dated values from the “Synthetic demo data” footer and explain synthetic figures are not actuals | | |
-| N6 | Change stock-chart range | Select 1D, 5D, 1M, 6M, YTD, 1Y, 5Y and Max | Chart reloads and the price change caption describes the selected range | | |
+| N6 | Change stock-chart range | Select 1D, 5D, 1M, 6M, YTD, 1Y, 5Y and Max | Chart reloads; the 5D x-axis uses day/date labels and the price-change caption describes the selected range | | |
 | N7 | Switch income-statement period | Select Annual, then Quarterly | Chart bars and period labels update; synthetic source/date appears once in its footer | | |
 | N8 | Learn a financial term | Hover, keyboard-focus, and click a metric info control | A concise definition appears and is accessible without a mouse | | |
 

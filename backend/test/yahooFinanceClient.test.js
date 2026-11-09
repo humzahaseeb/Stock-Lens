@@ -89,4 +89,25 @@ describe('fetchYahooStockChart', () => {
     expect(result.changePercent).toBe(20);
     expect(result.previousClose).toBe(110);
   });
+
+  it('uses daily sampling for the 5d range to match the 1mo chart', async () => {
+    const fetchMock = vi.fn(async (url) => {
+      expect(url).toContain('/NVDA?range=5d&interval=1d');
+      return jsonResponse({
+        chart: {
+          result: [
+            {
+              meta: { symbol: 'NVDA', regularMarketPrice: 102 },
+              timestamp: [1700000000, 1700086400],
+              indicators: { quote: [{ close: [100, 102] }] },
+            },
+          ],
+        },
+      });
+    });
+    vi.stubGlobal('fetch', fetchMock);
+
+    await fetchYahooStockChart('NVDA', '5d');
+    expect(fetchMock).toHaveBeenCalledOnce();
+  });
 });

@@ -11,7 +11,7 @@ typical UX methods (wireframing alone isn't enough — this covers more).
    guaranteed-working path, per the proposal's "two worked examples" deliverable.
 3. See a loading state (`aria-live` region announces "Loading…") — no silent
    waiting.
-4. See a Yahoo Finance stock-price chart with 1D–Max range controls, quote
+4. See a Yahoo Finance stock-price chart with 1D, 5D, 1M–Max range controls, quote
    statistics, a timestamp, and a disclosure that the public feed may be delayed.
 5. Continue through the fixed one-page sections: Business model (CEO appears
    above the business description), Financial health, annual/quarterly income

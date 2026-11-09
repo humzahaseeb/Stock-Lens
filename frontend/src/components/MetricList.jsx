@@ -32,7 +32,7 @@ export default function MetricList({ title, icon, metrics, note, demoData }) {
               </dt>
               <dd>
                 <span className="metric-value">{m.value}</span>
-                {!demoData && (
+                {(!demoData || m.source !== 'Synthetic demo data') && (
                   <span className="metric-source">
                     {m.source}, {m.asOf}
                   </span>

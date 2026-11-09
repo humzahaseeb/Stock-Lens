@@ -50,6 +50,22 @@ describe('MetricList', () => {
     expect(screen.getAllByText('Synthetic demo data, 2026-11-09')).toHaveLength(1);
   });
 
+  it('keeps live provenance inline when a demo section also contains a live quote', () => {
+    render(
+      <MetricList
+        title="Valuation"
+        demoData
+        metrics={[
+          { label: 'Price', value: '$190.00', source: 'Yahoo Finance', asOf: '2026-11-09' },
+          { label: 'Forward P/E', value: '19.8', source: 'Synthetic demo data', asOf: '2026-11-09' },
+        ]}
+      />,
+    );
+
+    expect(screen.getByText('Yahoo Finance, 2026-11-09')).toBeInTheDocument();
+    expect(screen.getByText('Synthetic demo data, 2026-11-09')).toHaveClass('metric-source-footer');
+  });
+
   it('explains metric terminology through a clickable info control', () => {
     render(
       <MetricList

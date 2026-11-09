@@ -4,7 +4,7 @@ const YAHOO_CHART_URL = 'https://query1.finance.yahoo.com/v8/finance/chart';
 
 const RANGE_CONFIG = {
   '1d': { interval: '5m', cacheSeconds: 60 },
-  '5d': { interval: '15m', cacheSeconds: 120 },
+  '5d': { interval: '1d', cacheSeconds: 120 },
   '1mo': { interval: '1d', cacheSeconds: 300 },
   '6mo': { interval: '1d', cacheSeconds: 900 },
   ytd: { interval: '1d', cacheSeconds: 900 },

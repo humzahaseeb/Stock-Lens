@@ -14,7 +14,7 @@ const ranges = [
 
 const chart = { width: 900, height: 330, left: 72, right: 875, top: 24, bottom: 262 };
 
-export default function StockPriceChart({ ticker }) {
+export default function StockPriceChart({ ticker, onQuoteChange }) {
   const [range, setRange] = useState('1d');
   const [chartData, setChartData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -29,10 +29,14 @@ export default function StockPriceChart({ ticker }) {
 
     fetchStockChart(ticker, range, controller.signal)
       .then((result) => {
-        if (active) setChartData(result);
+        if (active) {
+          setChartData(result);
+          onQuoteChange?.(result);
+        }
       })
       .catch((requestError) => {
         if (active && requestError.name !== 'AbortError') {
+          onQuoteChange?.(null);
           setError(requestError instanceof Error ? requestError.message : String(requestError));
         }
       })
@@ -44,7 +48,7 @@ export default function StockPriceChart({ ticker }) {
       active = false;
       controller.abort();
     };
-  }, [ticker, range]);
+  }, [ticker, range, onQuoteChange]);
 
   const isPositive = (chartData?.change ?? 0) >= 0;
 
@@ -71,11 +75,6 @@ export default function StockPriceChart({ ticker }) {
             </div>
           ) : (
             <p className="stock-price-summary-placeholder">Live market chart</p>
-          )}
-          {chartData && (
-            <p className="stock-chart-as-of">
-              As of {formatAsOf(chartData.asOf, chartData.exchangeTimezone)} · {chartData.source}
-            </p>
           )}
         </div>
       </div>
@@ -113,6 +112,9 @@ export default function StockPriceChart({ ticker }) {
             <StockStat label="52-week low" value={chartData.fiftyTwoWeekLow} currency={chartData.currency} />
           </div>
           <p className="stock-chart-disclaimer">{chartData.delayNote}</p>
+          <p className="stock-chart-as-of">
+            Source: {chartData.source} · As of {formatAsOf(chartData.asOf, chartData.exchangeTimezone)}
+          </p>
         </>
       )}
     </section>
@@ -229,7 +231,7 @@ function niceStep(value) {
   return factor * magnitude;
 }
 
-function formatPrice(value, currency) {
+export function formatPrice(value, currency) {
   if (typeof value !== 'number' || !Number.isFinite(value)) return 'Unavailable';
   const formatted = value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   if (currency === 'USD') return `$${formatted}`;
@@ -283,11 +285,13 @@ function formatAsOf(timestamp, timezone) {
 
 function formatTimeLabel(timestamp, range, timezone) {
   const options =
-    range === '1d' || range === '5d'
+    range === '1d'
       ? { hour: 'numeric', minute: '2-digit' }
-      : range === '5y' || range === 'max'
-        ? { year: 'numeric' }
-        : { month: 'short', year: '2-digit' };
+      : range === '5d'
+        ? { weekday: 'short', month: 'short', day: 'numeric' }
+        : range === '5y' || range === 'max'
+          ? { year: 'numeric' }
+          : { month: 'short', year: '2-digit' };
   return new Intl.DateTimeFormat('en-US', { ...options, timeZone: timezone || 'UTC' }).format(
     new Date(timestamp * 1000),
   );

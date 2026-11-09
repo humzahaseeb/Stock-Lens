@@ -39,11 +39,17 @@ describe('StockPriceChart', () => {
 
     expect(await screen.findByText('$104.50')).toBeInTheDocument();
     expect(screen.getByText('+$4.50 today')).toBeInTheDocument();
-    expect(screen.getByText(/Yahoo Finance/, { selector: '.stock-chart-as-of' })).toBeInTheDocument();
+    const sourceFooter = screen.getByText(/Source: Yahoo Finance/, { selector: '.stock-chart-as-of' });
+    expect(sourceFooter).toBeInTheDocument();
+    expect(screen.getByText('Market data may be delayed.').compareDocumentPosition(sourceFooter)).toBe(
+      Node.DOCUMENT_POSITION_FOLLOWING,
+    );
     expect(screen.getByText('Market data may be delayed.')).toBeInTheDocument();
     expect(screen.getByRole('img', { name: /NVDA 1d stock price chart/ })).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole('button', { name: '5D' }));
+    expect(await screen.findByText('+$4.50 past 5 days')).toBeInTheDocument();
+    expect(screen.getByText('Tue, Nov 14')).toBeInTheDocument();
     await waitFor(() => {
       expect(fetchStockChart).toHaveBeenLastCalledWith('NVDA', '5d', expect.any(AbortSignal));
     });
