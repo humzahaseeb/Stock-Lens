@@ -26,11 +26,14 @@ the tool while observed, plus an accessibility checklist. Unit tests
 ### Normal scenarios
 | # | Scenario | Steps | Expected result | Pass/Fail | Notes |
 |---|---|---|---|---|---|
-| N1 | Search a known example via the quick-select button | Click "NVIDIA (NVDA)" | Full summary renders with all 7 sections + disclaimer | | |
+| N1 | Search a known example via the quick-select button | Click "NVIDIA (NVDA)" | Company, price chart, Business model, Financial health, income statement, Competitive moat, Valuation, bull/bear, analyst ratings/forecast and disclaimer render | | |
 | N2 | Search a known example by typing the ticker | Type `NVDA`, click Analyse | Same summary as N1 | | |
 | N3 | Switch between the two worked examples | View NVDA, then click "Rolls-Royce (RR.L)" | Rolls-Royce summary replaces NVDA's, no stale data left on screen | | |
 | N4 | Read the disclaimer | View any summary | Tester can correctly restate that it's not financial advice, unprompted | | |
-| N5 | Understand data freshness | View any metric | Tester notices/explains the source + date shown next to each figure | | |
+| N5 | Understand data provenance | View live and synthetic sections | Tester can distinguish live/source-dated values from the “Synthetic demo data” footer and explain synthetic figures are not actuals | | |
+| N6 | Change stock-chart range | Select 1D, 5D, 1M, 6M, YTD, 1Y, 5Y and Max | Chart reloads and the price change caption describes the selected range | | |
+| N7 | Switch income-statement period | Select Annual, then Quarterly | Chart bars and period labels update; synthetic source/date appears once in its footer | | |
+| N8 | Learn a financial term | Hover, keyboard-focus, and click a metric info control | A concise definition appears and is accessible without a mouse | | |
 
 ### Edge cases
 | # | Scenario | Steps | Expected result | Pass/Fail | Notes |
@@ -40,7 +43,8 @@ the tool while observed, plus an accessibility checklist. Unit tests
 | E3 | Lowercase / mixed-case ticker | Type `nvda` | Still resolves to NVDA | | |
 | E4 | Invalid characters | Type `NV DA!` | Friendly validation error, not a raw server error | | |
 | E5 | Backend unreachable | Stop the backend, then search | Frontend shows an error message, not an infinite spinner | | |
-| E6 | Field still needs research | View bull/bear case or analyst consensus before you've filled them in | Tester sees an obvious "research needed" notice, not blank/broken content | | |
+| E6 | Live chart unavailable | Block the Yahoo Finance request or disconnect network, then load a chart | Clear chart error appears; no fabricated stock prices are shown | | |
+| E7 | Demo data provenance | View NVDA/RR.L financial health and valuation | “Synthetic demo data” source/date is visible once at each section bottom and tester understands values are illustrative | | |
 
 ## Accessibility checklist (manual, alongside the axe-core automated scan)
 - [ ] Full flow completable using keyboard only (Tab/Shift+Tab/Enter), with a visible focus ring at every step

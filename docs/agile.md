@@ -14,22 +14,21 @@ waiting on something outside the repo, e.g. your own analyst research).
 > (e.g. Jira, as noted in the proposal). Take screenshots of your actual board
 > over time for the Agile evidence pack; recreate/import these cards there.
 
-## Backlog (as actually built, in order)
+## Backlog (current implementation status)
 | Card | Status | Notes |
 |---|---|---|
 | Scaffold monorepo (frontend + backend) + API schema | Done | Defined the contract before building either side, to let both proceed independently |
-| Backend: FMP client, manual overrides, unified API route | Done | |
-| Backend: unit tests | Done | 14 tests, each part tested separately |
-| Frontend: search UI + one-page summary components | Done | |
-| Frontend: component tests | Done | 10 tests |
-| Reliability: seed/cache fallback for demo tickers | Done (infra) — pending: run `npm run seed` with a real API key before presenting | |
-| E2E + accessibility tests (Playwright + axe-core) | Done | 5 tests, 0 WCAG violations detected |
+| Backend: FMP/Finnhub clients, Yahoo Finance chart proxy, manual overrides and unified routes | Implemented | Yahoo chart data may be delayed; several worked-example metrics are synthetic fixtures |
+| Frontend: search and structured one-page summary | Implemented | CEO is in Business model; metric definitions are available through info controls |
+| Frontend: stock-price chart | Implemented | 1D–Max ranges, price change and quote stats |
+| Frontend: annual/quarterly income-statement chart | Implemented | Revenue and net income series; NVDA/RR.L chart data is synthetic |
+| Financial health and valuation panels | Implemented | NVDA/RR.L values are synthetic demo data; other tickers use live/seed FMP data where available |
+| Automated unit, component, e2e and accessibility coverage | Tests exist; latest changes not rerun | Recent chart/demo-data changes need regression runs before presenting |
 | Manual/usability test plan | Done (plan) — pending: run with 3 real testers | |
-| Evidence pack docs | Done | this folder |
-| Security hardening pass | Done | see `security/risk-register.md` |
-| Root README / runbook | Done | |
-| Fill in bull/bear case + analyst consensus for both companies | **Pending — your own research** | flagged `needsResearch: true` in the data files |
-| Run manual usability sessions with 3 testers | **Pending — needs real people** | |
+| Evidence-pack documentation | In progress | Docs updated to describe current implementation; attach actual evidence artifacts |
+| Security review/risk register | Documented | Re-check risks and dependency audit before presenting |
+| Two worked examples | Implemented with limitations | NVDA and RR.L; synthetic data is illustrative, not factual company financials |
+| Capture actual Agile board screenshots and complete retrospective | **Pending — needs owner input** | Do not invent board history or retrospective findings |
 
 ## How I planned, tracked and adapted
 - Pulled one card at a time, smallest-safe-step order (schema → backend →
@@ -37,11 +36,11 @@ waiting on something outside the repo, e.g. your own analyst research).
   testable increment rather than a big-bang integration at the end.
 - Adapted scope: analyst consensus/price targets were originally assumed
   available from the free API; once that looked risky in practice, the card
-  was split so the architecture change (manual override + "needs research"
-  flag) happened immediately rather than being discovered late.
+  was split between sourced live data, user-provided data, and synthetic demo
+  fixtures. Synthetic metrics remain illustrative and must not be presented as
+  actual company results.
 
 ## Retrospective (fill in after the build week)
-- What worked well:
-- What didn't:
-- What I'd do differently with more time: (this feeds proposal/presentation
-  section "With more time…")
+- What worked well: _Fill in from your own experience._
+- What didn't: _Fill in from your own experience._
+- What I'd do differently with more time: _Fill in from your own experience._

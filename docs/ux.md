@@ -11,15 +11,16 @@ typical UX methods (wireframing alone isn't enough — this covers more).
    guaranteed-working path, per the proposal's "two worked examples" deliverable.
 3. See a loading state (`aria-live` region announces "Loading…") — no silent
    waiting.
-4. Land on a single scrollable page with a fixed section order: business
-   model → financial health → moat → valuation → bull case → bear case →
-   analyst consensus. Same order every time, so repeat use builds familiarity
-   (the proposal's "Consistency" benefit).
-5. Every figure shows its source + date inline, right next to the value —
-   not hidden in a tooltip/footnote, so trust-checking needs zero extra clicks.
-6. Fields not yet researched show an explicit amber "research needed" notice
-   instead of blank space or fabricated content — honest incompleteness
-   rather than a misleading-looking page.
+4. See a Yahoo Finance stock-price chart with 1D–Max range controls, quote
+   statistics, a timestamp, and a disclosure that the public feed may be delayed.
+5. Continue through the fixed one-page sections: Business model (CEO appears
+   above the business description), Financial health, annual/quarterly income
+   statement, Competitive moat, Valuation, Bull case, Bear case, and analyst
+   ratings/12-month forecast.
+6. Live metric rows include source/date; synthetic worked-example sections show
+   one “Synthetic demo data” source/date footer. These values are illustrative,
+   not actual reported financials or analyst data.
+7. Missing live chart data shows an error state rather than a fabricated price.
 
 _(Attach your own rough sketches / wireframe photos or a Miro export here —
 a scanned napkin sketch of the section order counts.)_
@@ -29,21 +30,23 @@ a scanned napkin sketch of the section order counts.)_
 - **Rapid prototyping** — the working app itself iterated in small steps
   (search → one metric → full sections → polish), rather than a static mockup
   first.
-- **Usability testing** — see `docs/manual-test-plan.md`: 3 testers, observed,
-  timed, with a fixed task prompt.
+- **Usability testing plan** — see `docs/manual-test-plan.md` for the 3-tester
+  prompt and results sheets. The sessions still need to be run and recorded;
+  do not describe them as completed before then.
 - **Accessibility as a design method, not an afterthought** — semantic
   headings per section (`<h2>` per section, labelled via `aria-labelledby`),
   a single `<dl>` for metrics (so screen readers get label/value pairs), a
   visible focus ring on every interactive element, and an automated axe-core
-  scan in CI (`e2e/tests/accessibility.spec.js`) with 0 violations found.
+  scan (`e2e/tests/accessibility.spec.js`). The last recorded scan found 0
+  violations before recent chart/tooltip changes; rerun it on the current UI.
 
 ## UI patterns / decisions
-- Minimal, single-column layout — "highlight the most important info first,
-  keep things minimal" (your own stated design principle). No navigation
-  chrome, no decorative imagery competing with the data.
+- Minimal, single-column summary with a compact stock chart and expandable
+  metric definitions — supports learning without adding navigation or hiding
+  the research sections.
 - **Dark theme** by deliberate choice: card-based sections on a near-black
-  background (`frontend/src/index.css`) reduce visual noise across a 7-section
-  page and make source/date metadata recede appropriately while content pops.
+  background (`frontend/src/index.css`) provides consistent cards across the
+  research sections and charts.
   Colour tokens (positive/negative/neutral/info) are reused consistently for
   the analyst-rating pill, auto-generated-data banner, and research-needed
   banner, so colour carries meaning predictably across the whole page.
@@ -52,9 +55,8 @@ a scanned napkin sketch of the section order counts.)_
   (rgba) backgrounds were deliberately avoided in favour of solid colours,
   since translucency over a gradient page background made contrast
   unreliable to compute (and to guarantee) in the first version of this theme.
-- Colour is never the only signal: the "research needed" notice uses an
-  icon (⚠) + text + a `role="status"`, the auto-generated notice uses 🤖 + a
-  `role="status"`, not just a background colour.
+- Colour is never the only signal: notices include text and status roles, and
+  metric explanations have keyboard-focusable and clickable info controls.
 - Errors (`role="alert"`) and loading state (`aria-live="polite"`) are
   programmatically announced, not just visually shown.
 - Universal UX principle applied: progressive disclosure isn't used here —
@@ -64,5 +66,5 @@ a scanned napkin sketch of the section order counts.)_
 ## Across platforms
 The layout is a single responsive column with no fixed pixel widths, so it
 reflows on narrow (mobile) and wide (desktop) viewports without a separate
-mobile design; verify this manually and note any issues found before
-presenting.
+mobile design. Verify it manually at narrow widths and 200% zoom before
+presenting and record any issues found.
