@@ -73,6 +73,7 @@ user can judge how fresh it is — this is the core trust mechanism of the produ
       { "label": "Forward P/E", "value": "19.8", "source": "Synthetic demo data", "asOf": "2026-11-09" },
       { "label": "EV / EBITDA", "value": "21.3", "source": "Synthetic demo data", "asOf": "2026-11-09" },
       { "label": "EPS (TTM)", "value": "$7.91", "source": "Synthetic demo data", "asOf": "2026-11-09" },
+      { "label": "Quarterly dividend", "value": "$0.25", "source": "Synthetic demo data", "asOf": "2026-11-09" },
       { "label": "Market cap", "value": "USD 4.30T", "source": "Synthetic demo data", "asOf": "2026-11-09" }
     ],
     "demoData": true,
@@ -129,17 +130,17 @@ user can judge how fresh it is — this is the core trust mechanism of the produ
 | Section | Source | Notes |
 |---|---|---|
 | `ceo` | **Financial Modeling Prep** (company profile) | Sent as a top-level field for the company header; `ceoSource` and `ceoAsOf` identify its provenance. Requires a successful live FMP response or a seeded snapshot. |
-| `marketCap` | **FMP live/seed or labeled synthetic overrides** | Sent as a top-level, formatted value for the company header and also remains in `valuation.metrics`; NVDA and RR.L demo overrides use the same synthetic value in both places. |
-| `peRatio`, `eps`, `quarterlyDividend` | **Manual company override or seeded snapshot** | Optional company facts shown in the header when present; currently set for NVIDIA in `backend/src/data/overrides/NVDA.json`. |
+| `marketCap` | **FMP live/seed or labeled synthetic overrides** | Sent as a top-level, formatted value and also shown in `valuation.metrics`; NVDA and RR.L demo overrides use the same synthetic value in both places. |
+| `peRatio`, `eps`, `quarterlyDividend` | **Manual company override or seeded snapshot** | Optional top-level values retained in the API; the page displays the corresponding metrics in the Valuation section instead of duplicating them beside the CEO. |
 | `financialHealth` | **FMP live/seed or labeled synthetic overrides** | NVDA and RR.L use explicitly flagged synthetic demo metrics. For other symbols, FMP supplies revenue, net profit margin, debt/equity, current ratio, and trailing free cash flow summed from the latest four quarterly cash-flow statements. If FCF is unavailable, a note is surfaced rather than fabricating it. |
-| `financialHealth.demoData`, `demoNote` | **Synthetic NVDA/RR.L metrics** | `demoData: true` triggers a prominent warning in the Financial health card. |
+| `financialHealth.demoData`, `demoNote` | **Synthetic NVDA/RR.L metrics** | `demoData: true` groups the synthetic source/date into a single footer at the bottom of Financial health. |
 | `financialHealth.note` | **Optional FMP error detail** | Explains why free cash flow could not be fetched when no existing/seeded FCF metric is available. |
 | `financialHealthSource` | **Financial health provenance** | Reports `live`, `seed-cache`, `unavailable`, or `demo-data` independently of valuation's `financialsSource`. |
 | `valuation` | **FMP live/seed or labeled synthetic overrides** | NVDA and RR.L use explicitly flagged synthetic demo values, including Forward P/E and EV / EBITDA. Other tickers use FMP price, P/E (TTM), EPS, market cap, Forward P/E when present in the quote, and EV / EBITDA from `enterpriseValueMultiple`. Missing ratios are omitted with an explanatory note, not estimated. |
-| `valuation.demoData`, `demoNote` | **Synthetic NVDA/RR.L metrics** | `demoData: true` triggers a prominent warning in the Valuation card. |
+| `valuation.demoData`, `demoNote` | **Synthetic NVDA/RR.L metrics** | `demoData: true` groups the synthetic source/date into a single footer at the bottom of Valuation. |
 | `valuationSource` | **Valuation provenance** | Reports `live`, `seed-cache`, `unavailable`, or `demo-data` independently of the broader financials source. |
 | `incomeStatements.annual`, `incomeStatements.quarterly` | **FMP live/seed or labeled synthetic overrides** | Requests up to five annual and four quarterly statements; each period can fall back to a seeded snapshot. NVDA and RR.L use explicitly flagged synthetic override data for the demo. API failures are surfaced in that period's `error` field. |
-| `incomeStatements.*.demoData`, `demoNote` | **Synthetic NVDA/RR.L chart data** | `demoData: true` triggers a prominent warning in the chart; figures are not real financial results. |
+| `incomeStatements.*.demoData`, `demoNote` | **Synthetic NVDA/RR.L chart data** | Marks the figures as synthetic in the response; the chart shows the source and date in its footer. |
 | `analystConsensus` | **Manual override or Finnhub** (live, free tier — `/stock/recommendation`) | NVDA uses the analyst counts supplied in the Google Finance screenshot; RR.L uses explicitly labeled synthetic demo data. Curated overrides take precedence over live data. Otherwise, ratings are derived from Finnhub's buy/hold/sell/strongBuy/strongSell counts. **Free-tier coverage is US-market-focused** — for `RR.L`, Finnhub is queried using the US ADR `RYCEY` when no curated override applies. `consensusSource` reports `manual-override` or `demo-data` accordingly. |
 | `analystConsensus.demoData`, `demoNote` | **Synthetic RR.L demo fixture** | `demoData: true` triggers a prominent UI warning; synthetic consensus is not used to derive bull/bear analysis. |
 | `analystConsensus.priceTarget12m` | **Manual override for NVDA; synthetic demo value for RR.L; no free automated API verified** | NVDA's 12-month targets are entered from the user-provided Google Finance screenshot. RR.L's targets are fabricated only for UI demonstration and carry a prominent warning; they are excluded from generated bull/bear analysis. Other symbols remain unavailable unless verified target data is added. Finnhub's `/stock/price-target` endpoint requires a paid plan. |

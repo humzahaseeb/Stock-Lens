@@ -267,7 +267,6 @@ input:focus-visible {
   vertical-align: middle;
 }
 
-.generated-at,
 .data-badge {
   color: var(--muted);
   font-size: 0.85rem;
@@ -305,12 +304,6 @@ input:focus-visible {
   font-weight: 400;
 }
 
-.facts-unavailable {
-  color: var(--muted);
-  font-size: 0.82rem;
-  margin: 0.35rem 0 0;
-}
-
 .data-badge {
   color: var(--neutral);
 }
@@ -342,26 +335,6 @@ input:focus-visible {
 .income-statement-header h2 {
   margin: 0;
   font-size: 1.2rem;
-}
-
-.income-demo-warning {
-  margin: 0.8rem 0 0;
-  padding: 0.65rem 0.8rem;
-  color: var(--disclaimer-text);
-  background: var(--disclaimer-bg);
-  border: 1px solid var(--disclaimer-border);
-  border-radius: 8px;
-  font-size: 0.84rem;
-}
-
-.metric-demo-warning {
-  margin: 0.6rem 0 0.85rem;
-  padding: 0.65rem 0.8rem;
-  color: var(--disclaimer-text);
-  background: var(--disclaimer-bg);
-  border: 1px solid var(--disclaimer-border);
-  border-radius: 8px;
-  font-size: 0.84rem;
 }
 
 .period-switch {
@@ -853,9 +826,76 @@ input:focus-visible {
 }
 
 .metric-list dt {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
   font-weight: 600;
   color: var(--muted);
   align-self: baseline;
+}
+
+.metric-term-help {
+  position: relative;
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+}
+
+.metric-term-help button {
+  display: inline-grid;
+  width: 1.05rem;
+  height: 1.05rem;
+  place-items: center;
+  padding: 0;
+  color: var(--muted);
+  background: var(--bg-elevated-2);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  font: inherit;
+  font-size: 0.7rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.metric-term-help button:hover,
+.metric-term-help button:focus-visible {
+  color: var(--text);
+  border-color: var(--accent);
+}
+
+.metric-term-help button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.metric-tooltip {
+  position: absolute;
+  z-index: 20;
+  bottom: calc(100% + 0.55rem);
+  left: 0;
+  width: min(17rem, calc(100vw - 2rem));
+  padding: 0.7rem 0.8rem;
+  color: var(--text);
+  background: var(--bg-elevated-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: var(--shadow-card);
+  font-size: 0.78rem;
+  font-weight: 400;
+  line-height: 1.4;
+  text-align: left;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 120ms ease;
+}
+
+.metric-term-help:hover .metric-tooltip,
+.metric-term-help:focus-within .metric-tooltip,
+.metric-term-help.is-open .metric-tooltip {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .metric-list dd {

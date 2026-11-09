@@ -96,6 +96,7 @@ describe('GET /api/company/:ticker', () => {
     expect(res.body.marketCapSource).toBe('Synthetic demo data');
     expect(res.body.valuation.metrics.find((metric) => metric.label === 'Forward P/E').value).toBe('19.8');
     expect(res.body.valuation.metrics.find((metric) => metric.label === 'EV / EBITDA').value).toBe('21.3');
+    expect(res.body.valuation.metrics.find((metric) => metric.label === 'Quarterly dividend').value).toBe('$0.25');
     expect(res.body.incomeStatements.annual.demoData).toBe(true);
     expect(res.body.incomeStatements.annual.data[0].fiscalYear).toBe('2022');
     // Real metrics were present (which would normally auto-derive bull/bear),
@@ -236,5 +237,6 @@ describe('GET /api/company/:ticker', () => {
     expect(res.body.valuation.demoData).toBe(true);
     expect(res.body.valuation.metrics.find((metric) => metric.label === 'Forward P/E').value).toBe('29.8');
     expect(res.body.valuation.metrics.find((metric) => metric.label === 'EV / EBITDA').value).toBe('16.4');
+    expect(res.body.valuation.metrics.find((metric) => metric.label === 'Quarterly dividend').value).toBe('£0.05');
   });
 });

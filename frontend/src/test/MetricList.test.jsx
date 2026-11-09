@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import MetricList from '../components/MetricList.jsx';
 
 describe('MetricList', () => {
@@ -33,7 +33,7 @@ describe('MetricList', () => {
     expect(screen.getByRole('status')).toHaveTextContent(/Free cash flow \(TTM\) is unavailable/);
   });
 
-  it('clearly warns when the financial metrics are synthetic', () => {
+  it('shows synthetic source and date once at the bottom of the section', () => {
     render(
       <MetricList
         title="Financial health"
@@ -42,13 +42,26 @@ describe('MetricList', () => {
           { label: 'Debt / Equity', value: '0.35', source: 'Synthetic demo data', asOf: '2026-11-09' },
         ]}
         demoData
-        demoNote="Fabricated demo values only."
       />,
     );
-    expect(screen.getByText('DEMO DATA:')).toBeInTheDocument();
-    expect(screen.getByText('Fabricated demo values only.')).toBeInTheDocument();
+    expect(screen.queryByText('DEMO DATA:')).not.toBeInTheDocument();
     const sourceFooter = screen.getByText('Synthetic demo data, 2026-11-09');
     expect(sourceFooter).toHaveClass('metric-source-footer');
     expect(screen.getAllByText('Synthetic demo data, 2026-11-09')).toHaveLength(1);
+  });
+
+  it('explains metric terminology through a clickable info control', () => {
+    render(
+      <MetricList
+        title="Valuation"
+        metrics={[{ label: 'P/E (TTM)', value: '22.54', source: 'FMP', asOf: '2026-11-09' }]}
+      />,
+    );
+
+    const helpButton = screen.getByRole('button', { name: 'Explain P/E (TTM)' });
+    expect(helpButton).toHaveAttribute('aria-expanded', 'false');
+    fireEvent.click(helpButton);
+    expect(helpButton).toHaveAttribute('aria-expanded', 'true');
+    expect(screen.getByRole('tooltip')).toHaveTextContent(/share price divided by earnings per share/i);
   });
 });

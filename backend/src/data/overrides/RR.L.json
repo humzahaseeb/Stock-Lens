@@ -88,6 +88,7 @@
       { "label": "Forward P/E", "value": "29.8", "source": "Synthetic demo data", "asOf": "2026-11-09" },
       { "label": "EV / EBITDA", "value": "16.4", "source": "Synthetic demo data", "asOf": "2026-11-09" },
       { "label": "EPS (TTM)", "value": "£0.42", "source": "Synthetic demo data", "asOf": "2026-11-09" },
+      { "label": "Quarterly dividend", "value": "£0.05", "source": "Synthetic demo data", "asOf": "2026-11-09" },
       { "label": "Market cap", "value": "GBP 15.3B", "source": "Synthetic demo data", "asOf": "2026-11-09" }
     ],
     "demoData": true,

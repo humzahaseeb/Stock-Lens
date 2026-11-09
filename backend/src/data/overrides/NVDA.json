@@ -85,6 +85,7 @@
       { "label": "Forward P/E", "value": "19.8", "source": "Synthetic demo data", "asOf": "2026-11-09" },
       { "label": "EV / EBITDA", "value": "21.3", "source": "Synthetic demo data", "asOf": "2026-11-09" },
       { "label": "EPS (TTM)", "value": "$7.91", "source": "Synthetic demo data", "asOf": "2026-11-09" },
+      { "label": "Quarterly dividend", "value": "$0.25", "source": "Synthetic demo data", "asOf": "2026-11-09" },
       { "label": "Market cap", "value": "USD 4.30T", "source": "Synthetic demo data", "asOf": "2026-11-09" }
     ],
     "demoData": true,

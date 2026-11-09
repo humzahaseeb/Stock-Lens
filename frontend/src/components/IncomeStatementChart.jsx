@@ -39,13 +39,6 @@ export default function IncomeStatementChart({ ticker, incomeStatements }) {
         </div>
       </div>
 
-      {statement?.demoData && (
-        <p className="income-demo-warning" role="status">
-          <strong>DEMO DATA:</strong>{' '}
-          {statement.demoNote || 'Illustrative only — not actual reported financial results.'}
-        </p>
-      )}
-
       <div className="income-legend" role="list" aria-label="Chart series">
         {series.map((item) => (
           <span key={item.key} role="listitem">

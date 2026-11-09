@@ -49,7 +49,7 @@ describe('IncomeStatementChart', () => {
     expect(screen.getByRole('status')).toHaveTextContent(/FMP_API_KEY is not set/);
   });
 
-  it('marks fabricated statements as demo data', () => {
+  it('shows the synthetic source and date without a repeated banner', () => {
     render(
       <IncomeStatementChart
         ticker="RR.L"
@@ -67,7 +67,8 @@ describe('IncomeStatementChart', () => {
       />,
     );
 
-    expect(screen.getByText('DEMO DATA:')).toBeInTheDocument();
-    expect(screen.getByText('Fabricated for a UI demo only.')).toBeInTheDocument();
+    expect(screen.queryByText('DEMO DATA:')).not.toBeInTheDocument();
+    expect(screen.getByText(/Source: Synthetic demo data/)).toBeInTheDocument();
+    expect(screen.getByText(/2026-11-09/)).toBeInTheDocument();
   });
 });

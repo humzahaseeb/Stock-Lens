@@ -5,8 +5,6 @@ import AnalystForecastCards from './AnalystForecastCards.jsx';
 import IncomeStatementChart from './IncomeStatementChart.jsx';
 
 export default function CompanySummary({ data }) {
-  const generated = data.generatedAt ? new Date(data.generatedAt).toLocaleString() : null;
-
   return (
     <article className="company-summary">
       <DisclaimerBanner text={data.disclaimer} />
@@ -15,7 +13,6 @@ export default function CompanySummary({ data }) {
         <h1>
           {data.name} <span className="ticker-badge">{data.ticker}</span>
         </h1>
-        {generated && <p className="generated-at">Summary generated {generated}</p>}
         <dl className="company-facts">
           <div>
             <dt>CEO</dt>
@@ -29,38 +26,7 @@ export default function CompanySummary({ data }) {
               )}
             </dd>
           </div>
-          <div>
-            <dt>Market cap</dt>
-            <dd>
-              {data.marketCap ? `${data.marketCap} ${data.marketCapCurrency || ''}`.trim() : 'Unavailable'}
-              {data.marketCapSource && (
-                <span className="fact-source">
-                  {data.marketCapSource}
-                  {data.marketCapAsOf ? ` · ${data.marketCapAsOf}` : ''}
-                </span>
-              )}
-            </dd>
-          </div>
         </dl>
-        <dl className="company-facts company-facts-secondary">
-          <div>
-            <dt>P/E ratio</dt>
-            <dd>{data.peRatio || 'Unavailable'}</dd>
-          </div>
-          <div>
-            <dt>EPS</dt>
-            <dd>{data.eps || 'Unavailable'}</dd>
-          </div>
-          <div>
-            <dt>Quarterly dividend</dt>
-            <dd>{data.quarterlyDividend || 'Unavailable'}</dd>
-          </div>
-        </dl>
-        {(!data.ceo || !data.marketCap) && (
-          <p className="facts-unavailable">
-            Missing company facts require a live FMP response or a seeded data snapshot.
-          </p>
-        )}
         {data.financialsSource === 'seed-cache' && (
           <p className="data-badge" role="status">
             📌 Showing a pinned data snapshot (live data temporarily unavailable).
@@ -76,7 +42,6 @@ export default function CompanySummary({ data }) {
           metrics={data.financialHealth?.metrics}
           note={data.financialHealth?.note}
           demoData={data.financialHealth?.demoData}
-          demoNote={data.financialHealth?.demoNote}
         />
         <IncomeStatementChart ticker={data.ticker} incomeStatements={data.incomeStatements} />
         <NarrativeCard title="Competitive moat" icon="🛡️" section={data.competitiveMoat} />
@@ -86,7 +51,6 @@ export default function CompanySummary({ data }) {
           metrics={data.valuation?.metrics}
           note={data.valuation?.note}
           demoData={data.valuation?.demoData}
-          demoNote={data.valuation?.demoNote}
         />
         <NarrativeCard title="Bull case" icon="📈" section={data.bullCase} />
         <NarrativeCard title="Bear case" icon="📉" section={data.bearCase} />

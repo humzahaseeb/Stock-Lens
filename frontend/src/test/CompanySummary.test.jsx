@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import CompanySummary from '../components/CompanySummary.jsx';
 
 const sampleData = {
@@ -21,7 +21,17 @@ const sampleData = {
   businessModel: { summary: 'Sells GPUs.', source: 'NVIDIA IR', asOf: '2026-11-01' },
   financialHealth: { metrics: [{ label: 'Net margin', value: '55%', source: 'FMP', asOf: '2026-11-09' }] },
   competitiveMoat: { summary: 'CUDA ecosystem.', source: 'Analyst notes', asOf: '2026-11-01' },
-  valuation: { metrics: [{ label: 'P/E (TTM)', value: '45.2', source: 'FMP', asOf: '2026-11-09' }] },
+  valuation: {
+    metrics: [
+      { label: 'Price', value: '$178.30', source: 'FMP', asOf: '2026-11-09' },
+      { label: 'P/E (TTM)', value: '22.54', source: 'FMP', asOf: '2026-11-09' },
+      { label: 'Forward P/E', value: '19.8', source: 'FMP', asOf: '2026-11-09' },
+      { label: 'EV / EBITDA', value: '21.3', source: 'FMP', asOf: '2026-11-09' },
+      { label: 'EPS (TTM)', value: '$7.91', source: 'FMP', asOf: '2026-11-09' },
+      { label: 'Quarterly dividend', value: '$0.25', source: 'FMP', asOf: '2026-11-09' },
+      { label: 'Market cap', value: '3T USD', source: 'FMP', asOf: '2026-11-09' },
+    ],
+  },
   bullCase: { needsResearch: true, researchNote: 'Add your bull case.' },
   bearCase: { needsResearch: true, researchNote: 'Add your bear case.' },
   analystConsensus: { needsResearch: true, researchNote: 'Add consensus data.' },
@@ -34,10 +44,14 @@ describe('CompanySummary', () => {
     expect(screen.getByRole('heading', { name: /NVIDIA Corporation/ })).toBeInTheDocument();
     expect(screen.getByText('NVDA')).toBeInTheDocument();
     expect(screen.getByText('Jensen Huang')).toBeInTheDocument();
-    expect(screen.getByText('3T USD')).toBeInTheDocument();
-    expect(screen.getByText('22.54')).toBeInTheDocument();
-    expect(screen.getByText('$7.91')).toBeInTheDocument();
-    expect(screen.getByText('$0.25')).toBeInTheDocument();
+    expect(screen.queryByText(/Summary generated/)).not.toBeInTheDocument();
+    const companyHeader = screen.getByRole('heading', { name: /NVIDIA Corporation/ }).closest('header');
+    expect(within(companyHeader).queryByText('3T USD')).not.toBeInTheDocument();
+    expect(within(companyHeader).queryByText('22.54')).not.toBeInTheDocument();
+    const valuationSection = screen.getByRole('region', { name: 'Valuation' });
+    expect(within(valuationSection).getByText('3T USD')).toBeInTheDocument();
+    expect(within(valuationSection).getByText('$7.91')).toBeInTheDocument();
+    expect(within(valuationSection).getByText('$0.25')).toBeInTheDocument();
 
     for (const heading of [
       'Business model',
