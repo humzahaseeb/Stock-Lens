@@ -1,0 +1,39 @@
+{
+  "ticker": "RR.L",
+  "name": "Rolls-Royce Holdings plc",
+  "businessModel": {
+    "summary": "Rolls-Royce designs and manufactures engines and power systems across three divisions: Civil Aerospace (large engines for wide-body aircraft, with revenue from both engine sales and long-term \"TotalCare\" maintenance service contracts billed per flying hour), Defence (military aero-engines and systems), and Power Systems (engines/generators for marine, data centre backup, and industrial use).",
+    "source": "Rolls-Royce Holdings plc Annual Report — business overview (https://www.rolls-royce.com/investors.aspx)",
+    "asOf": "2026-11-01",
+    "aiAssisted": true
+  },
+  "competitiveMoat": {
+    "summary": "Wide-body jet engines are a duopoly/triopoly market (Rolls-Royce, GE/CFM, Pratt & Whitney) with very high certification and switching costs; long-life service contracts (installed base of engines already flying) create decades of recurring aftermarket revenue, though programme execution and input cost risk can hurt margins.",
+    "source": "Rolls-Royce Annual Report / public analyst commentary — verify against the latest filing",
+    "asOf": "2026-11-01",
+    "aiAssisted": true
+  },
+  "bullCase": {
+    "points": "TODO_RESEARCH_REQUIRED",
+    "source": null,
+    "asOf": null,
+    "needsResearch": true,
+    "researchNote": "Write 2-4 bullet points on why the stock could do well (e.g. turnaround progress, widebody flying hours recovery, defence demand), with your own source(s) and date."
+  },
+  "bearCase": {
+    "points": "TODO_RESEARCH_REQUIRED",
+    "source": null,
+    "asOf": null,
+    "needsResearch": true,
+    "researchNote": "Write 2-4 bullet points on the key risks (e.g. execution risk, input costs, aerospace cycle), with your own source(s) and date."
+  },
+  "analystConsensus": {
+    "rating": "TODO_RESEARCH_REQUIRED",
+    "priceTarget12m": "TODO_RESEARCH_REQUIRED",
+    "currency": "GBP",
+    "source": null,
+    "asOf": null,
+    "needsResearch": true,
+    "researchNote": "Check a consensus source (e.g. your broker, MarketWatch, WSJ, or a tool from the TOOLS slide) for the current average analyst rating and 12-month price target. Record the exact source URL and the date you checked it."
+  }
+}

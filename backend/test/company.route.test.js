@@ -1,0 +1,72 @@
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import request from 'supertest';
+import { createApp } from '../src/app.js';
+import { clearCache } from '../src/lib/cache.js';
+
+const app = createApp();
+
+describe('GET /api/health', () => {
+  it('returns ok', async () => {
+    const res = await request(app).get('/api/health');
+    expect(res.status).toBe(200);
+    expect(res.body).toEqual({ ok: true });
+  });
+});
+
+describe('GET /api/company/:ticker', () => {
+  beforeEach(() => {
+    clearCache();
+    delete process.env.FMP_API_KEY;
+    vi.restoreAllMocks();
+  });
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
+  it('rejects an invalid ticker', async () => {
+    const res = await request(app).get('/api/company/not valid!');
+    expect(res.status).toBe(400);
+    expect(res.body.error).toMatch(/Invalid ticker/);
+  });
+
+  it('returns 404 for a ticker with no live data, seed cache, or overrides', async () => {
+    const res = await request(app).get('/api/company/ZZZZ');
+    expect(res.status).toBe(404);
+  });
+
+  it('falls back to overrides-only data when live FMP is unavailable (no API key)', async () => {
+    const res = await request(app).get('/api/company/NVDA');
+    expect(res.status).toBe(200);
+    expect(res.body.ticker).toBe('NVDA');
+    expect(res.body.financialsSource).toBe('unavailable');
+    expect(res.body.businessModel.summary).toMatch(/GPU/i);
+    expect(res.body.analystConsensus.needsResearch).toBe(true);
+    expect(res.body.disclaimer).toMatch(/not financial advice/i);
+  });
+
+  it('merges live FMP metrics with override narrative data when a key is present', async () => {
+    process.env.FMP_API_KEY = 'test-key';
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (url) => {
+        if (url.includes('/profile/')) return { ok: true, json: async () => [{ companyName: 'NVIDIA Corporation' }] };
+        if (url.includes('/quote/')) return { ok: true, json: async () => [{ price: 120, pe: 45, eps: 2.6, marketCap: 3e12 }] };
+        if (url.includes('/ratios/')) return { ok: true, json: async () => [{ netProfitMargin: 0.5, debtEquityRatio: 0.3, currentRatio: 4 }] };
+        throw new Error(`unexpected ${url}`);
+      }),
+    );
+
+    const res = await request(app).get('/api/company/NVDA');
+    expect(res.status).toBe(200);
+    expect(res.body.financialsSource).toBe('live');
+    expect(res.body.valuation.metrics.length).toBeGreaterThan(0);
+    expect(res.body.businessModel.summary).toMatch(/GPU/i);
+  });
+
+  it('returns Rolls-Royce overrides for ticker RR.L', async () => {
+    const res = await request(app).get('/api/company/RR.L');
+    expect(res.status).toBe(200);
+    expect(res.body.name).toBe('Rolls-Royce Holdings plc');
+    expect(res.body.businessModel.summary).toMatch(/engines/i);
+  });
+});

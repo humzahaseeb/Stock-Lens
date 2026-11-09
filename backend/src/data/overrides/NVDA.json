@@ -1,0 +1,39 @@
+{
+  "ticker": "NVDA",
+  "name": "NVIDIA Corporation",
+  "businessModel": {
+    "summary": "NVIDIA designs GPUs (graphics processing units) and sells them along with its CUDA software platform. Its biggest growth driver is the Data Center segment, selling AI accelerator chips and systems to cloud providers and enterprises; it also sells gaming GPUs, professional visualization hardware, and automotive compute platforms.",
+    "source": "NVIDIA Investor Relations — company overview / 10-K business description (https://investor.nvidia.com)",
+    "asOf": "2026-11-01",
+    "aiAssisted": true
+  },
+  "competitiveMoat": {
+    "summary": "CUDA's software/developer ecosystem creates high switching costs once customers build on it; leading-edge chip performance and a broad software+hardware+networking stack (after acquiring Mellanox) make NVIDIA hard to displace in AI infrastructure, though hyperscaler in-house chips and AMD are rising competitive pressure.",
+    "source": "NVIDIA 10-K risk factors / public analyst commentary — verify against the latest filing",
+    "asOf": "2026-11-01",
+    "aiAssisted": true
+  },
+  "bullCase": {
+    "points": "TODO_RESEARCH_REQUIRED",
+    "source": null,
+    "asOf": null,
+    "needsResearch": true,
+    "researchNote": "Write 2-4 bullet points on why the stock could do well, based on your own reading of recent earnings calls / analyst notes. Cite the specific article(s) and the date you read them."
+  },
+  "bearCase": {
+    "points": "TODO_RESEARCH_REQUIRED",
+    "source": null,
+    "asOf": null,
+    "needsResearch": true,
+    "researchNote": "Write 2-4 bullet points on the key risks (e.g. competition, customer concentration, valuation, export restrictions), with your own source(s) and date."
+  },
+  "analystConsensus": {
+    "rating": "TODO_RESEARCH_REQUIRED",
+    "priceTarget12m": "TODO_RESEARCH_REQUIRED",
+    "currency": "USD",
+    "source": null,
+    "asOf": null,
+    "needsResearch": true,
+    "researchNote": "Check a consensus source (e.g. your broker, MarketWatch, WSJ, or a tool from the TOOLS slide) for the current average analyst rating and 12-month price target. Record the exact source URL and the date you checked it — this is the single most important 'sourced and dated' figure in the whole tool."
+  }
+}
