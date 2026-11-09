@@ -1,7 +1,7 @@
 # Pinning live data for the two worked examples
 
-Stock Lens fetches most of its data live from two free APIs:
-- **Financial Modeling Prep (FMP)** — financial health + valuation metrics
+Stock Lens fetches most of its data live from two APIs:
+- **Financial Modeling Prep (FMP)** — financial health (including trailing free cash flow), valuation, and annual/quarterly income statements
 - **Finnhub** — analyst recommendation trends (consensus rating) + insider sentiment
 
 So the NVDA / Rolls-Royce (RR.L) demo still works reliably in front of judges
@@ -25,6 +25,9 @@ FMP_API_KEY=your-fmp-key FINNHUB_API_KEY=your-finnhub-key npm run seed
 
 This writes `NVDA.json` and `RR.L.json` with live figures and today's date.
 Commit those two files so the fallback snapshot ships with the repo.
+The income-statement charts, Financial health panels, and Valuation cards for
+these two demos currently use explicitly labeled synthetic overrides instead
+of seeded statements or metrics.
 
 ## A real limitation worth knowing about: RR.L and Finnhub
 Finnhub's free tier is US-market-focused. Rolls-Royce trades primarily on the

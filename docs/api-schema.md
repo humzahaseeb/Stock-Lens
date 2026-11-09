@@ -12,15 +12,17 @@ user can judge how fresh it is — this is the core trust mechanism of the produ
   "ceo": "Jensen Huang",
   "ceoSource": "Financial Modeling Prep (company profile)",
   "ceoAsOf": "2026-11-09",
-  "marketCap": "3T",
+  "marketCap": "4.30T",
   "marketCapCurrency": "USD",
-  "marketCapSource": "Financial Modeling Prep (quote)",
+  "marketCapSource": "Synthetic demo data",
   "marketCapAsOf": "2026-11-09",
   "peRatio": "22.54",
   "eps": "$7.91",
   "quarterlyDividend": "$0.25",
   "generatedAt": "2026-11-09T12:00:00.000Z",
   "financialsSource": "live",   // 'live' | 'seed-cache' | 'unavailable'
+  "financialHealthSource": "demo-data", // 'live' | 'seed-cache' | 'unavailable' | 'demo-data'
+  "valuationSource": "demo-data", // 'live' | 'seed-cache' | 'unavailable' | 'demo-data'
   "consensusSource": "manual-override", // 'live' | 'seed-cache' | 'unavailable' | 'manual-override' | 'demo-data'
 
   "businessModel": {
@@ -31,9 +33,31 @@ user can judge how fresh it is — this is the core trust mechanism of the produ
 
   "financialHealth": {
     "metrics": [
-      { "label": "Net profit margin", "value": "...", "source": "Financial Modeling Prep", "asOf": "2026-11-09" },
-      { "label": "Debt / Equity", "value": "...", "source": "Financial Modeling Prep", "asOf": "2026-11-09" }
-    ]
+      { "label": "Revenue (TTM)", "value": "USD 230B", "source": "Synthetic demo data", "asOf": "2026-11-09" },
+      { "label": "Net profit margin", "value": "55.7%", "source": "Synthetic demo data", "asOf": "2026-11-09" },
+      { "label": "Debt / Equity", "value": "0.35", "source": "Synthetic demo data", "asOf": "2026-11-09" },
+      { "label": "Current ratio", "value": "4.0", "source": "Synthetic demo data", "asOf": "2026-11-09" },
+      { "label": "Free cash flow (TTM)", "value": "USD 110B", "source": "Synthetic demo data", "asOf": "2026-11-09" }
+    ],
+    "demoData": true,
+    "demoNote": "Illustrative, fabricated financial-health metrics for UI demonstration only."
+  },
+
+  "incomeStatements": {
+    "annual": {
+      "data": [{ "date": "YYYY-MM-DD", "fiscalYear": "YYYY", "period": "FY", "revenue": 0, "netIncome": 0, "reportedCurrency": "USD" }],
+      "source": "Synthetic demo data",
+      "asOf": "2026-11-09",
+      "demoData": true,
+      "demoNote": "Illustrative, fabricated financial figures for UI demonstration only."
+    },
+    "quarterly": {
+      "data": [{ "date": "YYYY-MM-DD", "fiscalYear": "YYYY", "period": "Q1", "revenue": 0, "netIncome": 0, "reportedCurrency": "USD" }],
+      "source": "Synthetic demo data",
+      "asOf": "2026-11-09",
+      "demoData": true,
+      "demoNote": "Illustrative, fabricated financial figures for UI demonstration only."
+    }
   },
 
   "competitiveMoat": {
@@ -44,9 +68,15 @@ user can judge how fresh it is — this is the core trust mechanism of the produ
 
   "valuation": {
     "metrics": [
-      { "label": "P/E (TTM)", "value": "...", "source": "Financial Modeling Prep", "asOf": "2026-11-09" },
-      { "label": "Market cap", "value": "...", "source": "Financial Modeling Prep", "asOf": "2026-11-09" }
-    ]
+      { "label": "Price", "value": "$178.30", "source": "Synthetic demo data", "asOf": "2026-11-09" },
+      { "label": "P/E (TTM)", "value": "22.54", "source": "Synthetic demo data", "asOf": "2026-11-09" },
+      { "label": "Forward P/E", "value": "19.8", "source": "Synthetic demo data", "asOf": "2026-11-09" },
+      { "label": "EV / EBITDA", "value": "21.3", "source": "Synthetic demo data", "asOf": "2026-11-09" },
+      { "label": "EPS (TTM)", "value": "$7.91", "source": "Synthetic demo data", "asOf": "2026-11-09" },
+      { "label": "Market cap", "value": "USD 4.30T", "source": "Synthetic demo data", "asOf": "2026-11-09" }
+    ],
+    "demoData": true,
+    "demoNote": "Illustrative, fabricated valuation figures for UI demonstration only."
   },
 
   "bullCase": {
@@ -99,9 +129,17 @@ user can judge how fresh it is — this is the core trust mechanism of the produ
 | Section | Source | Notes |
 |---|---|---|
 | `ceo` | **Financial Modeling Prep** (company profile) | Sent as a top-level field for the company header; `ceoSource` and `ceoAsOf` identify its provenance. Requires a successful live FMP response or a seeded snapshot. |
-| `marketCap` | **Financial Modeling Prep** (quote) | Sent as a top-level, formatted value for the company header and also remains in `valuation.metrics`; currency, source, and as-of date accompany it. Requires live FMP data or a seeded snapshot. |
+| `marketCap` | **FMP live/seed or labeled synthetic overrides** | Sent as a top-level, formatted value for the company header and also remains in `valuation.metrics`; NVDA and RR.L demo overrides use the same synthetic value in both places. |
 | `peRatio`, `eps`, `quarterlyDividend` | **Manual company override or seeded snapshot** | Optional company facts shown in the header when present; currently set for NVIDIA in `backend/src/data/overrides/NVDA.json`. |
-| `financialHealth`, `valuation` | **Financial Modeling Prep** (live, free tier) | Cached server-side ~6h (see `backend/src/lib/cache.js`) to respect rate limits and keep `asOf` accurate. |
+| `financialHealth` | **FMP live/seed or labeled synthetic overrides** | NVDA and RR.L use explicitly flagged synthetic demo metrics. For other symbols, FMP supplies revenue, net profit margin, debt/equity, current ratio, and trailing free cash flow summed from the latest four quarterly cash-flow statements. If FCF is unavailable, a note is surfaced rather than fabricating it. |
+| `financialHealth.demoData`, `demoNote` | **Synthetic NVDA/RR.L metrics** | `demoData: true` triggers a prominent warning in the Financial health card. |
+| `financialHealth.note` | **Optional FMP error detail** | Explains why free cash flow could not be fetched when no existing/seeded FCF metric is available. |
+| `financialHealthSource` | **Financial health provenance** | Reports `live`, `seed-cache`, `unavailable`, or `demo-data` independently of valuation's `financialsSource`. |
+| `valuation` | **FMP live/seed or labeled synthetic overrides** | NVDA and RR.L use explicitly flagged synthetic demo values, including Forward P/E and EV / EBITDA. Other tickers use FMP price, P/E (TTM), EPS, market cap, Forward P/E when present in the quote, and EV / EBITDA from `enterpriseValueMultiple`. Missing ratios are omitted with an explanatory note, not estimated. |
+| `valuation.demoData`, `demoNote` | **Synthetic NVDA/RR.L metrics** | `demoData: true` triggers a prominent warning in the Valuation card. |
+| `valuationSource` | **Valuation provenance** | Reports `live`, `seed-cache`, `unavailable`, or `demo-data` independently of the broader financials source. |
+| `incomeStatements.annual`, `incomeStatements.quarterly` | **FMP live/seed or labeled synthetic overrides** | Requests up to five annual and four quarterly statements; each period can fall back to a seeded snapshot. NVDA and RR.L use explicitly flagged synthetic override data for the demo. API failures are surfaced in that period's `error` field. |
+| `incomeStatements.*.demoData`, `demoNote` | **Synthetic NVDA/RR.L chart data** | `demoData: true` triggers a prominent warning in the chart; figures are not real financial results. |
 | `analystConsensus` | **Manual override or Finnhub** (live, free tier — `/stock/recommendation`) | NVDA uses the analyst counts supplied in the Google Finance screenshot; RR.L uses explicitly labeled synthetic demo data. Curated overrides take precedence over live data. Otherwise, ratings are derived from Finnhub's buy/hold/sell/strongBuy/strongSell counts. **Free-tier coverage is US-market-focused** — for `RR.L`, Finnhub is queried using the US ADR `RYCEY` when no curated override applies. `consensusSource` reports `manual-override` or `demo-data` accordingly. |
 | `analystConsensus.demoData`, `demoNote` | **Synthetic RR.L demo fixture** | `demoData: true` triggers a prominent UI warning; synthetic consensus is not used to derive bull/bear analysis. |
 | `analystConsensus.priceTarget12m` | **Manual override for NVDA; synthetic demo value for RR.L; no free automated API verified** | NVDA's 12-month targets are entered from the user-provided Google Finance screenshot. RR.L's targets are fabricated only for UI demonstration and carry a prominent warning; they are excluded from generated bull/bear analysis. Other symbols remain unavailable unless verified target data is added. Finnhub's `/stock/price-target` endpoint requires a paid plan. |

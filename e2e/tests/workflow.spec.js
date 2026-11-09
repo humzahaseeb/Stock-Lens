@@ -19,6 +19,7 @@ test.describe('Stock Lens — full workflow', () => {
       for (const heading of [
         'Business model',
         'Financial health',
+        'Income statement',
         'Competitive moat',
         'Valuation',
         'Bull case',

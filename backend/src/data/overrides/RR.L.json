@@ -2,6 +2,9 @@
   "ticker": "RR.L",
   "ceo": "Tariq Ahmad",
   "marketCap": "15.3B",
+  "marketCapCurrency": "GBP",
+  "marketCapSource": "Synthetic demo data",
+  "marketCapAsOf": "2026-11-09",
   "peRatio": "36.12",
   "eps": "£0.42",
   "quarterlyDividend": "£0.05",
@@ -51,11 +54,11 @@
       "sell": 2,
       "strongSell": 0
     },
-    "currentPrice": 10,
+    "currentPrice": 15.17,
     "ratingPeriod": "demo snapshot",
-    "priceTarget12m": 12,
-    "priceTargetHigh": 15,
-    "priceTargetLow": 8.5,
+    "priceTarget12m": 18.2,
+    "priceTargetHigh": 22.76,
+    "priceTargetLow": 12.89,
     "priceTargetAnalystCount": 18,
     "priceTargetPeriod": "demo snapshot",
     "currency": "GBP",
@@ -66,5 +69,55 @@
     "needsResearch": false,
     "demoData": true,
     "demoNote": "Illustrative, fabricated data for UI demonstration only — not actual analyst ratings or forecasts."
+  },
+  "financialHealth": {
+    "metrics": [
+      { "label": "Revenue (TTM)", "value": "GBP 23.1B", "source": "Synthetic demo data", "asOf": "2026-11-09" },
+      { "label": "Net profit margin", "value": "13.4%", "source": "Synthetic demo data", "asOf": "2026-11-09" },
+      { "label": "Debt / Equity", "value": "0.55", "source": "Synthetic demo data", "asOf": "2026-11-09" },
+      { "label": "Current ratio", "value": "1.25", "source": "Synthetic demo data", "asOf": "2026-11-09" },
+      { "label": "Free cash flow (TTM)", "value": "GBP 2.6B", "source": "Synthetic demo data", "asOf": "2026-11-09" }
+    ],
+    "demoData": true,
+    "demoNote": "Illustrative, fabricated financial-health metrics for UI demonstration only — not Rolls-Royce's actual financial results."
+  },
+  "valuation": {
+    "metrics": [
+      { "label": "Price", "value": "£15.17", "source": "Synthetic demo data", "asOf": "2026-11-09" },
+      { "label": "P/E (TTM)", "value": "36.12", "source": "Synthetic demo data", "asOf": "2026-11-09" },
+      { "label": "Forward P/E", "value": "29.8", "source": "Synthetic demo data", "asOf": "2026-11-09" },
+      { "label": "EV / EBITDA", "value": "16.4", "source": "Synthetic demo data", "asOf": "2026-11-09" },
+      { "label": "EPS (TTM)", "value": "£0.42", "source": "Synthetic demo data", "asOf": "2026-11-09" },
+      { "label": "Market cap", "value": "GBP 15.3B", "source": "Synthetic demo data", "asOf": "2026-11-09" }
+    ],
+    "demoData": true,
+    "demoNote": "Illustrative, fabricated valuation figures for UI demonstration only — not Rolls-Royce's actual market valuation."
+  },
+  "incomeStatements": {
+    "annual": {
+      "data": [
+        { "date": "2022-12-31", "fiscalYear": "2022", "period": "FY", "revenue": 12700000000, "netIncome": 600000000, "reportedCurrency": "GBP" },
+        { "date": "2023-12-31", "fiscalYear": "2023", "period": "FY", "revenue": 15400000000, "netIncome": 2400000000, "reportedCurrency": "GBP" },
+        { "date": "2024-12-31", "fiscalYear": "2024", "period": "FY", "revenue": 17800000000, "netIncome": 2000000000, "reportedCurrency": "GBP" },
+        { "date": "2025-12-31", "fiscalYear": "2025", "period": "FY", "revenue": 20500000000, "netIncome": 2600000000, "reportedCurrency": "GBP" },
+        { "date": "2026-12-31", "fiscalYear": "2026", "period": "FY", "revenue": 23100000000, "netIncome": 3100000000, "reportedCurrency": "GBP" }
+      ],
+      "source": "Synthetic demo data",
+      "asOf": "2026-11-09",
+      "demoData": true,
+      "demoNote": "Illustrative, fabricated financial figures for UI demonstration only — not Rolls-Royce's actual reported results."
+    },
+    "quarterly": {
+      "data": [
+        { "date": "2025-10-26", "fiscalYear": "2026", "period": "Q1", "revenue": 4900000000, "netIncome": 500000000, "reportedCurrency": "GBP" },
+        { "date": "2026-01-26", "fiscalYear": "2026", "period": "Q2", "revenue": 5200000000, "netIncome": 600000000, "reportedCurrency": "GBP" },
+        { "date": "2026-04-26", "fiscalYear": "2026", "period": "Q3", "revenue": 5600000000, "netIncome": 800000000, "reportedCurrency": "GBP" },
+        { "date": "2026-07-26", "fiscalYear": "2026", "period": "Q4", "revenue": 6100000000, "netIncome": 1000000000, "reportedCurrency": "GBP" }
+      ],
+      "source": "Synthetic demo data",
+      "asOf": "2026-11-09",
+      "demoData": true,
+      "demoNote": "Illustrative, fabricated financial figures for UI demonstration only — not Rolls-Royce's actual reported results."
+    }
   }
 }

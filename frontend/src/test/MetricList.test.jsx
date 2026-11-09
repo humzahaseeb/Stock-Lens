@@ -21,4 +21,34 @@ describe('MetricList', () => {
     render(<MetricList title="Valuation" metrics={[]} />);
     expect(screen.getByText(/No live data available/)).toBeInTheDocument();
   });
+
+  it('shows an explicit note when an optional metric is unavailable', () => {
+    render(
+      <MetricList
+        title="Financial health"
+        metrics={[{ label: 'Revenue (TTM)', value: '100B', source: 'FMP', asOf: '2026-11-09' }]}
+        note="Free cash flow (TTM) is unavailable: FMP_API_KEY is not set"
+      />,
+    );
+    expect(screen.getByRole('status')).toHaveTextContent(/Free cash flow \(TTM\) is unavailable/);
+  });
+
+  it('clearly warns when the financial metrics are synthetic', () => {
+    render(
+      <MetricList
+        title="Financial health"
+        metrics={[
+          { label: 'Revenue (TTM)', value: 'USD 230B', source: 'Synthetic demo data', asOf: '2026-11-09' },
+          { label: 'Debt / Equity', value: '0.35', source: 'Synthetic demo data', asOf: '2026-11-09' },
+        ]}
+        demoData
+        demoNote="Fabricated demo values only."
+      />,
+    );
+    expect(screen.getByText('DEMO DATA:')).toBeInTheDocument();
+    expect(screen.getByText('Fabricated demo values only.')).toBeInTheDocument();
+    const sourceFooter = screen.getByText('Synthetic demo data, 2026-11-09');
+    expect(sourceFooter).toHaveClass('metric-source-footer');
+    expect(screen.getAllByText('Synthetic demo data, 2026-11-09')).toHaveLength(1);
+  });
 });

@@ -1,23 +1,23 @@
 #!/usr/bin/env node
 /**
- * Pins a live data snapshot (FMP financials/valuation + Finnhub analyst
- * consensus/insider sentiment) for the demo tickers so the app works
- * reliably for judges even if either free API is rate-limited or down on
- * the day.
+ * Pins a live data snapshot (FMP financials/valuation/income statements +
+ * Finnhub analyst consensus/insider sentiment) for the demo tickers so the
+ * app works reliably even if either API is rate-limited or down.
  *
  * Usage:
  *   FMP_API_KEY=your-fmp-key FINNHUB_API_KEY=your-finnhub-key node scripts/seed.js
  *
  * Re-run this before presenting to refresh the dates/figures. Finnhub is
- * optional here — if FINNHUB_API_KEY isn't set, only FMP data is pinned and
- * the app falls back to the manual override placeholders for consensus.
+ * optional here — without FINNHUB_API_KEY, analyst consensus uses curated
+ * company overrides.
  */
 import { writeFileSync, mkdirSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import 'dotenv/config';
-import { fetchFmpMetrics } from '../src/lib/fmpClient.js';
+import { fetchFmpFreeCashFlowTTM, fetchFmpIncomeStatements, fetchFmpMetrics } from '../src/lib/fmpClient.js';
 import { fetchAnalystConsensus, fetchInsiderSentiment } from '../src/lib/finnhubClient.js';
+import { loadOverrides } from '../src/lib/overridesLoader.js';
 import { resolveFinnhubSymbol } from '../src/lib/tickerAliases.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -41,6 +41,7 @@ async function main() {
   for (const ticker of TICKERS) {
     const outFile = path.join(OUT_DIR, `${ticker}.json`);
     const seed = { ticker };
+    const overrides = await loadOverrides(ticker);
 
     try {
       const financials = await fetchFmpMetrics(ticker);
@@ -48,6 +49,32 @@ async function main() {
     } catch (err) {
       console.error(`Failed to seed FMP data for ${ticker}: ${err.message}`);
       continue;
+    }
+
+    if (overrides?.financialHealth?.demoData) {
+      console.log(`Using the labeled financial-health demo override for ${ticker}; skipping live FCF seeding.`);
+    } else {
+      try {
+        seed.financialHealth.metrics.push(await fetchFmpFreeCashFlowTTM(ticker));
+      } catch (err) {
+        console.warn(`No trailing free cash flow data for ${ticker}: ${err.message}`);
+      }
+    }
+
+    const incomeStatements = {};
+    for (const period of ['annual', 'quarterly']) {
+      if (overrides?.incomeStatements?.[period]?.demoData) {
+        console.log(`Using the labeled ${period} demo override for ${ticker}; skipping live statement seeding.`);
+        continue;
+      }
+      try {
+        incomeStatements[period] = await fetchFmpIncomeStatements(ticker, period);
+      } catch (err) {
+        console.warn(`No ${period} income statement data for ${ticker}: ${err.message}`);
+      }
+    }
+    if (Object.keys(incomeStatements).length > 0) {
+      seed.incomeStatements = incomeStatements;
     }
 
     if (process.env.FINNHUB_API_KEY) {

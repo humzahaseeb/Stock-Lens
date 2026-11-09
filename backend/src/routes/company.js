@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { fetchFmpMetrics } from '../lib/fmpClient.js';
+import { fetchFmpFreeCashFlowTTM, fetchFmpIncomeStatements, fetchFmpMetrics } from '../lib/fmpClient.js';
 import { loadOverrides } from '../lib/overridesLoader.js';
 import { loadSeedFinancials } from '../lib/seedFinancials.js';
 import { fetchAnalystConsensus, fetchInsiderSentiment } from '../lib/finnhubClient.js';
@@ -58,6 +58,45 @@ function pickNarrative(override, derived) {
   return override ?? null;
 }
 
+function resolveIncomeStatements(result, seededStatements) {
+  if (result.status === 'fulfilled') return result.value;
+  if (Array.isArray(seededStatements?.data) && seededStatements.data.length > 0) {
+    return {
+      ...seededStatements,
+      source: seededStatements.source || 'Seeded financial snapshot',
+    };
+  }
+  const reason = result.reason;
+  return {
+    data: [],
+    source: null,
+    asOf: null,
+    error: reason instanceof Error ? reason.message : String(reason),
+  };
+}
+
+function addFreeCashFlowMetric(financialHealth, result) {
+  if (financialHealth?.demoData) return financialHealth;
+  const metrics = Array.isArray(financialHealth?.metrics) ? financialHealth.metrics : [];
+  if (result.status === 'fulfilled') {
+    return {
+      ...financialHealth,
+      metrics: [...metrics.filter((metric) => metric.label !== result.value.label), result.value],
+    };
+  }
+  if (metrics.some((metric) => metric.label === 'Free cash flow (TTM)')) return financialHealth;
+  const reason = result.reason;
+  return {
+    ...financialHealth,
+    note: `Free cash flow (TTM) is unavailable: ${reason instanceof Error ? reason.message : String(reason)}`,
+  };
+}
+
+function getIncomeStatementPromise(ticker, period, override) {
+  if (override?.demoData) return Promise.resolve(override);
+  return fetchFmpIncomeStatements(ticker, period);
+}
+
 router.get('/company/:ticker', async (req, res) => {
   const ticker = String(req.params.ticker || '').toUpperCase();
 
@@ -69,6 +108,8 @@ router.get('/company/:ticker', async (req, res) => {
 
   const overrides = await loadOverrides(ticker);
   const seed = loadSeedFinancials(ticker);
+  const hasDemoFinancialHealth = overrides?.financialHealth?.demoData === true;
+  const hasDemoValuation = overrides?.valuation?.demoData === true;
 
   let financialHealth;
   let valuation;
@@ -77,46 +118,67 @@ router.get('/company/:ticker', async (req, res) => {
   let ceoSource = null;
   let ceoAsOf = null;
   let marketCap = overrides?.marketCap ?? null;
-  let marketCapCurrency = null;
-  let marketCapSource = null;
-  let marketCapAsOf = null;
+  let marketCapCurrency = overrides?.marketCapCurrency ?? null;
+  let marketCapSource = overrides?.marketCapSource ?? null;
+  let marketCapAsOf = overrides?.marketCapAsOf ?? null;
   let financialsSource = 'live';
+  let financialHealthSource = 'live';
+  let valuationSource = 'live';
 
   try {
     const live = await fetchFmpMetrics(ticker);
-    financialHealth = live.financialHealth;
-    valuation = live.valuation;
+    financialHealth = hasDemoFinancialHealth ? overrides.financialHealth : live.financialHealth;
+    financialHealthSource = hasDemoFinancialHealth ? 'demo-data' : 'live';
+    valuation = hasDemoValuation ? overrides.valuation : live.valuation;
+    valuationSource = hasDemoValuation ? 'demo-data' : 'live';
     name = live.name || name;
     ceo = live.ceo ?? ceo;
     ceoSource = live.ceoSource ?? null;
     ceoAsOf = live.ceoAsOf ?? null;
-    marketCap = live.marketCap ?? marketCap;
-    marketCapCurrency = live.marketCapCurrency ?? null;
-    marketCapSource = live.marketCapSource ?? null;
-    marketCapAsOf = live.marketCapAsOf ?? null;
+    if (hasDemoValuation) {
+      marketCap = overrides.marketCap ?? live.marketCap ?? marketCap;
+      marketCapCurrency = overrides.marketCapCurrency ?? live.marketCapCurrency ?? null;
+      marketCapSource = overrides.marketCapSource ?? 'Synthetic demo data';
+      marketCapAsOf = overrides.marketCapAsOf ?? overrides.valuation.asOf ?? null;
+    } else {
+      marketCap = live.marketCap ?? marketCap;
+      marketCapCurrency = live.marketCapCurrency ?? null;
+      marketCapSource = live.marketCapSource ?? null;
+      marketCapAsOf = live.marketCapAsOf ?? null;
+    }
   } catch (liveError) {
     if (seed) {
-      financialHealth = seed.financialHealth;
-      valuation = seed.valuation;
+      financialHealth = hasDemoFinancialHealth ? overrides.financialHealth : seed.financialHealth;
+      financialHealthSource = hasDemoFinancialHealth ? 'demo-data' : 'seed-cache';
+      valuation = hasDemoValuation ? overrides.valuation : seed.valuation;
+      valuationSource = hasDemoValuation ? 'demo-data' : 'seed-cache';
       name = seed.name || name;
       ceo = seed.ceo ?? ceo;
       ceoSource = seed.ceoSource ?? null;
       ceoAsOf = seed.ceoAsOf ?? null;
       marketCap =
-        seed.marketCap ??
-        seed.valuation?.metrics?.find((metric) => metric.label === 'Market cap')?.value ??
+        (hasDemoValuation ? overrides.marketCap : seed.marketCap) ??
+        (hasDemoValuation ? null : seed.valuation?.metrics?.find((metric) => metric.label === 'Market cap')?.value) ??
         marketCap;
-      marketCapCurrency = seed.marketCapCurrency ?? null;
-      marketCapSource = seed.marketCapSource ?? null;
-      marketCapAsOf = seed.marketCapAsOf ?? null;
+      marketCapCurrency = hasDemoValuation
+        ? (overrides.marketCapCurrency ?? null)
+        : (seed.marketCapCurrency ?? null);
+      marketCapSource = hasDemoValuation
+        ? (overrides.marketCapSource ?? 'Synthetic demo data')
+        : (seed.marketCapSource ?? null);
+      marketCapAsOf = hasDemoValuation
+        ? (overrides.marketCapAsOf ?? overrides.valuation.asOf ?? null)
+        : (seed.marketCapAsOf ?? null);
       financialsSource = 'seed-cache';
     } else if (!overrides) {
       return res.status(404).json({
         error: `No data available for ${ticker}: live fetch failed (${liveError.message}) and no seed/override data exists.`,
       });
     } else {
-      financialHealth = { metrics: [] };
-      valuation = { metrics: [] };
+      financialHealth = hasDemoFinancialHealth ? overrides.financialHealth : { metrics: [] };
+      financialHealthSource = hasDemoFinancialHealth ? 'demo-data' : 'unavailable';
+      valuation = hasDemoValuation ? overrides.valuation : { metrics: [] };
+      valuationSource = hasDemoValuation ? 'demo-data' : 'unavailable';
       financialsSource = 'unavailable';
     }
   }
@@ -136,14 +198,34 @@ router.get('/company/:ticker', async (req, res) => {
     : consensus ?? overrides?.analystConsensus ?? null;
   const analystConsensusSource = overrides?.analystConsensus?.demoData ? 'demo-data' : consensusSource;
   const consensusForDerivation = analystConsensus?.demoData ? null : analystConsensus;
+  const financialHealthForDerivation = financialHealth?.demoData ? { metrics: [] } : financialHealth;
+  const valuationForDerivation = valuation?.demoData ? { metrics: [] } : valuation;
 
-  const derived = deriveBullBear({ financialHealth, valuation, consensus: consensusForDerivation, insiderSentiment });
+  const derived = deriveBullBear({
+    financialHealth: financialHealthForDerivation,
+    valuation: valuationForDerivation,
+    consensus: consensusForDerivation,
+    insiderSentiment,
+  });
+  const freeCashFlowRequest = hasDemoFinancialHealth ? Promise.resolve(null) : fetchFmpFreeCashFlowTTM(ticker);
+  const [annualStatementsResult, quarterlyStatementsResult, freeCashFlowResult] = await Promise.allSettled([
+    getIncomeStatementPromise(ticker, 'annual', overrides?.incomeStatements?.annual),
+    getIncomeStatementPromise(ticker, 'quarterly', overrides?.incomeStatements?.quarterly),
+    freeCashFlowRequest,
+  ]);
+  financialHealth = addFreeCashFlowMetric(financialHealth, freeCashFlowResult);
+  const incomeStatements = {
+    annual: resolveIncomeStatements(annualStatementsResult, seed?.incomeStatements?.annual),
+    quarterly: resolveIncomeStatements(quarterlyStatementsResult, seed?.incomeStatements?.quarterly),
+  };
 
   return res.json({
     ticker,
     name,
     generatedAt: new Date().toISOString(),
     financialsSource, // 'live' | 'seed-cache' | 'unavailable' — surfaced for transparency/debugging
+    financialHealthSource, // 'live' | 'seed-cache' | 'unavailable' | 'demo-data'
+    valuationSource, // 'live' | 'seed-cache' | 'unavailable' | 'demo-data'
     consensusSource: analystConsensusSource, // 'live' | 'seed-cache' | 'unavailable' | 'manual-override' | 'demo-data'
     ceo,
     ceoSource,
@@ -159,6 +241,7 @@ router.get('/company/:ticker', async (req, res) => {
     financialHealth,
     competitiveMoat: overrides?.competitiveMoat ?? null,
     valuation,
+    incomeStatements,
     bullCase: pickNarrative(overrides?.bullCase, derived.bullCase),
     bearCase: pickNarrative(overrides?.bearCase, derived.bearCase),
     analystConsensus,
