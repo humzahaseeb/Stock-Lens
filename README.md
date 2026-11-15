@@ -88,8 +88,9 @@ for the manual/usability test plan.
 - [ ] Run all test suites and dependency audits after the latest code changes;
       the recorded baseline in [`docs/testing.md`](./docs/testing.md) predates
       recent chart and demo-data updates.
-- [ ] Capture actual board screenshots, wireframes/user-journey evidence, and
-      complete the retrospective; these cannot be inferred from repository docs.
+- [ ] Include the [Jira board screenshots](./docs/agile.md#jira-board-snapshots)
+      and [Draw.io UX sketch](./docs/ux.md#visual-design-evidence) in the
+      presentation. Complete the retrospective and add usability-test evidence.
 
 ## Evidence pack
 - [`docs/product.md`](./docs/product.md) — problem, MVP scope, backlog, success criteria

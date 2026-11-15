@@ -34,7 +34,8 @@ depth on one ticker flow matters more than breadth of features.
 4. Reliability: per-source caching, seeded fallback, and explicit unavailable
    states. Synthetic demo fixtures are identified as synthetic.
 5. Testing: unit → component → e2e/accessibility → manual/usability.
-6. Evidence pack docs (this folder); real tester/board evidence remains to add.
+6. Evidence pack docs (this folder), with Jira board and UX sketch evidence
+   linked in `docs/agile.md` and `docs/ux.md`; user-testing results remain to add.
 
 ## Success criteria — progress (see proposal §6 for full list)
 | Criterion | Status |

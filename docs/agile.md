@@ -9,10 +9,8 @@ a continuous pull-based flow fit better for a solo, short sprint).
 **Columns**: Backlog → In Progress → Done (plus a Blocked column for anything
 waiting on something outside the repo, e.g. your own analyst research).
 
-> ⚠ This repo's commit history and the todo list below are a **supporting
-> record** of the work — they are not a substitute for your real kanban board
-> (e.g. Jira, as noted in the proposal). Take screenshots of your actual board
-> over time for the Agile evidence pack; recreate/import these cards there.
+The Jira board screenshots below document the backlog and status changes over
+time. Keep the board accessible to the judges if they need to inspect it.
 
 ## Backlog (current implementation status)
 | Card | Status | Notes |
@@ -25,10 +23,23 @@ waiting on something outside the repo, e.g. your own analyst research).
 | Financial health and valuation panels | Implemented | NVDA/RR.L values are synthetic demo data; other tickers use live/seed FMP data where available |
 | Automated unit, component, e2e and accessibility coverage | Tests exist; latest changes not rerun | Recent chart/demo-data changes need regression runs before presenting |
 | Manual/usability test plan | Done (plan) — pending: run with 3 real testers | |
-| Evidence-pack documentation | In progress | Docs updated to describe current implementation; attach actual evidence artifacts |
+| Evidence-pack documentation | In progress | Board and UX screenshots are linked below and in `docs/ux.md`; real tester evidence and retrospective remain to add |
 | Security review/risk register | Documented | Re-check risks and dependency audit before presenting |
 | Two worked examples | Implemented with limitations | NVDA and RR.L; synthetic data is illustrative, not factual company financials |
-| Capture actual Agile board screenshots and complete retrospective | **Pending — needs owner input** | Do not invent board history or retrospective findings |
+| Run manual usability sessions with 3 testers and record findings | **Pending — needs real people** | |
+
+## Jira board snapshots
+- [4:10 am — board created, no cards yet](screenshots/Board/Screenshot%202026-11-14%20at%204.10.30%E2%80%AFam.png)
+- [4:18 am — 12 work items in the backlog](screenshots/Board/Screenshot%202026-11-14%20at%204.18.21%E2%80%AFam.png)
+- [4:19 am — items prioritized on the board](screenshots/Board/Screenshot%202026-11-14%20at%204.19.28%E2%80%AFam.png)
+- [4:19 am — cards moved into workflow columns](screenshots/Board/Screenshot%202026-11-14%20at%204.19.43%E2%80%AFam.png)
+- [4:20 am — work in progress and completed cards](screenshots/Board/Screenshot%202026-11-14%20at%204.20.03%E2%80%AFam.png)
+- [6:59 pm — final board with all 12 cards marked done](screenshots/Board/Screenshot%202026-11-14%20at%206.59.03%E2%80%AFpm.png)
+
+The final board marks the combined testing/evidence ticket done, while the
+manual test plan still says the three usability sessions are pending. Clarify
+that distinction in the presentation; a completed ticket does not substitute
+for tester results.
 
 ## How I planned, tracked and adapted
 - Pulled one card at a time, smallest-safe-step order (schema → backend →

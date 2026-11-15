@@ -22,11 +22,16 @@ typical UX methods (wireframing alone isn't enough — this covers more).
    not actual reported financials or analyst data.
 7. Missing live chart data shows an error state rather than a fabricated price.
 
-_(Attach your own rough sketches / wireframe photos or a Miro export here —
-a scanned napkin sketch of the section order counts.)_
+## Visual design evidence
+- [Draw.io UX sketch — PNG export](screenshots/ux-design/Copy%20of%20Stock-lens-ux.drawio.png)
+- [Editable Draw.io source](screenshots/ux-design/Stock-lens-ux.drawio.drawio)
+
+This is an early rough layout sketch, not a polished visual design. It contains
+placeholder text. The user-testing sessions have not yet been completed, so
+the sketch should not be described as user-validated.
 
 ## UX methods used
-- **User journey mapping** — the flow above, mapped before any UI was built.
+- **User journey mapping** — used the flow above to structure the search-to-summary experience.
 - **Rapid prototyping** — the working app itself iterated in small steps
   (search → one metric → full sections → polish), rather than a static mockup
   first.
@@ -35,7 +40,7 @@ a scanned napkin sketch of the section order counts.)_
   do not describe them as completed before then.
 - **Accessibility as a design method, not an afterthought** — semantic
   headings per section (`<h2>` per section, labelled via `aria-labelledby`),
-  a single `<dl>` for metrics (so screen readers get label/value pairs), a
+  definition lists for metric label/value pairs, a
   visible focus ring on every interactive element, and an automated axe-core
   scan (`e2e/tests/accessibility.spec.js`). The last recorded scan found 0
   violations before recent chart/tooltip changes; rerun it on the current UI.
