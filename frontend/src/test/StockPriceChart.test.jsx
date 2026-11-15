@@ -49,7 +49,7 @@ describe('StockPriceChart', () => {
 
     fireEvent.click(screen.getByRole('button', { name: '5D' }));
     expect(await screen.findByText('+$4.50 past 5 days')).toBeInTheDocument();
-    expect(screen.getByText('Tue, Nov 14')).toBeInTheDocument();
+    expect(screen.getAllByText('Tue, Nov 14')).toHaveLength(2);
     await waitFor(() => {
       expect(fetchStockChart).toHaveBeenLastCalledWith('NVDA', '5d', expect.any(AbortSignal));
     });

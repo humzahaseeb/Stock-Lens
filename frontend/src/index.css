@@ -596,7 +596,7 @@ input:focus-visible {
 }
 
 .period-switch button[aria-pressed='true'] {
-  color: var(--text);
+  color: #fff;
   background: var(--accent-strong);
 }
 
@@ -641,7 +641,7 @@ input:focus-visible {
 
 .income-currency-note {
   margin: 0.6rem 0 -0.3rem;
-  color: var(--muted-2);
+  color: var(--muted);
   font-size: 0.78rem;
 }
 

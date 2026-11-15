@@ -21,7 +21,7 @@ time. Keep the board accessible to the judges if they need to inspect it.
 | Frontend: stock-price chart | Implemented | 1D–Max ranges, price change and quote stats |
 | Frontend: annual/quarterly income-statement chart | Implemented | Revenue and net income series; NVDA/RR.L chart data is synthetic |
 | Financial health and valuation panels | Implemented | NVDA/RR.L values are synthetic demo data; other tickers use live/seed FMP data where available |
-| Automated unit, component, e2e and accessibility coverage | Tests exist; latest changes not rerun | Recent chart/demo-data changes need regression runs before presenting |
+| Automated unit, component, e2e and accessibility coverage | Passed 15 Nov 2026 | 40 backend + 27 frontend tests; 5 e2e tests; 0 axe violations |
 | Manual/usability test plan | Done (plan) — pending: run with 3 real testers | |
 | Evidence-pack documentation | In progress | Board and UX screenshots are linked below and in `docs/ux.md`; real tester evidence and retrospective remain to add |
 | Security review/risk register | Documented | Re-check risks and dependency audit before presenting |

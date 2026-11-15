@@ -22,7 +22,31 @@ describe('App', () => {
   beforeEach(() => {
     vi.stubGlobal(
       'fetch',
-      vi.fn(async () => ({ ok: true, json: async () => sampleResponse })),
+      vi.fn(async (url) => {
+        if (url.includes('/stock-chart')) {
+          return {
+            ok: true,
+            json: async () => ({
+              ticker: 'NVDA',
+              range: '1d',
+              currency: 'USD',
+              exchangeTimezone: 'America/New_York',
+              asOf: 1700000060,
+              currentPrice: 100,
+              previousClose: 95,
+              change: 5,
+              changePercent: 5.26,
+              points: [
+                { time: 1700000000, close: 99 },
+                { time: 1700000060, close: 100 },
+              ],
+              source: 'Yahoo Finance',
+              delayNote: 'Market data may be delayed.',
+            }),
+          };
+        }
+        return { ok: true, json: async () => sampleResponse };
+      }),
     );
   });
   afterEach(() => {

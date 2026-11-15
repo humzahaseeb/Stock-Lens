@@ -7,11 +7,12 @@ import SourceTag from './SourceTag.jsx';
  * never mistaken for human analyst commentary. */
 export default function NarrativeCard({ title, icon, section, details }) {
   const renderedDetails = details ? <div className="narrative-details">{details}</div> : null;
+  const headingId = `${title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-heading`;
 
   if (!section) {
     return (
-      <section className="summary-section" aria-labelledby={`${title}-heading`}>
-        <h2 id={`${title}-heading`}>
+      <section className="summary-section" aria-labelledby={headingId}>
+        <h2 id={headingId}>
           {icon && <span aria-hidden="true">{icon}</span>} {title}
         </h2>
         <p className="empty-state">Not available for this company.</p>
@@ -22,8 +23,8 @@ export default function NarrativeCard({ title, icon, section, details }) {
 
   if (section.needsResearch) {
     return (
-      <section className="summary-section needs-research" aria-labelledby={`${title}-heading`}>
-        <h2 id={`${title}-heading`}>
+      <section className="summary-section needs-research" aria-labelledby={headingId}>
+        <h2 id={headingId}>
           {icon && <span aria-hidden="true">{icon}</span>} {title}
         </h2>
         <p className="research-flag" role="status">
@@ -35,8 +36,8 @@ export default function NarrativeCard({ title, icon, section, details }) {
   }
 
   return (
-    <section className="summary-section" aria-labelledby={`${title}-heading`}>
-      <h2 id={`${title}-heading`}>
+    <section className="summary-section" aria-labelledby={headingId}>
+      <h2 id={headingId}>
         {icon && <span aria-hidden="true">{icon}</span>} {title}
       </h2>
 

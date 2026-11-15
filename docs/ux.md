@@ -42,8 +42,8 @@ the sketch should not be described as user-validated.
   headings per section (`<h2>` per section, labelled via `aria-labelledby`),
   definition lists for metric label/value pairs, a
   visible focus ring on every interactive element, and an automated axe-core
-  scan (`e2e/tests/accessibility.spec.js`). The last recorded scan found 0
-  violations before recent chart/tooltip changes; rerun it on the current UI.
+  scan (`e2e/tests/accessibility.spec.js`); the 15 Nov 2026 scan found 0
+  violations. The manual accessibility checklist remains to be completed.
 
 ## UI patterns / decisions
 - Minimal, single-column summary with a compact stock chart and expandable

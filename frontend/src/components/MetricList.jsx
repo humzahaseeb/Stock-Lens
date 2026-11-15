@@ -15,7 +15,10 @@ const metricExplanations = {
 };
 
 export default function MetricList({ title, icon, metrics, note, demoData }) {
-  const demoMetric = Array.isArray(metrics) ? metrics.find((metric) => metric.source || metric.asOf) : null;
+  const demoMetric = Array.isArray(metrics)
+    ? metrics.find((metric) => metric.source === 'Synthetic demo data') ||
+      metrics.find((metric) => metric.source || metric.asOf)
+    : null;
 
   return (
     <section className="summary-section" aria-labelledby={`${title}-heading`}>

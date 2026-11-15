@@ -15,9 +15,12 @@ describe('overridesLoader', () => {
     expect(overrides.competitiveMoat.summary).toBeTruthy();
   });
 
-  it('has real, human-curated bull/bear case data with a cited source', async () => {
+  it('has curated NVDA analysis and analyst snapshot with source metadata', async () => {
     const overrides = await loadOverrides('NVDA');
-    expect(overrides.analystConsensus.needsResearch).toBe(true);
+    expect(overrides.analystConsensus.needsResearch).toBe(false);
+    expect(overrides.analystConsensus.rating).toBe('Strong Buy');
+    expect(overrides.analystConsensus.numberOfAnalysts).toBe(34);
+    expect(overrides.analystConsensus.source).toMatch(/Google Finance/);
     expect(overrides.bullCase.needsResearch).toBe(false);
     expect(overrides.bearCase.needsResearch).toBe(false);
     expect(overrides.bullCase.source).toBe('Yahoo Finance');

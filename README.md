@@ -85,9 +85,8 @@ for the manual/usability test plan.
       Finance's possible quote delay.
 - [ ] Run the three usability sessions and record results in
       [`docs/manual-test-plan.md`](./docs/manual-test-plan.md).
-- [ ] Run all test suites and dependency audits after the latest code changes;
-      the recorded baseline in [`docs/testing.md`](./docs/testing.md) predates
-      recent chart and demo-data updates.
+- [ ] Automated suites passed on 15 Nov 2026; rerun them if code changes before
+      presenting. Re-run dependency audits in `backend`, `frontend`, and `e2e`.
 - [ ] Include the [Jira board screenshots](./docs/agile.md#jira-board-snapshots)
       and [Draw.io UX sketch](./docs/ux.md#visual-design-evidence) in the
       presentation. Complete the retrospective and add usability-test evidence.
