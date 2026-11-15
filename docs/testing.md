@@ -34,14 +34,3 @@ empty search screen and a fully-rendered summary. Latest run: **0 violations**
 on 15 November 2026. This is paired with the manual accessibility checklist in
 `docs/manual-test-plan.md` (keyboard-only flow, screen reader, contrast, zoom)
 since automated scans don't catch everything.
-
-## Known gaps to close before presenting
-- [ ] Rerun backend, frontend and e2e suites if code changes before presenting
-- [ ] Run the manual usability sessions (3 testers) and record results
-- [ ] Complete the manual keyboard, screen-reader, contrast and zoom checklist
-- [ ] Re-run `npm audit` in all three apps close to the presentation date
-- [ ] Replace or clearly present synthetic NVDA/RR.L financial and valuation
-      fixtures as illustrative UI data, not actual company results
-- [ ] Verify manual citations and dates for analyst/narrative content
-- [ ] Check Yahoo quote delay/availability and explain that it is not guaranteed
-      real-time
