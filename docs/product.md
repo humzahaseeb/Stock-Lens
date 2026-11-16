@@ -42,7 +42,7 @@ depth on one ticker flow matters more than breadth of features.
 |---|---|
 | New user completes an analysis unaided | To verify via `docs/manual-test-plan.md` with 3 testers |
 | Analysis is quick (<30 min) | To verify via manual test plan timing |
-| Data is trustworthy (sourced + dated) | ⚠️ Provenance/dates and synthetic-demo labels are shown, but NVDA/RR.L financial health, valuation, income-chart values and RR.L analyst snapshot are fabricated UI fixtures. They demonstrate the layout; they do not establish factual accuracy. Replace with verified values before presenting as real company analysis. Yahoo Finance prices may be delayed. |
+| Data is trustworthy (sourced + dated) | ⚠️ Provenance/dates and synthetic-demo labels are shown, but NVDA/RR.L financial health, valuation, income-chart values and RR.L analyst snapshot are fabricated UI fixtures. They demonstrate the layout; they do not establish factual accuracy. Yahoo Finance prices may be delayed. |
 | Tool is not financial advice | ✅ Disclaimer rendered on every summary, backend-supplied so it can't be removed client-side |
 
 ## Decisions this shaped

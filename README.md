@@ -78,19 +78,6 @@ See [`docs/testing.md`](./docs/testing.md) for the test strategy and last
 recorded results, and [`docs/manual-test-plan.md`](./docs/manual-test-plan.md)
 for the manual/usability test plan.
 
-## Before presenting
-- [ ] Decide whether to keep the clearly labeled synthetic demo figures or
-      replace them with verified company data; do not present them as actuals.
-- [ ] Check each non-synthetic source and its as-of date, including Yahoo
-      Finance's possible quote delay.
-- [ ] Run the three usability sessions and record results in
-      [`docs/manual-test-plan.md`](./docs/manual-test-plan.md).
-- [ ] Automated suites passed on 15 Nov 2026; rerun them if code changes before
-      presenting. Re-run dependency audits in `backend`, `frontend`, and `e2e`.
-- [ ] Include the [Jira board screenshots](./docs/agile.md#jira-board-snapshots)
-      and [Draw.io UX sketch](./docs/ux.md#visual-design-evidence) in the
-      presentation. Complete the retrospective and add usability-test evidence.
-
 ## Evidence pack
 - [`docs/product.md`](./docs/product.md) — problem, MVP scope, backlog, success criteria
 - [`docs/agile.md`](./docs/agile.md) — process, current backlog and outstanding evidence
