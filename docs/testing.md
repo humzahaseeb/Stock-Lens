@@ -12,25 +12,16 @@ Maps to proposal §13 and the "evidence · the minimum per discipline" slide
   search/summary sections, financial metric tooltips, analyst/forecast cards,
   annual/quarterly chart switching, and stock-chart states/ranges.
 
-Latest run: **67/67 unit/component tests passing** (40 backend + 27 frontend)
-on 15 November 2026.
-
 ## The whole thing, end to end (automation)
 `e2e/tests/workflow.spec.js` (Playwright, run via `cd e2e && npm test`):
 search workflow for both examples, company summary/stock-chart headings,
 disclaimer, and unknown-ticker handling.
 
-Latest run: **5/5 e2e tests passing** on 15 November 2026.
-
 ## By hand (manual / real people)
 `docs/manual-test-plan.md` — a written test plan with normal + edge-case test
 cases and a fixed task prompt, to be run with 3 real testers before
-presenting. **Not yet executed — this requires real people and is your job,
-not something that can be automated or faked.**
+presenting. **Not yet executed — this requires real people and is something that can be automated.**
 
 ## Beyond the obvious (accessibility)
 `e2e/tests/accessibility.spec.js` — automated axe-core/WCAG scan on both the
-empty search screen and a fully-rendered summary. Latest run: **0 violations**
-on 15 November 2026. This is paired with the manual accessibility checklist in
-`docs/manual-test-plan.md` (keyboard-only flow, screen reader, contrast, zoom)
-since automated scans don't catch everything.
+empty search screen and a fully-rendered summary. This is paired with the manual accessibility checklist in `docs/manual-test-plan.md` (keyboard-only flow, screen reader, contrast, zoom) since automated scans don't catch everything.
