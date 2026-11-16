@@ -1,7 +1,6 @@
 # UX/UI — discipline evidence
 
-Maps to proposal §11. Required: visual examples of design thinking plus
-typical UX methods (wireframing alone isn't enough — this covers more).
+Maps to proposal §11.
 
 ## User journey
 1. Land on Stock Lens → see the name, one-line pitch, and the "not financial
@@ -71,5 +70,5 @@ the sketch should not be described as user-validated.
 ## Across platforms
 The layout is a single responsive column with no fixed pixel widths, so it
 reflows on narrow (mobile) and wide (desktop) viewports without a separate
-mobile design. Verify it manually at narrow widths and 200% zoom before
-presenting and record any issues found.
+mobile design. Manual narrow-width and 200% zoom checks are listed in
+`docs/manual-test-plan.md`.
