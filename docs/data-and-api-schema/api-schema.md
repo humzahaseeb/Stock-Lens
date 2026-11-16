@@ -189,7 +189,9 @@ Price shown in Valuation and for the current-price baseline in the 12-month
 forecast. If the chart request fails, both fall back to their available
 summary/override price.
 
-See `docs/data-seeding.md` for how live data is pinned (cached) for demo reliability, and `docs/security/risk-register.md` for why price targets and bull/bear narrative are handled this way rather than guessed.
+See [data-seeding.md](./data-seeding.md) for how live data is pinned (cached)
+for demo reliability, and [the security risk register](../security/risk-register.md)
+for why price targets and bull/bear narrative are handled this way rather than guessed.
 
 ## Error responses
 `GET /api/company/:ticker` returns `404` with `{ "error": "..." }` if the ticker is

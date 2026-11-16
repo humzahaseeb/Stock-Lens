@@ -10,7 +10,7 @@ const FINNHUB_BASE_URL = 'https://finnhub.io/api/v1';
  *   - /stock/insider-sentiment (US companies only)
  * `/stock/price-target` is explicitly "Premium required." on Finnhub, and
  * the equivalent on FMP's free tier is unreliable, so Stock Lens does not
- * attempt to show a 12-month price target — see docs/api-schema.md.
+ * attempt to show a 12-month price target — see docs/data-and-api-schema/api-schema.md.
  */
 
 async function finnhubGet(path, apiKey) {

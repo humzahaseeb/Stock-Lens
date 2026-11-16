@@ -10,7 +10,8 @@ annual/quarterly income-statement charts.
 
 > Built for the BBC Champion Sprint challenge. See [`docs/`](./docs) for the
 > discipline evidence pack (Product, Agile, UX/UI, Security, Testing) and
-> [`docs/api-schema.md`](./docs/api-schema.md) for the API contract.
+> [`docs/data-and-api-schema/api-schema.md`](./docs/data-and-api-schema/api-schema.md)
+> for the API contract.
 
 ## How it's built
 - `backend/` — Node/Express API combining three data sources:
@@ -19,7 +20,8 @@ annual/quarterly income-statement charts.
   recommendations and insider sentiment, and Yahoo Finance for chart prices
   (which may be delayed). Bull/bear content and worked-example data use
   sourced manual overrides or explicitly labeled synthetic demo values.
-  See [`docs/api-schema.md`](./docs/api-schema.md) for field-level provenance.
+  See [`docs/data-and-api-schema/api-schema.md`](./docs/data-and-api-schema/api-schema.md)
+  for field-level provenance.
 - `frontend/` — React (Vite) single-page app: search a ticker, see the
   one-page summary, interactive price chart, income-statement charts, and
   metric explanations.
@@ -85,5 +87,5 @@ for the manual/usability test plan.
 - [`docs/security/risk-register.md`](./docs/security/risk-register.md) — risks and mitigations
 - [`docs/testing.md`](./docs/testing.md) — test strategy and latest results
 - [`docs/manual-test-plan.md`](./docs/manual-test-plan.md) — manual/usability test cases
-- [`docs/api-schema.md`](./docs/api-schema.md) — API response contract
-- [`docs/data-seeding.md`](./docs/data-seeding.md) — how/why the demo data is pinned
+- [`docs/data-and-api-schema/api-schema.md`](./docs/data-and-api-schema/api-schema.md) — API response contract
+- [`docs/data-and-api-schema/data-seeding.md`](./docs/data-and-api-schema/data-seeding.md) — data sources and demo-data seeding

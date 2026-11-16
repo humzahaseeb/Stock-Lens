@@ -8,7 +8,7 @@ the tool while observed, plus an accessibility checklist. Unit tests
 
 ## How to run this
 1. Run both apps (`backend`: `npm run dev`, `frontend`: `npm run dev`).
-2. Recruit 3 testers who haven't seen the tool before (matches success
+2. Find 3 users who haven't seen the tool before (matches success
    criterion: "a new user completes a company analysis without any help").
 3. Sit with each tester, give them **only** the opening task prompt below, and
    fill in one copy of the results table per tester. Don't help unless they're
