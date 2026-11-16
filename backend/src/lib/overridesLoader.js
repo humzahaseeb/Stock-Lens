@@ -8,8 +8,8 @@ const OVERRIDES_DIR = path.join(__dirname, '..', 'data', 'overrides');
 
 /**
  * Loads the manually-curated override file for a ticker (business model,
- * competitive moat, bull/bear case, analyst consensus). These fields are not
- * requested from FMP's free tier — see docs/data-and-api-schema/api-schema.md for why.
+ * competitive moat, bull/bear case, analyst consensus). These fields are
+ * maintained as company-specific overrides.
  *
  * Fields the user hasn't researched yet carry `needsResearch: true` and a
  * `researchNote` describing exactly what to fill in before presenting.

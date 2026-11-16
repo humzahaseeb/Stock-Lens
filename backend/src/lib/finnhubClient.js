@@ -8,9 +8,8 @@ const FINNHUB_BASE_URL = 'https://finnhub.io/api/v1';
  * that these specific endpoints carry no "premium" flag as of writing:
  *   - /stock/recommendation  (analyst recommendation trends — buy/hold/sell counts)
  *   - /stock/insider-sentiment (US companies only)
- * `/stock/price-target` is explicitly "Premium required." on Finnhub, and
- * the equivalent on FMP's free tier is unreliable, so Stock Lens does not
- * attempt to show a 12-month price target — see docs/data-and-api-schema/api-schema.md.
+ * `/stock/price-target` is explicitly "Premium required." on Finnhub, so
+ * the client does not fetch analyst price targets.
  */
 
 async function finnhubGet(path, apiKey) {

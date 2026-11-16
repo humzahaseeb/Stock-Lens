@@ -25,8 +25,8 @@ not a general-purpose live product) and the "finish something" rule mean
 depth on one ticker flow matters more than breadth of features.
 
 ## Prioritised backlog (mirrors the Agile kanban board)
-1. API contract (`docs/data-and-api-schema/api-schema.md`) — defined first so frontend/backend
-   could be built against a stable shape.
+1. Define the backend response shape first so frontend/backend work could
+   proceed against a stable interface.
 2. Backend: FMP/Finnhub clients, Yahoo Finance chart proxy, manual overrides
    and summary/chart API routes.
 3. Frontend: ticker search, structured summary, stock-price chart, income
@@ -49,9 +49,8 @@ depth on one ticker flow matters more than breadth of features.
 - Why a fixed section order instead of a flexible/custom one: consistency
   was the #1 stated benefit (proposal §4) — a rigid structure is the point.
 - Why multiple sources (FMP, Finnhub, Yahoo Finance) instead of one: no single
-  source covers financials, analyst data, and chart prices — see
-  `docs/data-and-api-schema/api-schema.md` for the full field-by-field provenance and what we
-  verified was/wasn't actually free before building against it.
+  source covers financials, analyst data, and chart prices. Provenance is
+  surfaced in the app, and synthetic example values are identified as demo data.
 - Why chart tabs and metric explanations were added: they help people inspect
   historical context and learn terminology without hiding the one-page summary.
 - Why the chart feed is described as possibly delayed: Yahoo's public chart
