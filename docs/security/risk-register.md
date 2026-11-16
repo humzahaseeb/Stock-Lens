@@ -10,19 +10,19 @@ software), so the focus is: data trust, secrets, and basic web app hygiene.
 | 3 | Tool is mistaken for financial advice | Low–Medium | High (reputational/user harm) | Disclaimer is backend-supplied (can't be stripped client-side) and rendered at the top of every summary; covered by an e2e assertion | ✅ Mitigated |
 | 4 | Ticker input used to probe/abuse the backend or an upstream API | Low | Medium | Strict allow-list validation (`^[A-Z0-9.]{1,10}$`) before any lookup; rejected with 400 before touching FMP, Finnhub, or the filesystem | ✅ Mitigated |
 | 5 | Excessive requests exhaust upstream data limits or availability | Medium | Medium (live data/chart stops working) | Per-IP rate limiting (30 req/min) on `/api/*`; FMP/Finnhub use server cache; Yahoo chart requests use range-dependent short TTLs. Worked-example overrides/seed data allow the summary to render without financial API keys; the live stock chart may fail and shows an error. | ✅ Mitigated; upstream availability remains |
-| 6 | Vulnerable dependency in an app | Low–Medium | Varies | Run `npm audit` in backend, frontend and e2e before presenting; previous audit results are historical. | ⏳ Re-check before presenting |
+| 6 | Vulnerable dependency in an app | Low–Medium | Varies | `npm audit` run in backend, frontend and e2e on 16 Nov 2026; all three reported 0 vulnerabilities. Re-run after dependency changes or before release. | ✅ Audited 16 Nov 2026 |
 | 7 | Analyst data/targets are presented as verified research when manually entered or fabricated | Medium | High (judging integrity) | NVDA ratings/targets were entered from a user-provided screenshot; RR.L consensus is synthetic. Synthetic fields have a source/date footer, and fabricated consensus is excluded from generated bull/bear analysis. Verify citations and disclose demo limitations. | ⚠️ Requires presenter disclosure |
 | 8 | Third-party APIs change terms, rate limits, or availability | Medium | Medium | Integrations are isolated in `fmpClient.js`, `finnhubClient.js`, and `yahooFinanceClient.js`; financial calls can use seeded data/overrides, and chart failure is surfaced rather than replaced with fake prices. | ✅ Degrades gracefully |
 
 ## Dependency audit
-Run before presenting (dates/results will change as dependencies update):
+Run after dependency changes or before release:
 ```bash
 cd backend && npm audit
 cd ../frontend && npm audit
 cd ../e2e && npm audit
 ```
-Record the output/date here once run close to presentation. The previous
-development audit result is historical and should be rerun before presenting.
+Latest run: 16 Nov 2026 — backend 0 vulnerabilities, frontend 0
+vulnerabilities, e2e 0 vulnerabilities.
 
 ## Data & privacy
 No user accounts, no personal data collected or stored — the only inputs are
