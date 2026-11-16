@@ -61,9 +61,9 @@
     "priceTargetAnalystCount": 34,
     "priceTargetPeriod": "last 3 months",
     "currency": "USD",
-    "source": "Google Finance — https://www.google.com/finance/quote/NVDA:NASDAQ",
+    "source": "Synthetic demo data",
     "asOf": "2026-11-09",
-    "priceTargetSource": "Google Finance — https://www.google.com/finance/quote/NVDA:NASDAQ",
+    "priceTargetSource": "Synthetic demo data",
     "priceTargetAsOf": "2026-11-09",
     "needsResearch": false
   },

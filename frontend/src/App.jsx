@@ -27,7 +27,18 @@ function App() {
     <main>
       <header className="app-header">
         <h1 className="app-title">
-          <span aria-hidden="true">📈</span> Stock Lens
+          <svg
+            className="app-mark"
+            viewBox="0 0 36 36"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <rect x="1" y="1" width="34" height="34" rx="10" className="app-mark-bg" />
+            <path d="M8 26h20" className="app-mark-axis" />
+            <path d="m8 22 6-6 5 4 9-11" className="app-mark-trend" />
+            <path d="M22 9h6v6" className="app-mark-arrow" />
+          </svg>
+          <span>Stock Lens</span>
         </h1>
         <p className="app-subtitle">
           A one-page, structured research summary for any company — every figure sourced and

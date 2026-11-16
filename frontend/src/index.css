@@ -86,6 +86,35 @@ main {
   color: transparent;
 }
 
+.app-mark {
+  width: 2rem;
+  height: 2rem;
+  margin-right: 0.5rem;
+  vertical-align: middle;
+}
+
+.app-mark-bg {
+  fill: var(--info-bg);
+  stroke: var(--info-border);
+  stroke-width: 1.5;
+}
+
+.app-mark-axis {
+  fill: none;
+  stroke: var(--muted);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+}
+
+.app-mark-trend,
+.app-mark-arrow {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
 .app-subtitle {
   color: var(--muted);
   margin: 0;
