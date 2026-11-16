@@ -80,6 +80,6 @@ for the manual/usability test plan.
 - [`docs/product.md`](./docs/product.md) — problem, MVP scope, backlog, success criteria
 - [`docs/agile.md`](./docs/agile.md) — process, current backlog and outstanding evidence
 - [`docs/ux.md`](./docs/ux.md) — user journey, UX methods, UI decisions
-- [`docs/security/risk-register.md`](./docs/security/risk-register.md) — risks and mitigations
+- [`docs/security.md`](./docs/security.md) — risks and mitigations
 - [`docs/testing.md`](./docs/testing.md) — test strategy and latest results
 - [`docs/manual-test-plan.md`](./docs/manual-test-plan.md) — manual/usability test cases

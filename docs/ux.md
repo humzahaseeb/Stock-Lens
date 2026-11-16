@@ -41,7 +41,7 @@ the sketch should not be described as user-validated.
   headings per section (`<h2>` per section, labelled via `aria-labelledby`),
   definition lists for metric label/value pairs, a
   visible focus ring on every interactive element, and an automated axe-core
-  scan (`e2e/tests/accessibility.spec.js`); the 15 Nov 2026 scan found 0
+  scan (`e2e/tests/accessibility.spec.js`); the 16 Nov 2026 scan found 0
   violations. The manual accessibility checklist remains to be completed.
 
 ## UI patterns / decisions
@@ -54,11 +54,10 @@ the sketch should not be described as user-validated.
   Colour tokens (positive/negative/neutral/info) are reused consistently for
   the analyst-rating pill, auto-generated-data banner, and research-needed
   banner, so colour carries meaning predictably across the whole page.
-- Every text/background pairing was checked against WCAG 2.1 AA (4.5:1 for
-  normal text) and is enforced by the automated axe-core scan — translucent
-  (rgba) backgrounds were deliberately avoided in favour of solid colours,
-  since translucency over a gradient page background made contrast
-  unreliable to compute (and to guarantee) in the first version of this theme.
+- The axe-core scan found 0 detectable violations on the tested screens.
+  Manual keyboard, screen-reader, contrast, and zoom checks are still pending.
+  The theme uses solid colors rather than translucent backgrounds to keep
+  contrast more predictable.
 - Colour is never the only signal: notices include text and status roles, and
   metric explanations have keyboard-focusable and clickable info controls.
 - Errors (`role="alert"`) and loading state (`aria-live="polite"`) are

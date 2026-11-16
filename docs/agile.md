@@ -19,12 +19,11 @@ time. Keep the board accessible to the judges if they need to inspect it.
 | Frontend: stock-price chart | Implemented | 1D–Max ranges, price change and quote stats |
 | Frontend: annual/quarterly income-statement chart | Implemented | Revenue and net income series; NVDA/RR.L chart data is synthetic |
 | Financial health and valuation panels | Implemented | NVDA/RR.L values are synthetic demo data; other tickers use live/seed FMP data where available |
-| Automated unit, component, e2e and accessibility coverage | Passed  | 40 backend + 27 frontend tests; 5 e2e tests; 0 axe violations |
-| Manual/usability test plan | Done (plan) — pending: run with 3 real testers | |
-| Evidence-pack documentation | In progress | Board and UX screenshots are linked below and in `docs/ux.md`; real tester evidence and retrospective remain to add |
-| Security review/risk register | Documented | Re-check risks and dependency audit before presenting |
+| Automated unit, component, e2e and accessibility coverage | Passed 16 Nov 2026 | 40 backend + 27 frontend tests; 5 e2e tests; 0 axe violations |
+| Manual/usability testing | Plan ready; sessions not run | Three real testers and results are still needed |
+| Evidence-pack documentation | Mostly complete | Board and UX screenshots are linked below and in `docs/ux.md`; manual tester results are still outstanding |
+| Security review/risk register | Documented | `npm audit` reported 0 vulnerabilities in all three packages on 16 Nov 2026 |
 | Two worked examples | Implemented with limitations | NVDA and RR.L; synthetic data is illustrative, not factual company financials |
-| Run manual usability sessions with 3 testers and record findings | **Pending — needs real people** | |
 
 ## Jira board snapshots
 - [board created, no cards yet](screenshots/Board/Screenshot%202026-11-14%20at%204.10.30%E2%80%AFam.png)
@@ -33,6 +32,10 @@ time. Keep the board accessible to the judges if they need to inspect it.
 - [cards moved into workflow columns](screenshots/Board/Screenshot%202026-11-14%20at%204.19.43%E2%80%AFam.png)
 - [work in progress and completed cards](screenshots/Board/Screenshot%202026-11-14%20at%204.20.03%E2%80%AFam.png)
 - [final board with all 12 cards marked done](screenshots/Board/Screenshot%202026-11-14%20at%206.59.03%E2%80%AFpm.png)
+
+The final board marks all 12 cards done, but the three usability sessions and
+manual accessibility checks have not been completed. Explain this if showing
+the board; the completed ticket is not evidence that those sessions happened.
 
 ## How I planned, tracked and adapted
 - Pulled one card at a time, smallest-safe-step order (schema → backend →
