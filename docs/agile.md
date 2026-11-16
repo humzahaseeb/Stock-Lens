@@ -3,11 +3,9 @@
 How this build used an Agile process, mapped to proposal §10.
 
 ## Process
-Kanban, not scrum (no fixed-length iterations inside the single build week —
-a continuous pull-based flow fit better for a solo, short sprint).
-
-**Columns**: Backlog → In Progress → Done (plus a Blocked column for anything
-waiting on something outside the repo, e.g. your own analyst research).
+I worked in a time-boxed sprint and tracked 12 tickets on a Jira board, moving
+work through Prioritised, In Progress, and Done. I captured board snapshots to
+show progress and adapted the work as data-source limitations became clear.
 
 The Jira board screenshots below document the backlog and status changes over
 time. Keep the board accessible to the judges if they need to inspect it.
